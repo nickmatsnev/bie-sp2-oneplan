@@ -1,7 +1,7 @@
 package fit.biesp.oneplan.controller;
 
-import fit.biesp.oneplan.exceptions.UserAlreadyExistsException;
-import fit.biesp.oneplan.exceptions.UserNotFoundException;
+import fit.biesp.oneplan.exception.UserAlreadyExistsException;
+import fit.biesp.oneplan.exception.UserNotFoundException;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.service.UserService;
