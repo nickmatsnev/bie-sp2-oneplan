@@ -1,0 +1,62 @@
+package fit.biesp.oneplan.controller;
+
+import fit.biesp.oneplan.exceptions.UserAlreadyExistsException;
+import fit.biesp.oneplan.exceptions.UserNotFoundException;
+import fit.biesp.oneplan.model.UserModel;
+import fit.biesp.oneplan.model.UserRegistrationModel;
+import fit.biesp.oneplan.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    @Autowired
+    private UserService userService;
+
+    @PostMapping()
+    public ResponseEntity registration(@RequestBody UserRegistrationModel userModel){
+        try{
+            return ResponseEntity.ok(userService.registration(userModel));
+        } catch (UserAlreadyExistsException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getUser(@PathVariable("id") String nickname){
+        try{
+            return ResponseEntity.ok(userService.getUser(nickname));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (Exception e){
+            return  ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateUser(@RequestBody UserModel userModel, @PathVariable("id") String nickname) {
+        try {
+            return ResponseEntity.ok(userService.updateUser(userModel, nickname));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public  ResponseEntity deleteUser(@PathVariable("id") String nickname){
+        try {
+            return ResponseEntity.ok(userService.delete(nickname));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (Exception e){
+            return  ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+}

@@ -15,13 +15,16 @@ import javax.persistence.*;
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long person_id;
+    private Long id;
 
     @NotNull
-    @Column(name = "person_email")
-    private String person_email;
+    @Column(name = "email")
+    private String email;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
+    private UserEntity user;
 
     public PersonEntity(String email) {
-        person_email = email;
+        this.email = email;
     }
 }

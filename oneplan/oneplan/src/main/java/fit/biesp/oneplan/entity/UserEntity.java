@@ -14,17 +14,27 @@ import javax.persistence.*;
 @Table(name = "users")
 public class UserEntity {
     @Id
-    private Long user_id;
+    private Long id;
 
     @NotNull
-    @Column(name = "user_email")
-    private String user_email;
+    @Column(name = "nickname")
+    private String nickname;
 
     @NotNull
-    @Column(name = "user_nickname")
-    private String user_nickname;
+    @Column(name = "email")
+    private String email;
 
     @NotNull
-    @Column(name = "user_password")
-    private String user_password;
+    @Column(name = "password")
+    private String password;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "person_id")
+    private PersonEntity person;
+
+    public UserEntity(String nickname, String email, String password) {
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+    }
 }
