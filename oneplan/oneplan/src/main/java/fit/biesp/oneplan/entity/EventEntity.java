@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,8 @@ public class EventEntity {
     @JoinColumn(name = "organiser_id")
     private UserEntity organiser;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "persons_events", joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"))
     private List<PersonEntity> attendees;
 
     /* TODO:
@@ -40,11 +42,20 @@ public class EventEntity {
     @OneToMany
     private List<InvitationEntity> invitation; */
 
-
+    @NotNull
+    @Column(name = "name")
     private String name;
+    @NotNull
+    @Column(name = "description")
     private String description;
+    @NotNull
+    @Column(name = "date")
     private Date date;
+    @NotNull
+    @Column(name = "time")
     private Time time;
+    @NotNull
+    @Column(name = "capacity")
     private int capacity;
 
 }

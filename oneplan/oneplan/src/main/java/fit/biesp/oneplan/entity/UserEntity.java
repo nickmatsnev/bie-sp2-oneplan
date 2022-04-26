@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +32,9 @@ public class UserEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "person_id")
     private PersonEntity person;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organiser", fetch = FetchType.LAZY)
+    private List<EventEntity> events;
 
     public UserEntity(String nickname, String email, String password) {
         this.nickname = nickname;

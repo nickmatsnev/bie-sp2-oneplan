@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -17,7 +18,13 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column(name = "name")
     private String name;
+    @NotNull
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "coordinates")
     private String coordinates;
 }
