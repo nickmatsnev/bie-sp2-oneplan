@@ -1,5 +1,7 @@
 package fit.biesp.oneplan.controller;
 
+import fit.biesp.oneplan.exception.PersonAlreadyExistsException;
+import fit.biesp.oneplan.exception.PersonNotFoundException;
 import fit.biesp.oneplan.model.PersonModel;
 import fit.biesp.oneplan.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;

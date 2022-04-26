@@ -1,0 +1,7 @@
+package fit.biesp.oneplan.exception;
+
+public class PersonNotFoundException extends Exception{
+    public PersonNotFoundException(String message) {
+        super(message);
+    }
+}

@@ -26,7 +26,7 @@ public class EventModel {
         var model = new EventModel();
         model.setId(eventEntity.getId());
         model.setLocation(eventEntity.getLocation());
-        model.setOrganiserId(eventEntity.getOrganiser().getUser_id());
+        model.setOrganiserId(eventEntity.getOrganiser().getId());
         model.setName(eventEntity.getName());
         model.setDescription(eventEntity.getDescription());
         model.setDate(eventEntity.getDate());
