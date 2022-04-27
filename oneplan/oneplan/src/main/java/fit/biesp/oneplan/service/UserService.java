@@ -33,6 +33,14 @@ public class UserService {
         return UserModel.toModel(customer);
     }
 
+    public String getPassword (String nickname) throws UserNotFoundException {
+        if(userRepo.findByNickname(nickname) == null)
+            throw new UserNotFoundException("User not found!");
+
+        var user = userRepo.findByNickname(nickname);
+        return user.getPassword();
+    }
+
     public UserModel updateUser(UserModel userModel, String nickname) throws UserNotFoundException {
         if (userRepo.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");

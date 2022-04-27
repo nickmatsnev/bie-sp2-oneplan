@@ -37,6 +37,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{id}/password")
+    public String getUserPassword(@PathVariable("id") String nickname){
+        try{
+            return userService.getPassword(nickname);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@RequestBody UserModel userModel, @PathVariable("id") String nickname) {
         try {
