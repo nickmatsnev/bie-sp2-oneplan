@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.model;
 
+import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +15,14 @@ public class UserModel {
     private Long id;
     private String nickname;
     private String email;
+    private PersonEntity person;
 
     public static UserModel toModel(UserEntity entity){
         UserModel model = new UserModel();
         model.setId(entity.getId());
         model.setNickname(entity.getNickname());
         model.setEmail(entity.getEmail());
+        model.setPerson(entity.getPerson());
         return model;
     }
 
@@ -28,6 +31,7 @@ public class UserModel {
         entity.setId(model.getId());
         entity.setNickname(model.getNickname());
         entity.setEmail(model.getEmail());
+        entity.setPerson(model.getPerson());
         return entity;
     }
 }

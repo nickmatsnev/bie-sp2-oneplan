@@ -40,5 +40,6 @@ public class UserEntity {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
+        person.setEmail(email);
     }
 }

@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.model;
 
+import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class UserRegistrationModel {
     private String nickname;
     private String email;
     private String password;
+    private PersonEntity person;
 
     public static UserRegistrationModel toModel(UserEntity entity){
         UserRegistrationModel model = new UserRegistrationModel();
@@ -22,6 +24,7 @@ public class UserRegistrationModel {
         model.setNickname(entity.getNickname());
         model.setEmail(entity.getEmail());
         model.setPassword(entity.getPassword());
+        model.setPerson(entity.getPerson());
         return model;
     }
 
@@ -32,6 +35,7 @@ public class UserRegistrationModel {
         entity.setNickname(registrationModel.getNickname());
         entity.setEmail(registrationModel.getEmail());
         entity.setPassword(registrationModel.getPassword());
+        entity.setPerson(registrationModel.getPerson());
         return entity;
     }
 
