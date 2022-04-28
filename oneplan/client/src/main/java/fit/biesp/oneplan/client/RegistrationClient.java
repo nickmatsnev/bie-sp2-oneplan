@@ -15,8 +15,6 @@ public class RegistrationClient {
         userWebClient = WebClient.create(baseUrl + "/users");
     }
 
-
-
     public Mono<UserDto> create(UserDto newUser) {
         return userWebClient.post()
                 .contentType(MediaType.APPLICATION_JSON)

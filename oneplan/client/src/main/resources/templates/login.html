@@ -55,30 +55,16 @@
     </style>
 </head>
 <body>
-<form id="login-form" class="loginn-form" method="get" th:action = "@{/users}" th:object = "${userDto}">
+<form id="login-form" class="loginn-form" method="get" th:action = "@{/users}" th:object = "${user}">
     <div class="container">
         <label>Username : </label>
-        <input type="text" placeholder="Enter Username" name="username" required autofocus th:field = "@{nickname}">
+        <input type="text" placeholder="Enter Username" name="username" required autofocus th:field = "*{nickname}">
         <label>Password : </label>
-        <input type="password" placeholder="Enter Password" name="password" required autofocus th:field = "@{password}">
-<!--        <a href="home.html">-->
-<!--            <button>LOGIN</button>-->
-<!--        </a>-->
-<!--        <center><div id="reset-button"><button type="submit"><a href="home.html">LOG IN</a></button></div></center>-->
-<!--        <input type="submit" value = "login" onClick="myfunc()"/>-->
-<!--        <script>-->
-<!--            function myfunc() {-->
-<!--                window.location.href = "home.html";-->
-<!--            }-->
-<!--        </script>-->
-        <input type="button" value="Login" onclick="location.href = 'home.html';">
+        <input type="password" placeholder="Enter Password" name="password" required autofocus th:field = "*{password}">
         <form method="get" action="home.html">
-            <button type="submit">login</button>
+        <center><input type="button" value="Login" onclick="location.href = 'home.html';"> <center>
         </form>
-<!--        <form method="get" action="home.html">-->
-<!--        <center><button type="submit">LOGIN</button></center>-->
     </div>
-<!--    <center><div id="button"><a href="register.html">SIGN UP</a></div></center>-->
 </form>
 </body>
 </html>

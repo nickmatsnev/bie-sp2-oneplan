@@ -10,15 +10,6 @@ public class EventDto {
 
     private UserDto organiser;
 
-
-    /* TODO:
-    @OneToMany
-    private List<MoneyTransferEntity> moneyTransfer;
-
-    @OneToMany
-    private List<InvitationEntity> invitation; */
-
-
     private String name;
 
     private String description;
@@ -29,4 +20,13 @@ public class EventDto {
 
     private int capacity;
 
+    public EventDto(Long id, UserDto organiser, String name, String description, Date date, Time time, int capacity) {
+        this.id = id;
+        this.organiser = organiser;
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.time = time;
+        this.capacity = capacity;
+    }
 }

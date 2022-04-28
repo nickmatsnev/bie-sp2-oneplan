@@ -16,8 +16,6 @@ public class ClientWebController  {
         this.userClient = userClient;
     }
 
-
-
     @GetMapping("/users")
     public String addUserRender(Model model){
         model.addAttribute("userDto", new UserDto());
@@ -26,15 +24,13 @@ public class ClientWebController  {
 
     @PostMapping("/users")
     public String addUserSumbit(Model model, @ModelAttribute UserDto userDto) {
-        model.addAttribute("userDto", userClient.create(userDto));
+        model.addAttribute("userReg", userClient.create(userDto));
         return "addUser";
     }
 
     @GetMapping("/users/{nickname}/{password}")
     public String userLoginSubmit(Model model, @ModelAttribute UserDto userDto){
-        model.addAttribute("userLoginto", userClient.getUser());
+        model.addAttribute("user", new UserDto());
         return "login";
     }
-
-
 }
