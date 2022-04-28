@@ -16,7 +16,6 @@ public class UserRegistrationModel {
     private String nickname;
     private String email;
     private String password;
-    private PersonEntity person;
 
     public static UserRegistrationModel toModel(UserEntity entity){
         UserRegistrationModel model = new UserRegistrationModel();
@@ -24,18 +23,15 @@ public class UserRegistrationModel {
         model.setNickname(entity.getNickname());
         model.setEmail(entity.getEmail());
         model.setPassword(entity.getPassword());
-        model.setPerson(entity.getPerson());
         return model;
     }
 
     public static UserEntity fromModel(UserRegistrationModel registrationModel){
         UserEntity entity = new UserEntity();
-
         entity.setId(registrationModel.getId());
         entity.setNickname(registrationModel.getNickname());
         entity.setEmail(registrationModel.getEmail());
         entity.setPassword(registrationModel.getPassword());
-        entity.setPerson(registrationModel.getPerson());
         return entity;
     }
 

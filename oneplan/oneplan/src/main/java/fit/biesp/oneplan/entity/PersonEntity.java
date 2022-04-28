@@ -23,8 +23,8 @@ public class PersonEntity {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
-    private UserEntity user;
+    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
+    //private UserEntity user;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees", cascade = CascadeType.REFRESH)
     private List<EventEntity> events = new ArrayList<>();

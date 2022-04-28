@@ -15,6 +15,7 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotNull
@@ -29,9 +30,11 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+
+    /*@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "person_id")
-    private PersonEntity person;
+    @PrimaryKeyJoinColumn
+    private PersonEntity person;*/
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organiser", fetch = FetchType.LAZY)
     private List<EventEntity> events;
@@ -40,6 +43,5 @@ public class UserEntity {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
-        person.setEmail(email);
     }
 }
