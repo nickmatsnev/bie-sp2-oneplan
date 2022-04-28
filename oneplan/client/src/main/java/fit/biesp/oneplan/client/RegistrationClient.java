@@ -15,12 +15,7 @@ public class RegistrationClient {
         userWebClient = WebClient.create(baseUrl + "/users");
     }
 
-    public Flux<UserDto> getUser() {
-        return userWebClient.get()
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToFlux(UserDto.class);
-    }
+
 
     public Mono<UserDto> create(UserDto newUser) {
         return userWebClient.post()

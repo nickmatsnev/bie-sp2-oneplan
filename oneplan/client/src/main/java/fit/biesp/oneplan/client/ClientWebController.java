@@ -20,14 +20,20 @@ public class ClientWebController  {
 
     @GetMapping("/users")
     public String addUserRender(Model model){
-        model.addAttribute("userEntity", new UserDto());
+        model.addAttribute("userDto", new UserDto());
         return "addUser";
     }
 
     @PostMapping("/users")
     public String addUserSumbit(Model model, @ModelAttribute UserDto userDto) {
-        model.addAttribute("userEntity", userClient.create(userDto));
+        model.addAttribute("userDto", userClient.create(userDto));
         return "addUser";
+    }
+
+    @GetMapping("/users/{nickname}/{password}")
+    public String userLoginSubmit(Model model, @ModelAttribute UserDto userDto){
+        model.addAttribute("userLoginto", userClient.getUser());
+        return "login";
     }
 
 

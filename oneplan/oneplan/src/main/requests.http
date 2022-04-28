@@ -1,17 +1,20 @@
-GET http://localhost:8085/users/2
+GET http://localhost:8085/users/nurzybr/somepassword
 Accept: application/json
 
 ###
 
+GET http://localhost:8085/users/nurazybr/somepassword
+Accept: application/json
+
+###
 
 POST http://localhost:8085/users
 Content-Type: application/json
 
 {
-  "id" : 3,
-  "nickname": "nurzybrs12",
-  "email": "someemail122",
-  "password": "somepassword"
+  "nickname": "nurzybrs212",
+  "email": "someema3il122",
+  "password": "some3password"
 }
 
 ###

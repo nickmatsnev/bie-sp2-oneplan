@@ -1,4 +1,4 @@
-<html lang="">
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -55,18 +55,32 @@
     </style>
 </head>
 <body>
-<form>
+<form id="login-form" class="loginn-form" method="get" th:action = "@{/users}" th:object = "${userDto}">
     <div class="container">
         <label>Username : </label>
-        <input type="text" placeholder="Enter Username" name="username" required>
+        <input type="text" placeholder="Enter Username" name="username" required autofocus th:field = "@{nickname}">
         <label>Password : </label>
-        <input type="password" placeholder="Enter Password" name="password" required>
-        <center><button type="submit">LOGIN</button></center>
+        <input type="password" placeholder="Enter Password" name="password" required autofocus th:field = "@{password}">
+<!--        <a href="home.html">-->
+<!--            <button>LOGIN</button>-->
+<!--        </a>-->
+<!--        <center><div id="reset-button"><button type="submit"><a href="home.html">LOG IN</a></button></div></center>-->
+<!--        <input type="submit" value = "login" onClick="myfunc()"/>-->
+<!--        <script>-->
+<!--            function myfunc() {-->
+<!--                window.location.href = "home.html";-->
+<!--            }-->
+<!--        </script>-->
+        <input type="button" value="Login" onclick="location.href = 'home.html';">
+        <form method="get" action="home.html">
+            <button type="submit">login</button>
+        </form>
+<!--        <form method="get" action="home.html">-->
+<!--        <center><button type="submit">LOGIN</button></center>-->
     </div>
+<!--    <center><div id="button"><a href="register.html">SIGN UP</a></div></center>-->
 </form>
 </body>
 </html>
-<div class="navigation">
-    <form method = get action = "/users"></form>
-        <center><button type= button>SIGN UP</button></center>
-</div>
+
+<center><div id="button"><a href="register.html">SIGN UP</a></div></center>
