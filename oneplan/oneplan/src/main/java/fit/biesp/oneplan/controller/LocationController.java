@@ -28,7 +28,7 @@ public class LocationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteLocation (Long id) {
+    public ResponseEntity deleteLocation (@PathVariable Long id) {
         try {
             locationService.deleteLocation(id);
             return ResponseEntity.ok("Location successfully deleted");
@@ -39,8 +39,8 @@ public class LocationController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity getLocation(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity getLocation(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(locationService.getLocation(id));
         } catch (LocationIsMissingException e) {

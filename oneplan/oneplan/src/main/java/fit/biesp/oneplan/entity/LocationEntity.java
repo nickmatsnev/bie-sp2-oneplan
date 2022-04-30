@@ -1,9 +1,12 @@
 package fit.biesp.oneplan.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -27,5 +30,11 @@ public class LocationEntity {
     @Column(name = "coordinates")
     private String coordinates;
 
-    // TODO: List of events for locations
+    @OneToMany(mappedBy = "location")
+    private List<EventEntity> events;
+
+    public void addEvent(EventEntity event) {
+        events.add(event);
+    }
+
 }

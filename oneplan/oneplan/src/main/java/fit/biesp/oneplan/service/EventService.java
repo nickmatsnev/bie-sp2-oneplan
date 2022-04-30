@@ -27,9 +27,7 @@ public class EventService {
         if (event.getLocation().getId() == null) {
             var newLocation = locationService.postLocation(event.getLocation());
             event.setLocation(newLocation);
-            System.out.println(newLocation.toString());
         }
-
         eventRepository.save(EventModel.fromModel(event));
     }
 
