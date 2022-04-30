@@ -3,8 +3,10 @@ package fit.biesp.oneplan.service;
 import fit.biesp.oneplan.entity.EventEntity;
 import fit.biesp.oneplan.exception.EventAlreadyExistsException;
 import fit.biesp.oneplan.exception.EventIsMissingException;
+import fit.biesp.oneplan.exception.LocationAlreadyExistsException;
 import fit.biesp.oneplan.exception.LocationIsMissingException;
 import fit.biesp.oneplan.model.EventModel;
+import fit.biesp.oneplan.model.LocationModel;
 import fit.biesp.oneplan.model.PersonModel;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.repository.EventRepository;
@@ -16,8 +18,18 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public void createEvent(EventModel event) throws LocationIsMissingException {
+    @Autowired
+    private LocationService locationService;
+
+    public void createEvent(EventModel event) throws LocationAlreadyExistsException {
         // removed chek for existing event as it is not necessarily unique
+        // removed LocationIsMissingException as location is being created if missing
+        if (event.getLocation().getId() == null) {
+            var newLocation = locationService.postLocation(event.getLocation());
+            event.setLocation(newLocation);
+            System.out.println(newLocation.toString());
+        }
+
         eventRepository.save(EventModel.fromModel(event));
     }
 
@@ -33,7 +45,7 @@ public class EventService {
             throw new EventIsMissingException("Event with id " + id + " does not exist");
 
         EventEntity event = eventRepository.findById(id).get();
-        event.setLocation(eventModel.getLocation());
+        event.setLocation(LocationModel.fromModel(eventModel.getLocation()));
         event.setName(eventModel.getName());
         event.setDescription(eventModel.getDescription());
         event.setDate(eventModel.getDate());

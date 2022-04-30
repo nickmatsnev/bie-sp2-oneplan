@@ -21,8 +21,6 @@ public class EventController {
         try {
             eventService.createEvent(event);
             return ResponseEntity.ok("Event created");
-        } catch (LocationIsMissingException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Event creation error");
         }

@@ -13,18 +13,20 @@ public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-    public void postLocation(LocationModel locationModel) throws LocationAlreadyExistsException {
+    public LocationModel postLocation(LocationModel locationModel) throws LocationAlreadyExistsException {
         if(locationRepository.findByName(locationModel.getName()) != null)
             throw new LocationAlreadyExistsException("Location already exists");
         locationRepository.save(LocationModel.fromModel(locationModel));
+        return LocationModel.toModel(locationRepository.findByName(locationModel.getName()));
     }
 
 
-    public LocationEntity getLocation(Long id) throws LocationIsMissingException {
+    public LocationModel getLocation(Long id) throws LocationIsMissingException {
         if (locationRepository.findById(id).isEmpty())
             throw new LocationIsMissingException("No location with id " + id + " exists");
-        return locationRepository.findById(id).get();
+        return LocationModel.toModel(locationRepository.findById(id).get());
     }
+
 
     public void deleteLocation(Long id) throws LocationIsMissingException {
         if (locationRepository.findById(id).isEmpty())

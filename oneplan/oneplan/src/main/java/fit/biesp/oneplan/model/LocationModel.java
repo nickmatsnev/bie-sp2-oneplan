@@ -33,6 +33,4 @@ public class LocationModel {
 
         return entity;
     }
-
-
 }

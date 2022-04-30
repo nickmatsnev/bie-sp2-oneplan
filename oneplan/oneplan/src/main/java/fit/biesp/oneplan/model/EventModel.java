@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EventModel {
     private Long id;
-    private LocationEntity location;
+    private LocationModel location;
     private UserModel organiser;
     private List<PersonModel> attendees;
     private String name, description;
@@ -28,7 +28,7 @@ public class EventModel {
     public static EventModel toModel(EventEntity eventEntity) {
         var model = new EventModel();
         model.setId(eventEntity.getId());
-        model.setLocation(eventEntity.getLocation());
+        model.setLocation(LocationModel.toModel(eventEntity.getLocation()));
         model.setOrganiser(UserModel.toModel(eventEntity.getOrganiser()));
         model.setName(eventEntity.getName());
         model.setDescription(eventEntity.getDescription());
@@ -45,7 +45,7 @@ public class EventModel {
         var entity = new EventEntity();
         entity.setId(eventModel.getId());
         entity.setName(eventModel.getName());
-        entity.setLocation(eventModel.getLocation());
+        entity.setLocation(LocationModel.fromModel(eventModel.getLocation()));
         entity.setOrganiser(UserModel.fromModel(eventModel.getOrganiser()));
         entity.setDescription(eventModel.getDescription());
         entity.setDate(eventModel.getDate());
@@ -55,4 +55,5 @@ public class EventModel {
             entity.addAttendee(PersonModel.fromModel(attendeeModel));
         return entity;
     }
+
 }

@@ -26,4 +26,6 @@ public class LocationEntity {
 
     @Column(name = "coordinates")
     private String coordinates;
+
+    // TODO: List of events for locations
 }
