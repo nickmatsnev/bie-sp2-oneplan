@@ -17,11 +17,11 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public ResponseEntity createEvent(@RequestBody EventEntity event) {
+    public ResponseEntity createEvent(@RequestBody EventModel event) {
         try {
             eventService.createEvent(event);
             return ResponseEntity.ok("Event created");
-        } catch (EventAlreadyExistsException | LocationIsMissingException e) {
+        } catch (LocationIsMissingException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Event creation error");

@@ -1,26 +1,25 @@
 package fit.biesp.oneplan.entity;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Getter
+@Setter
 @Table(name = "locations")
 public class LocationEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotNull
     @Column(name = "name")
     private String name;
+
     @NotNull
     @Column(name = "address")
     private String address;

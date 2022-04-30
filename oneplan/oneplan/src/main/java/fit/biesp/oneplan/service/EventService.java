@@ -5,6 +5,8 @@ import fit.biesp.oneplan.exception.EventAlreadyExistsException;
 import fit.biesp.oneplan.exception.EventIsMissingException;
 import fit.biesp.oneplan.exception.LocationIsMissingException;
 import fit.biesp.oneplan.model.EventModel;
+import fit.biesp.oneplan.model.PersonModel;
+import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,9 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public void createEvent(EventEntity event) throws EventAlreadyExistsException, LocationIsMissingException {
-        if (eventRepository.findById(event.getId()).isPresent())
-            throw new EventAlreadyExistsException("Event already exists.");
-        eventRepository.save(event);
+    public void createEvent(EventModel event) throws LocationIsMissingException {
+        // removed chek for existing event as it is not necessarily unique
+        eventRepository.save(EventModel.fromModel(event));
     }
 
     public void deleteEvent(Long id) throws EventIsMissingException {
@@ -38,7 +39,8 @@ public class EventService {
         event.setDate(eventModel.getDate());
         event.setTime(eventModel.getTime());
         event.setCapacity(eventModel.getCapacity());
-        // TODO: update attendees (requires PersonModel)
+        for (var attendeeModel : eventModel.getAttendees())
+            event.addAttendee(PersonModel.fromModel(attendeeModel));
     }
 
     public EventModel getEvent(Long id) throws EventIsMissingException {

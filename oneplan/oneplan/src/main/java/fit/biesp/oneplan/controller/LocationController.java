@@ -3,6 +3,7 @@ package fit.biesp.oneplan.controller;
 import fit.biesp.oneplan.entity.LocationEntity;
 import fit.biesp.oneplan.exception.LocationAlreadyExistsException;
 import fit.biesp.oneplan.exception.LocationIsMissingException;
+import fit.biesp.oneplan.model.LocationModel;
 import fit.biesp.oneplan.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,9 @@ public class LocationController {
     private LocationService locationService;
 
     @PostMapping
-    public ResponseEntity postLocation(@RequestBody LocationEntity locationEntity) {
+    public ResponseEntity postLocation(@RequestBody LocationModel locationModel) {
         try {
-            locationService.postLocation(locationEntity);
+            locationService.postLocation(locationModel);
             return ResponseEntity.ok("New location posted successfully");
         } catch (LocationAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

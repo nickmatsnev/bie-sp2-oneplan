@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "events")
 public class EventEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
 
@@ -45,17 +45,24 @@ public class EventEntity {
     @NotNull
     @Column(name = "name")
     private String name;
+
     @NotNull
     @Column(name = "description")
     private String description;
+
     @NotNull
     @Column(name = "date")
     private Date date;
+
     @NotNull
     @Column(name = "time")
     private Time time;
+
     @NotNull
     @Column(name = "capacity")
     private int capacity;
 
+    public void addAttendee(PersonEntity person) {
+        attendees.add(person);
+    }
 }

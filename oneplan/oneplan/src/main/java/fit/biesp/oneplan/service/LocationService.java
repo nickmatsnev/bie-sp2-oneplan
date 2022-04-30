@@ -3,6 +3,7 @@ package fit.biesp.oneplan.service;
 import fit.biesp.oneplan.entity.LocationEntity;
 import fit.biesp.oneplan.exception.LocationAlreadyExistsException;
 import fit.biesp.oneplan.exception.LocationIsMissingException;
+import fit.biesp.oneplan.model.LocationModel;
 import fit.biesp.oneplan.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,10 @@ public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-    public void postLocation(LocationEntity locationEntity) throws LocationAlreadyExistsException {
-        if(locationRepository.findById(locationEntity.getId()).isPresent())
+    public void postLocation(LocationModel locationModel) throws LocationAlreadyExistsException {
+        if(locationRepository.findByName(locationModel.getName()) != null)
             throw new LocationAlreadyExistsException("Location already exists");
-        locationRepository.save(locationEntity);
+        locationRepository.save(LocationModel.fromModel(locationModel));
     }
 
 
