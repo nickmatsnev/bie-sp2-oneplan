@@ -39,8 +39,8 @@ public class EventService {
         event.setDate(eventModel.getDate());
         event.setTime(eventModel.getTime());
         event.setCapacity(eventModel.getCapacity());
-        for (var attendeeModel : eventModel.getAttendees())
-            event.addAttendee(PersonModel.fromModel(attendeeModel));
+        event.renewAttendees(eventModel.getAttendees());
+        eventRepository.save(event);
     }
 
     public EventModel getEvent(Long id) throws EventIsMissingException {

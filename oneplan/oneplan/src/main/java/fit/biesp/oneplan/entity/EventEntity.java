@@ -1,6 +1,7 @@
 package fit.biesp.oneplan.entity;
 
 import com.sun.istack.NotNull;
+import fit.biesp.oneplan.model.PersonModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,5 +65,11 @@ public class EventEntity {
 
     public void addAttendee(PersonEntity person) {
         attendees.add(person);
+    }
+
+    public void renewAttendees(List<PersonModel> attendeeList) {
+        attendees.clear();
+        for (var person : attendeeList)
+            addAttendee(PersonModel.fromModel(person));
     }
 }
