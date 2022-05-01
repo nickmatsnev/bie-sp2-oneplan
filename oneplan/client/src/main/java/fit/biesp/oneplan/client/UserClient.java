@@ -10,11 +10,12 @@ import reactor.core.publisher.Mono;
 public class UserClient {
     private final WebClient userWebClient;
     public UserClient(@Value("http://localhost:8085") String baseUrl) {
-        userWebClient = WebClient.create(baseUrl + "/users");
+        userWebClient = WebClient.create(baseUrl);
     }
 
     public Mono<UserDto> create(UserDto newUser) {
         return userWebClient.post()
+                .uri("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newUser)
@@ -23,6 +24,7 @@ public class UserClient {
     }
     public Mono<EventDto> createEvent(EventDto newEvent) {
         return userWebClient.post()
+                .uri("/events")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newEvent)
