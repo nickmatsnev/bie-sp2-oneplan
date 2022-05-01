@@ -9,13 +9,20 @@ import fit.biesp.oneplan.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
+
+    public Collection<LocationModel> getAll() {
+        Set<LocationModel> eventEntitySet = new HashSet<>();
+        for (var location : locationRepository.findAll())
+            eventEntitySet.add(LocationModel.toModel(location));
+        return eventEntitySet;
+    }
+
 
     public LocationModel postLocation(LocationModel locationModel) throws LocationAlreadyExistsException {
         if(locationRepository.findByName(locationModel.getName()) != null)

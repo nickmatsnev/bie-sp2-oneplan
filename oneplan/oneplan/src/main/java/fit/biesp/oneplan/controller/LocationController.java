@@ -27,6 +27,15 @@ public class LocationController {
         }
     }
 
+    @GetMapping("/all")
+    public ResponseEntity getAllLocations() {
+        try {
+            return ResponseEntity.ok(locationService.getAll());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error while trying to list locations. " + e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteLocation (@PathVariable Long id) {
         try {
