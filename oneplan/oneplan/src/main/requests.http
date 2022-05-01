@@ -12,9 +12,9 @@ POST http://localhost:8085/users
 Content-Type: application/json
 
 {
-  "nickname": "nurzybrs212",
-  "email": "someema3il122",
-  "password": "some3password"
+  "username": "nurzy1234brs123123o11111123",
+  "email": "someema3il12211111d22ds",
+  "password" : "somepassword"
 }
 
 ###
