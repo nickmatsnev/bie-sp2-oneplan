@@ -7,11 +7,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
-public class RegistrationClient {
-    private static final String ONE_URI = "/{id}";
+public class UserClient {
     private final WebClient userWebClient;
-
-    public RegistrationClient(@Value("${backend.url}") String baseUrl) {
+    public UserClient(@Value("http://localhost:8085") String baseUrl) {
         userWebClient = WebClient.create(baseUrl + "/users");
     }
 
@@ -22,5 +20,13 @@ public class RegistrationClient {
                 .bodyValue(newUser)
                 .retrieve()
                 .bodyToMono(UserDto.class);
+    }
+    public Mono<EventDto> createEvent(EventDto newEvent) {
+        return userWebClient.post()
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(newEvent)
+                .retrieve()
+                .bodyToMono(EventDto.class);
     }
 }
