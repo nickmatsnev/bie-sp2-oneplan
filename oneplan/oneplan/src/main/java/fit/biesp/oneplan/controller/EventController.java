@@ -19,10 +19,10 @@ public class EventController {
     @PostMapping
     public ResponseEntity createEvent(@RequestBody EventModel event) {
         try {
-            eventService.createEvent(event);
-            return ResponseEntity.ok("Event created");
+            var message = eventService.createEvent(event);
+            return ResponseEntity.ok("Event created. " + message);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Event creation error");
+            return ResponseEntity.badRequest().body("Event creation error. " + e.getMessage());
         }
     }
 

@@ -3,10 +3,14 @@ package fit.biesp.oneplan.service;
 import fit.biesp.oneplan.entity.LocationEntity;
 import fit.biesp.oneplan.exception.LocationAlreadyExistsException;
 import fit.biesp.oneplan.exception.LocationIsMissingException;
+import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.model.LocationModel;
 import fit.biesp.oneplan.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class LocationService {
@@ -33,5 +37,17 @@ public class LocationService {
             throw new LocationIsMissingException("No location with id " + id + " exists");
         locationRepository.deleteById(id);
     }
+
+    public List<EventModel> getEvents (String name) throws LocationIsMissingException {
+        if (locationRepository.findByName(name) == null)
+            throw new LocationIsMissingException("No location with name " + name + " exists");
+        List<EventModel> res = new ArrayList<>();
+        if (locationRepository.findByName(name).getEvents() != null)
+            for (var event: locationRepository.findByName(name).getEvents())
+                res.add(EventModel.toModel(event));
+
+        return res;
+    }
+
 }
 

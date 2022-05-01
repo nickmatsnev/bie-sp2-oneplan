@@ -1,10 +1,7 @@
 package fit.biesp.oneplan.service;
 
 import fit.biesp.oneplan.entity.EventEntity;
-import fit.biesp.oneplan.exception.EventAlreadyExistsException;
-import fit.biesp.oneplan.exception.EventIsMissingException;
-import fit.biesp.oneplan.exception.LocationAlreadyExistsException;
-import fit.biesp.oneplan.exception.LocationIsMissingException;
+import fit.biesp.oneplan.exception.*;
 import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.model.LocationModel;
 import fit.biesp.oneplan.model.PersonModel;
@@ -12,6 +9,8 @@ import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class EventService {
@@ -21,14 +20,16 @@ public class EventService {
     @Autowired
     private LocationService locationService;
 
-    public void createEvent(EventModel event) throws LocationAlreadyExistsException {
+    public String createEvent(EventModel event) throws LocationAlreadyExistsException, LocationIsMissingException {
         // removed chek for existing event as it is not necessarily unique
         // removed LocationIsMissingException as location is being created if missing
         if (event.getLocation().getId() == null) {
             var newLocation = locationService.postLocation(event.getLocation());
             event.setLocation(newLocation);
         }
+        var message = getExistingEvents(event);
         eventRepository.save(EventModel.fromModel(event));
+        return message;
     }
 
     public void deleteEvent(Long id) throws EventIsMissingException {
@@ -58,6 +59,18 @@ public class EventService {
             throw new EventIsMissingException("Event with id " + id + " does not exist");
         }
         return EventModel.toModel(eventRepository.findById(id).get());
+    }
+
+    private String getExistingEvents(EventModel event) throws LocationIsMissingException {
+        StringBuilder message = new StringBuilder();
+        for (var locationEvent : locationService.getEvents(event.getLocation().getName())) {
+            if (Objects.equals(locationEvent.getDate().toString(), event.getDate().toString())) {
+                if (message.isEmpty())
+                    message.append("There are other events scheduled for this date at ").append(event.getLocation().getName()).append(": ");
+                message.append("\nat "). append(locationEvent.getTime().toString());
+            }
+        }
+        return message.toString();
     }
 
 }
