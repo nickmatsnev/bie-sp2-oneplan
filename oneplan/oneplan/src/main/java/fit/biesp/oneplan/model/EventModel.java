@@ -52,8 +52,9 @@ public class EventModel {
         entity.setDate(eventModel.getDate());
         entity.setTime(eventModel.getTime());
         entity.setCapacity(eventModel.getCapacity());
-        for (var attendeeModel : eventModel.getAttendees())
-            entity.addAttendee(PersonModel.fromModel(attendeeModel));
+        if (eventModel.getAttendees() != null)
+            for (var attendeeModel : eventModel.getAttendees())
+                entity.addAttendee(PersonModel.fromModel(attendeeModel));
         return entity;
     }
 
