@@ -52,7 +52,7 @@
 <div class="container">
     <div class="navigation">
     </div>
-    <form class="sign-form" method="post" action = "#" th:action = "@{/users}" th:object = "${userDto}">
+    <form class="sign-form" method="post" action = "#" th:action = "@{/users}" th:object = "${userRegistrationDto}">
         <ol class="questions">
             <span><label for="uname">Choose username:</label></span>
             <input id="uname" name="username" type="text" placeholder="Enter a username" autofocus th:field = "*{nickname}"/>

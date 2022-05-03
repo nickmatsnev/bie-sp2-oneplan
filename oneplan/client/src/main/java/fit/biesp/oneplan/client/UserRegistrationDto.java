@@ -4,22 +4,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserDto {
+public class UserRegistrationDto {
 
 
     public String nickname;
 
     public String email;
 
+    public String password;
+
     public String id;
 
-    public UserDto(){
+    public UserRegistrationDto(){
 
     }
 
-    public UserDto(String nickname, String email, String id) {
+    public UserRegistrationDto(String nickname, String email, String password, String id) {
         this.nickname = nickname;
         this.email = email;
+        this.password = password;
         id = id;
     }
 
@@ -37,6 +40,14 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getId() {

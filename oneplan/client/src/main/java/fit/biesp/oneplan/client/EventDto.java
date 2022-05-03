@@ -14,12 +14,11 @@ public class EventDto {
     public List<PersonDto> attendees;
     public String name, description;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date date;
 
     public Time time;
     public int capacity;
+
 
     public EventDto(){
 

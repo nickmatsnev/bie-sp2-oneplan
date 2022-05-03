@@ -17,7 +17,7 @@ public class UserWebController {
 
     @GetMapping("/users")
     public String addUserRender(Model model ) {
-        model.addAttribute("userDto", new UserDto());
+        model.addAttribute("userRegistrationDto", new UserRegistrationDto());
         return "register";
     }
 
@@ -27,9 +27,9 @@ public class UserWebController {
     }
 
     @PostMapping("/users")
-    public String addUserSubmit(Model model, @ModelAttribute UserDto userDto) {
-        model.addAttribute("userDto", userClient
-                .create(userDto)
+    public String addUserSubmit(Model model, @ModelAttribute UserRegistrationDto userRegistrationDto) {
+        model.addAttribute("userRegistrationDto", userClient
+                .create(userRegistrationDto)
         );
         return "home";
     }

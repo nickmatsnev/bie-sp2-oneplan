@@ -13,7 +13,7 @@ public class UserClient {
         userWebClient = WebClient.create(baseUrl);
     }
 
-    public Mono<UserDto> create(UserDto newUser) {
+    public Mono<UserDto> create(UserRegistrationDto newUser) {
         return userWebClient.post()
                 .uri("/users")
                 .contentType(MediaType.APPLICATION_JSON)
