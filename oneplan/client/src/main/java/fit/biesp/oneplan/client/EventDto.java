@@ -9,7 +9,6 @@ import java.sql.Time;
 import java.util.List;
 
 public class EventDto {
-    private Long id;
     public LocationDto location;
     public UserDto organiser;
     public List<PersonDto> attendees;
@@ -18,6 +17,7 @@ public class EventDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date date;
+
     public Time time;
     public int capacity;
 

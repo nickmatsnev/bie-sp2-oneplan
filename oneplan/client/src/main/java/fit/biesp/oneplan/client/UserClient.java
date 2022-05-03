@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class UserClient {
     private final WebClient userWebClient;
-    public UserClient(@Value("http://localhost:8085") String baseUrl) {
+    public UserClient(@Value("http://localhost:8086") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
@@ -22,6 +22,16 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(UserDto.class);
     }
+
+    public Flux<LocationDto> getLocations(LocationDto locationDto) {
+        return userWebClient.get()
+                .uri("/locations/all")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve() // request specification finished
+                .bodyToFlux(LocationDto.class); // interpret response body as a collection
+    }
+
+
     public Mono<EventDto> createEvent(EventDto newEvent) {
         return userWebClient.post()
                 .uri("/events")
