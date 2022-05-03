@@ -9,7 +9,8 @@ public class LocationDto {
 
     }
 
-    public LocationDto( String name, String address, String coordinates) {
+    public LocationDto( Long id, String name, String address, String coordinates) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.coordinates = coordinates;

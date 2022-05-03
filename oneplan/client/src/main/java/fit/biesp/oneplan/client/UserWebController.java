@@ -3,6 +3,8 @@ package fit.biesp.oneplan.client;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @Controller
 public class UserWebController {
@@ -15,7 +17,7 @@ public class UserWebController {
 
     @GetMapping("/users")
     public String addUserRender(Model model ) {
-        model.addAttribute("userDto", new UserDto());
+        model.addAttribute("userRegistrationDto", new UserRegistrationDto());
         return "register";
     }
 
@@ -25,20 +27,24 @@ public class UserWebController {
     }
 
     @PostMapping("/users")
-    public String addUserSumbit(Model model, @ModelAttribute UserDto userDto) {
-        model.addAttribute("userDto", userClient.create(userDto));
+    public String addUserSubmit(Model model, @ModelAttribute UserRegistrationDto userRegistrationDto) {
+        model.addAttribute("userRegistrationDto", userClient
+                .create(userRegistrationDto)
+        );
         return "home";
     }
 
     @GetMapping("/events")
-    public String addEventRender(Model model ) {
+    public String addEventRender(Model model) {
+        System.out.println("xuy4");
         model.addAttribute("eventDto", new EventDto());
         return "event";
     }
-    @PostMapping("/events")
-    public String addUserSumbit(Model model, @ModelAttribute EventDto eventDto) {
-        model.addAttribute("eventDto", userClient.createEvent(eventDto));
-        return "home";
-    }
 
+    @PostMapping("/events")
+    public String addEventSubmit(Model model, @ModelAttribute EventDto eventDto) {
+        System.out.println("xuy3");
+        model.addAttribute("eventDto", userClient.createEvent(eventDto));
+        return "event";
+    }
 }

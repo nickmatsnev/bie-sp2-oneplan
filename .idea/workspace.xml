@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27f05586-e88e-4f6a-875b-5fbe13bc42bd" name="Changes" comment="" />
+    <list default="true" id="27f05586-e88e-4f6a-875b-5fbe13bc42bd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/oneplan/client/src/main/java/fit/biesp/oneplan/client/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/client/src/main/java/fit/biesp/oneplan/client/UserClient.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,6 +36,7 @@
       <option name="presentableId" value="Default" />
       <updated>1651072306450</updated>
       <workItem from="1651072308758" duration="43000" />
+      <workItem from="1651519969437" duration="15000" />
     </task>
     <servers />
   </component>
