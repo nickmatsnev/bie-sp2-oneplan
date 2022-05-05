@@ -3,7 +3,7 @@ Accept: application/json
 
 ###
 
-GET http://localhost:8086/users/nurzybr
+GET http://localhost:8086/users/nurzybrs
 Accept: application/json
 
 ###
@@ -50,12 +50,16 @@ Content-Type: application/json
 
 {
   "location": {
+    "name": "4",
+    "address": "4",
+    "coordinates": "4"
   },
   "organiser": {
     "id": 1
   },
-  "attendees": [],
-  "name": "",
-  "description": "",
-  "capacity": 0
+  "name": "4",
+  "description": "4",
+  "date": "2002-05-01",
+  "time": "01:01:01",
+  "capacity": 1
 }

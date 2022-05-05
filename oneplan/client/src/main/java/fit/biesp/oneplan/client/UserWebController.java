@@ -14,23 +14,24 @@ public class UserWebController {
         this.userClient = userClient;
     }
 
+    @GetMapping("/users/home")
+    public String addHomeRender(Model model ) {
+        System.out.println("addhome");
+        return "home";
+    }
+
 
     @GetMapping("/users")
     public String addUserRender(Model model ) {
+        System.out.println("addnewuser");
         model.addAttribute("userRegistrationDto", new UserRegistrationDto());
         return "register";
     }
 
-    @GetMapping("/users/home")
-    public String addHomeRender(Model model ) {
-        return "home";
-    }
-
     @PostMapping("/users")
     public String addUserSubmit(Model model, @ModelAttribute UserRegistrationDto userRegistrationDto) {
-        model.addAttribute("userRegistrationDto", userClient
-                .create(userRegistrationDto)
-        );
+        System.out.println("addsuserSubmitted");
+        model.addAttribute("userRegistrationDto", userClient.create(userRegistrationDto));
         return "home";
     }
 
@@ -45,6 +46,6 @@ public class UserWebController {
     public String addEventSubmit(Model model, @ModelAttribute EventDto eventDto) {
         System.out.println("xuy3");
         model.addAttribute("eventDto", userClient.createEvent(eventDto));
-        return "event";
+        return "eventCreated";
     }
 }

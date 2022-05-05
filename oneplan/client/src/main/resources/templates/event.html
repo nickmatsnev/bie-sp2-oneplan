@@ -53,24 +53,26 @@
     <div class="navigation">
     </div>
     <form class="sign-form" method="post" action = "#" th:action = "@{/events}" th:object = "${eventDto}">
-        <ol class="questions">
-            <span><label for="locatename">Enter the location:</label></span>
-            <input id="locationid" name="locationid" type="text" placeholder="Enter a location id" autofocus th:field = "*{location.id}"/>
-            <input id="locatename" name="location" type="text" placeholder="Enter a location name" autofocus th:field = "*{location.name}"/>
-            <label for="locateaddr"></label><input id="locateaddr" name="address" type="text" placeholder="Enter a location address" autofocus th:field = "*{location.address}"/>
-            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" autofocus th:field = "*{location.coordinates}"/>
-            <span><label for="organiser">Who is the organiser?</label></span>
-            <input id="organiser" name="id" type="text" placeholder="Your ID" autofocus th:field = "*{organiser.id}"/>
-            <span><label for="visitors">Fill Event information</label></span>
-            <input id="visitors" name="attendees" type="text" placeholder="Who will attend? (optional)" autofocus th:field = "*{attendees}"/>
+        <tr class="questions">
+
+            <label for="locationid"></label><input id="locationid" name="id" type="number" placeholder="Enter a location id"  th:field = "*{location.id}"/>
+            <label for="locatename"></label><input id="locatename" name="name" type="text" placeholder="Enter a location name"  th:field = "*{location.name}"/>
+            <label for="address"></label><input id="address" name="address" type="text" placeholder="Enter a location address"  th:field = "*{location.address}"/>
+            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" th:field = "*{location.coordinates}"/>
+            <label for="organiser"></label><input id="organiser" name="id" type="text" placeholder="Your ID" autofocus th:field = "*{organiser.id}"/>
+
+<!--            <span><label for="visitors">Fill Event information</label></span>-->
+<!--            <input id="visitors" name="attendees" type="text" placeholder="Who will attend? (optional)" autofocus th:field = "*{attendees}"/>-->
             <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" autofocus th:field = "*{name}"/>
             <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" placeholder="Short description" autofocus th:field = "*{description}"/>
             <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" autofocus th:field = "*{date}"/>
             <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" autofocus th:field = "*{time}"/>
             <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" autofocus th:field = "*{capacity}"/>
             <p style="margin-top: 20px;font-size: 25pt;float:right">
-        </ol>
 
+            <div class="error-message"></div>
+            <form href = "/users/homeee">
             <div><button type="submit" >CREATE</button></div>
+            </form>
     </form>
 </div>

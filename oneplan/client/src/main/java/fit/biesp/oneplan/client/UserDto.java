@@ -6,21 +6,21 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserDto {
 
-
+    public Long id;
     public String nickname;
 
     public String email;
 
-    public String id;
+
 
     public UserDto(){
 
     }
 
-    public UserDto(String nickname, String email, String id) {
-        this.nickname = nickname;
+    public UserDto(String nickname, String email, Long id) {
+        this.id = id;
         this.email = email;
-        id = id;
+        this.nickname = nickname;
     }
 
     public String getNickname() {
@@ -39,11 +39,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        id = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
