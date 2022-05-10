@@ -14,7 +14,7 @@ public class UserWebController {
         this.userClient = userClient;
     }
 
-    @GetMapping("/users/home")
+    @GetMapping("/home")
     public String addHomeRender(Model model ) {
         System.out.println("addhome");
         return "home";
@@ -46,6 +46,6 @@ public class UserWebController {
     public String addEventSubmit(Model model, @ModelAttribute EventDto eventDto) {
         System.out.println("xuy3");
         model.addAttribute("eventDto", userClient.createEvent(eventDto));
-        return "eventCreated";
+        return "home";
     }
 }

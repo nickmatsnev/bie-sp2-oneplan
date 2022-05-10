@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EventDto {
     public LocationDto location;
-    public UserDto organiser;
+    public OrganiserDto organiser;
     public List<PersonDto> attendees;
     public String name, description;
 
@@ -24,7 +24,7 @@ public class EventDto {
 
     }
 
-    public EventDto(LocationDto location, UserDto organiser, List<PersonDto> attendees, String name, String description, Date date, Time time, int capacity) {
+    public EventDto(LocationDto location, OrganiserDto organiser, List<PersonDto> attendees, String name, String description, Date date, Time time, int capacity) {
         this.location = location;
         this.organiser = organiser;
         this.attendees = attendees;
@@ -43,11 +43,11 @@ public class EventDto {
         this.location = location;
     }
 
-    public UserDto getOrganiser() {
+    public OrganiserDto getOrganiser() {
         return organiser;
     }
 
-    public void setOrganiser(UserDto organiser) {
+    public void setOrganiser(OrganiserDto organiser) {
         this.organiser = organiser;
     }
 

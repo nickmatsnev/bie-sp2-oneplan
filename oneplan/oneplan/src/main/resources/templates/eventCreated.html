@@ -9,13 +9,13 @@
 </head>
 <body>
 
-<h1>Create a new profile</h1>
+<h1>Welcome to OnePlan!</h1>
 
 </body>
 </html>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Login Page </title>
+<title> Welcome page </title>
 <style>
     Body {
         font-family: Calibri, Helvetica, sans-serif;
@@ -49,21 +49,4 @@
     }
 
 </style>
-<div class="container">
-    <div class="navigation">
-    </div>
-    <form class="sign-form" method="post" action = "#" th:action = "@{/users}" th:object = "${userRegistrationDto}">
-        <ol class="questions">
-            <span><label for="uname">Choose username:</label></span>
-            <input id="uname" name="username" type="text" placeholder="Enter a username" autofocus th:field = "*{nickname}"/>
-            <span><label for="email">Enter you email</label></span>
-            <input id="email" name="email" type="text" placeholder="Email"  autofocus th:field = "*{email}"/>
-            <span><label for="password">Choose a password</label></span>
-            <input id="password" name="password" type="password" placeholder="Enter a password" autofocus th:field = "*{password}"/>
-            <p style="margin-top: 20px;font-size: 25pt;float:right">
-        </ol>
-        <div class="error-message"></div>
-        <div><button type="submit" >REGISTER</button></div>
-<!--        <center><div><a href ="/users/home">enter to the homepage</a></div></center>-->
-    </form>
-</div>
+<div> EVENT Created!</div>

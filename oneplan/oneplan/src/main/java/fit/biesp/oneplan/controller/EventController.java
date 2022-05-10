@@ -17,8 +17,7 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public ResponseEntity createEvent(@RequestBody EventModel event) {
-        System.out.println("xuy");
+    public ResponseEntity createEvent(EventModel event) {
         try {
             var message = eventService.createEvent(event);
             return ResponseEntity.ok("Event created. " + message);
