@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class UserClient {
     private final WebClient userWebClient;
-    public UserClient(@Value("http://localhost:8086") String baseUrl) {
+    public UserClient(@Value("http://localhost:8085") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 

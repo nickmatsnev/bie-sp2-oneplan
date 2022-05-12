@@ -25,7 +25,7 @@ public class FriendEntity {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    //@ManyToOne
+    //@JoinColumn(name = "user_id")
+    //private UserEntity user;
 }

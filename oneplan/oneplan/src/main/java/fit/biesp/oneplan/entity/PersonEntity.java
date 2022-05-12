@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "persons")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class PersonEntity {
     //private UserEntity user;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees", cascade = CascadeType.REFRESH)
-    private List<EventEntity> events = new ArrayList<>();
+    private List<EventEntity> eventsToAttend = new ArrayList<>();
 
     public PersonEntity(String email) {
         this.email = email;
