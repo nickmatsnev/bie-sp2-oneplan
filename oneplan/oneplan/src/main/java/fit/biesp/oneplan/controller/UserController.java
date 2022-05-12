@@ -15,19 +15,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping()
-//    public ResponseEntity registration(UserRegistrationModel userModel){
-//        System.out.println("xuy");
-//        try{
-//            userService.registration(userModel);
-//            return ResponseEntity.ok("User created!");
-//        } catch (UserAlreadyExistsException e){
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        } catch (Exception e){
-//            return ResponseEntity.badRequest().body("Error");
-//        }
-//    }
-
     @PostMapping()
     public ResponseEntity registration(UserRegistrationModel userModel){
         try{

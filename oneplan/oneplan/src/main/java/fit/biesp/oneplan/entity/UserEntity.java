@@ -36,6 +36,9 @@ public class UserEntity {
     @PrimaryKeyJoinColumn
     private PersonEntity person;*/
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private List<FriendEntity> friends;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organiser", fetch = FetchType.LAZY)
     private List<EventEntity> events;
 
