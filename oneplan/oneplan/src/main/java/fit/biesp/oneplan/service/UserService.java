@@ -5,61 +5,61 @@ import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
-import fit.biesp.oneplan.repository.UserRepo;
+import fit.biesp.oneplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     public UserModel registration(UserRegistrationModel userModel) throws UserAlreadyExistsException {
-        if(userRepo.findByNickname(userModel.getNickname()) != null)
+        if(userRepository.findByNickname(userModel.getNickname()) != null)
             throw new UserAlreadyExistsException("User with this nickname already exists!");
 
-        if(userRepo.findByEmail(userModel.getEmail()) != null)
+        if(userRepository.findByEmail(userModel.getEmail()) != null)
             throw new UserAlreadyExistsException("User with this email already exists!");
 
-        return UserModel.toModel(userRepo.save(UserRegistrationModel.fromModel(userModel)));
+        return UserModel.toModel(userRepository.save(UserRegistrationModel.fromModel(userModel)));
     }
 
     public UserModel getUser(String nickname) throws UserNotFoundException {
-        if(userRepo.findByNickname(nickname) == null)
+        if(userRepository.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");
 
-        var customer = userRepo.findByNickname(nickname);
+        var user = userRepository.findByNickname(nickname);
 
-        return UserModel.toModel(customer);
+        return UserModel.toModel(user);
     }
 
     public String getPassword (String nickname) throws UserNotFoundException {
-        if(userRepo.findByNickname(nickname) == null)
+        if(userRepository.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");
 
-        var user = userRepo.findByNickname(nickname);
+        var user = userRepository.findByNickname(nickname);
         return user.getPassword();
     }
 
     public UserModel updateUser(UserModel userModel, String nickname) throws UserNotFoundException {
-        if (userRepo.findByNickname(nickname) == null)
+        if (userRepository.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");
 
-        UserEntity user = userRepo.findByNickname(nickname);
+        UserEntity user = userRepository.findByNickname(nickname);
         user.setNickname(userModel.getNickname());
         user.setEmail(userModel.getEmail());
 
-        return UserModel.toModel(userRepo.save(user));
+        return UserModel.toModel(userRepository.save(user));
     }
 
     public Long delete(String nickname) throws UserNotFoundException {
-        if(userRepo.findByNickname(nickname) == null)
+        if(userRepository.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");
 
-        UserEntity customer = userRepo.findByNickname(nickname);
-        Long id = customer.getId();
+        UserEntity user = userRepository.findByNickname(nickname);
+        Long id = user.getId();
 
-        userRepo.deleteById(id);
+        userRepository.deleteById(id);
         return id;
     }
 }
