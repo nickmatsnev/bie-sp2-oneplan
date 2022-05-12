@@ -60,22 +60,22 @@
 <div class="container">
     <div class="navigation">
     </div>
-    <form class="sign-form" method="post" action = "/home" th:action = "@{/events}" th:object = "${eventModel}">
+    <form class="sign-form" method="post" action = "/home" th:action = "@{/create-event}" th:object = "${eventModel}">
         <tr class="questions">
 
             <label for="locationid"></label><input id="locationid" name="id" type="number" placeholder="location ID(optional)"  th:field = "*{location.id}"/>
-            <label for="locatename"></label><input id="locatename" name="name" type="text" placeholder="Enter a location name"  th:field = "*{location.name}"/>
-            <label for="address"></label><input id="address" name="address" type="text" placeholder="Enter a location address"  th:field = "*{location.address}"/>
-            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" th:field = "*{location.coordinates}"/>
-            <label for="organiser"></label><input id="organiser" name="id" type="number" placeholder="Your ID" autofocus th:field = "*{organiser.id}"/>
+            <label for="locatename"></label><input id="locatename" name="name" type="text" placeholder="Enter a location name" required="required" th:field = "*{location.name}"/>
+            <label for="address"></label><input id="address" name="address" type="text" placeholder="Enter a location address" required="required" th:field = "*{location.address}"/>
+            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" required="required" th:field = "*{location.coordinates}"/>
+            <label for="organiser"></label><input id="organiser" name="id" type="number" placeholder="Your ID" required="required" autofocus th:field = "*{organiser.id}"/>
 
 <!--            <span><label for="visitors">Fill Event information</label></span>-->
 <!--            <input id="visitors" name="attendees" type="text" placeholder="Who will attend? (optional)" autofocus th:field = "*{attendees}"/>-->
-            <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" autofocus th:field = "*{name}"/>
-            <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" placeholder="Short description" autofocus th:field = "*{description}"/>
-            <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" autofocus th:field = "*{date}"/>
-            <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" autofocus th:field = "*{time}"/>
-            <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" autofocus th:field = "*{capacity}"/>
+            <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}"/>
+            <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" required="required" placeholder="Short description" autofocus th:field = "*{description}"/>
+            <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}"/>
+            <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" required="required" autofocus th:field = "*{time}"/>
+            <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" required="required" autofocus th:field = "*{capacity}"/>
             <p style="margin-top: 20px;font-size: 25pt;float:right">
 
             <div class="error-message"></div>

@@ -1,4 +1,7 @@
 package fit.biesp.oneplan.client;
+import fit.biesp.oneplan.client.models.EventModel;
+import fit.biesp.oneplan.client.models.LocationModel;
+import fit.biesp.oneplan.client.models.UserRegistrationModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -13,32 +16,38 @@ public class UserClient {
         userWebClient = WebClient.create(baseUrl);
     }
 
-    public Mono<UserDto> create(UserRegistrationDto newUser) {
+    public Mono<Boolean> create(UserRegistrationModel newUser) {
         return userWebClient.post()
                 .uri("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newUser)
                 .retrieve()
-                .bodyToMono(UserDto.class);
+                .bodyToMono(boolean.class);
     }
 
-    public Flux<LocationDto> getLocations(LocationDto locationDto) {
+    public Flux<LocationModel> getLocations() {
         return userWebClient.get()
                 .uri("/locations/all")
-                .accept(MediaType.APPLICATION_JSON)
                 .retrieve() // request specification finished
-                .bodyToFlux(LocationDto.class); // interpret response body as a collection
+                .bodyToFlux(LocationModel.class); // interpret response body as a collection
+    }
+
+    public Mono<LocationModel> getOneLocation(Long id) {
+        return userWebClient.get()
+                .uri("/locations/{id}")
+                .retrieve() // request specification finished
+                .bodyToMono(LocationModel.class); // interpret response body as a collection
     }
 
 
-    public Flux<EventDto> createEvent(EventDto newEvent) {
+    public Flux<EventModel> createEvent(EventModel newEvent) {
         return userWebClient.post()
                 .uri("/events")
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newEvent)
                 .retrieve()
-                .bodyToFlux(EventDto.class);
+                .bodyToFlux(EventModel.class);
     }
 }

@@ -22,22 +22,30 @@
         background-color: white;
     }
     button {
-        background-color: #000000;
-        width: 100%;
-        color: white;
-        padding: 15px;
-        margin: 10px 0px;
-        border: none;
-        cursor: pointer;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 50px;
+        height: 55px;
+        color: #2945FF;
+        /* Rectangle 2 */
+        box-sizing: border-box;
+        position: absolute;
+        left: 31.07%;
+        right: 31.07%;
+        border: 1px solid #2945FF;
+        border-radius: 30px;
+        background-color: white;
     }
 
-    input[type=text], input[type=password] {
+    input[type=text], input[type=number], input[type=time] , input[type=date] , input[type=password] {
         width: 100%;
         margin: 8px 0;
         padding: 12px 20px;
         display: inline-block;
-        border: 2px solid black;
+        border: 1px solid #2945FF;
         box-sizing: border-box;
+        border-radius: 10px;
     }
     button:hover {
         opacity: 0.7;
@@ -49,25 +57,45 @@
     }
 
 </style>
+
+<!--<tbody>-->
+<!--<tr th:each = "locations: ${locations}">-->
+<!--    <td th:text = "${locations.id}">Id:</td>-->
+<!--    <td th:text = "${locations.name}">name:</td>-->
+<!--    <td th:text = "${locations.address}">text:</td>-->
+<!--    <td th:text = "${locations.coordinates}">coordinates:</td>-->
+
+<!--</tr>-->
+<!--</tbody>-->
+
+
 <div class="container">
     <div class="navigation">
     </div>
-    <form class="sign-form" method="post" action = "#" th:action = "@{/events}" th:object = "${eventDto}">
+    <form class="sign-form" method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
         <tr class="questions">
 
-            <label for="locationid"></label><input id="locationid" name="id" type="number" placeholder="location ID(optional)"  th:field = "*{location.id}"/>
-            <label for="locatename"></label><input id="locatename" name="name" type="text" placeholder="Enter a location name"  th:field = "*{location.name}"/>
-            <label for="address"></label><input id="address" name="address" type="text" placeholder="Enter a location address"  th:field = "*{location.address}"/>
-            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" th:field = "*{location.coordinates}"/>
-            <label for="organiser"></label><input id="organiser" name="id" type="number" placeholder="Your ID" autofocus th:field = "*{organiser.id}"/>
+            <div class="form-group blu-margin">
+                <select class="form-control" th:field="*{location.id}" id="dropOperator">
+                    <option value="0">select locations</option>
+                    <option th:each="locations : ${locations}" th:value ="${locations.id}" th:text="${locations.address}">
+                    </option>
+                </select>
+            </div>
+
+<!--            <label for="locationid"></label><input id="locationid" name="id" type="number" placeholder="location ID(optional)"  th:field = "*{location.id}"/>-->
+            <label for="locatename"></label><input id="locatename" name="name" type="text" placeholder="Enter a location name" required="required" th:field = "*{location.name}"/>
+            <label for="address"></label><input id="address" name="address" type="text" placeholder="Enter a location address" required="required" th:field = "*{location.address}"/>
+            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" required="required" th:field = "*{location.coordinates}"/>
+            <label for="organiser"></label><input id="organiser" name="id" type="number" placeholder="Your ID" required="required" autofocus th:field = "*{organiser.id}"/>
 
 <!--            <span><label for="visitors">Fill Event information</label></span>-->
 <!--            <input id="visitors" name="attendees" type="text" placeholder="Who will attend? (optional)" autofocus th:field = "*{attendees}"/>-->
-            <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" autofocus th:field = "*{name}"/>
-            <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" placeholder="Short description" autofocus th:field = "*{description}"/>
-            <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" autofocus th:field = "*{date}"/>
-            <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" autofocus th:field = "*{time}"/>
-            <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" autofocus th:field = "*{capacity}"/>
+            <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}"/>
+            <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" required="required" placeholder="Short description" autofocus th:field = "*{description}"/>
+            <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}"/>
+            <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" required="required" autofocus th:field = "*{time}"/>
+            <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" required="required" autofocus th:field = "*{capacity}"/>
             <p style="margin-top: 20px;font-size: 25pt;float:right">
 
             <div class="error-message"></div>

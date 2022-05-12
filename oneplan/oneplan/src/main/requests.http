@@ -39,7 +39,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8086/locations/33
+GET http://localhost:8086/locations/all
 Accept: application/json
 
 

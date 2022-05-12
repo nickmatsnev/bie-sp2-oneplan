@@ -1,5 +1,8 @@
 package fit.biesp.oneplan.client;
 
+import fit.biesp.oneplan.client.models.EventModel;
+import fit.biesp.oneplan.client.models.LocationModel;
+import fit.biesp.oneplan.client.models.UserRegistrationModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,31 +24,41 @@ public class UserWebController {
     }
 
 
-    @GetMapping("/users")
+
+    @GetMapping("")
+    public String enterRender() {
+        return "welcome";
+    }
+
+    @GetMapping("/registration")
     public String addUserRender(Model model ) {
         System.out.println("addnewuser");
-        model.addAttribute("userRegistrationDto", new UserRegistrationDto());
+        model.addAttribute("userRegistrationDto", new UserRegistrationModel());
         return "register";
     }
 
-    @PostMapping("/users")
-    public String addUserSubmit(Model model, @ModelAttribute UserRegistrationDto userRegistrationDto) {
+
+    @PostMapping("/registration")
+    public String addUserSubmit(Model model, @ModelAttribute UserRegistrationModel userRegistrationModel) {
         System.out.println("addsuserSubmitted");
-        model.addAttribute("userRegistrationDto", userClient.create(userRegistrationDto));
-        return "home";
+        model.addAttribute("userRegistrationDto", userClient.create(userRegistrationModel));
+        return "welcome";
     }
 
-    @GetMapping("/events")
-    public String addEventRender(Model model) {
+
+    @GetMapping("/create-event")
+    public String addEventRender(Model eventModel, Model locationModel, Model addlocation) {
         System.out.println("xuy4");
-        model.addAttribute("eventDto", new EventDto());
+        locationModel.addAttribute("locations", userClient.getLocations());
+        eventModel.addAttribute("eventModel", new EventModel());
         return "event";
     }
 
-    @PostMapping("/events")
-    public String addEventSubmit(Model model, @ModelAttribute EventDto eventDto) {
+    @PostMapping("/create-event")
+    public String addEventSubmit(Model model, @ModelAttribute EventModel eventModel) {
         System.out.println("xuy3");
-        model.addAttribute("eventDto", userClient.createEvent(eventDto));
+        model.addAttribute("eventModel", userClient.createEvent(eventModel));
         return "home";
     }
+
 }

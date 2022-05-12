@@ -22,13 +22,20 @@
         background-color: white;
     }
     button {
-        background-color: #000000;
-        width: 100%;
-        color: white;
-        padding: 15px;
-        margin: 10px 0px;
-        border: none;
-        cursor: pointer;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 50px;
+        height: 55px;
+        color: #2945FF;
+        /* Rectangle 2 */
+        box-sizing: border-box;
+        position: absolute;
+        left: 31.07%;
+        right: 31.07%;
+        border: 1px solid #2945FF;
+        border-radius: 30px;
+        background-color: white;
     }
 
     input[type=text], input[type=password] {
@@ -36,8 +43,9 @@
         margin: 8px 0;
         padding: 12px 20px;
         display: inline-block;
-        border: 2px solid black;
+        border: 1px solid #2945FF;
         box-sizing: border-box;
+        border-radius: 10px;
     }
     button:hover {
         opacity: 0.7;
@@ -52,17 +60,16 @@
 <div class="container">
     <div class="navigation">
     </div>
-    <form class="sign-form" method="post" action = "#" th:action = "@{/users}" th:object = "${userRegistrationDto}">
+    <form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">
         <ol class="questions">
             <span><label for="uname">Choose username:</label></span>
-            <input id="uname" name="username" type="text" placeholder="Enter a username" autofocus th:field = "*{nickname}"/>
+            <input id="uname" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}"/>
             <span><label for="email">Enter you email</label></span>
-            <input id="email" name="email" type="text" placeholder="Email"  autofocus th:field = "*{email}"/>
+            <input id="email" name="email" type="text" placeholder="Email" required="required" autofocus th:field = "*{email}"/>
             <span><label for="password">Choose a password</label></span>
-            <input id="password" name="password" type="password" placeholder="Enter a password" autofocus th:field = "*{password}"/>
+            <input id="password" name="password" type="password" placeholder="Enter a password" required="required" autofocus th:field = "*{password}"/>
             <p style="margin-top: 20px;font-size: 25pt;float:right">
         </ol>
-        <div class="error-message"></div>
         <div><button type="submit" >REGISTER</button></div>
 <!--        <center><div><a href ="/users/home">enter to the homepage</a></div></center>-->
     </form>

@@ -29,14 +29,12 @@ public class UserController {
 //    }
 
     @PostMapping()
-    public ResponseEntity registration(UserRegistrationModel userModel){
+    public ResponseEntity registration(@RequestBody UserRegistrationModel userModel){
         try{
             userService.registration(userModel);
-            return ResponseEntity.ok("User created!");
+            return ResponseEntity.ok(true);
         } catch (UserAlreadyExistsException e){
             return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error");
         }
     }
 
