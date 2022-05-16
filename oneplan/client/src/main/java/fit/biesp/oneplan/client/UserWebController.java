@@ -1,8 +1,11 @@
 package fit.biesp.oneplan.client;
 
+import fit.biesp.oneplan.client.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.client.models.EventModel;
 import fit.biesp.oneplan.client.models.LocationModel;
+import fit.biesp.oneplan.client.models.LoginModel;
 import fit.biesp.oneplan.client.models.UserRegistrationModel;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @Controller
 public class UserWebController {
     private final UserClient userClient;
+    Long currentId = null;
 
     public UserWebController(UserClient userClient) {
         this.userClient = userClient;
@@ -25,9 +29,16 @@ public class UserWebController {
 
 
 
-    @GetMapping("")
-    public String enterRender() {
+    @GetMapping("/login")
+    public String enterRender(Model model) {
+        model.addAttribute("loginModel", new LoginModel());
         return "welcome";
+    }
+    @PostMapping("/login")
+    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) {
+        model.addAttribute("loginModel", userClient.login(loginModel));
+        model.getAttribute(String.valueOf(currentId));
+        return "home";
     }
 
     @GetMapping("/registration")
@@ -41,8 +52,13 @@ public class UserWebController {
     @PostMapping("/registration")
     public String addUserSubmit(Model model, @ModelAttribute UserRegistrationModel userRegistrationModel) {
         System.out.println("addsuserSubmitted");
-        model.addAttribute("userRegistrationDto", userClient.create(userRegistrationModel));
-        return "welcome";
+        try {
+            model.addAttribute("userRegistrationDto", userClient.create(userRegistrationModel));
+            return "userexists";
+        } catch (WebClientResponseException e){
+            model.addAttribute("error", e);
+            return "userexists";
+        }
     }
 
 

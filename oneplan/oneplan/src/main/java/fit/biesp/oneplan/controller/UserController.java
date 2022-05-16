@@ -2,12 +2,15 @@ package fit.biesp.oneplan.controller;
 
 import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
+import fit.biesp.oneplan.model.LoginModel;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -19,8 +22,22 @@ public class UserController {
     public ResponseEntity registration(@RequestBody UserRegistrationModel userModel){
         try{
             userService.registration(userModel);
-            return ResponseEntity.ok(true);
+            return ResponseEntity.ok("User created!");
         } catch (UserAlreadyExistsException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody LoginModel loginModel){
+        try{
+            var password = userService.getPassword(loginModel.getNickname());
+            var user = userService.getUser(loginModel.getNickname());
+            if (!Objects.equals(password, loginModel.getPassword())) {
+                return ResponseEntity.badRequest().body("invalid nickname or password");
+            }
+            return ResponseEntity.ok(user.getId());
+        } catch ( UserNotFoundException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

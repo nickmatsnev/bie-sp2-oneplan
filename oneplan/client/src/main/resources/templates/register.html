@@ -61,6 +61,9 @@
     <div class="navigation">
     </div>
     <form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">
+<!--        <div class = "alert alert-warning">-->
+<!--            <span th:text ="${error}"></span>-->
+<!--        </div>-->
         <ol class="questions">
             <span><label for="uname">Choose username:</label></span>
             <input id="uname" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}"/>

@@ -8,7 +8,7 @@ Accept: application/json
 
 ###
 
-POST http://localhost:8086/users/
+POST http://localhost:8085/users/
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8086/locations/all
+GET http://localhost:8085/locations/all
 Accept: application/json
 
 
@@ -62,4 +62,16 @@ Content-Type: application/json
   "date": "2002-05-01",
   "time": "01:01:01",
   "capacity": 1
+}
+
+
+
+###
+
+POST http://localhost:8085/users/login
+Content-Type: application/json
+
+{
+  "nickname": "nurazybr",
+  "password": "1234"
 }
