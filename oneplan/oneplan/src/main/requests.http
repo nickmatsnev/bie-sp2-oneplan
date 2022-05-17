@@ -45,14 +45,12 @@ Accept: application/json
 
 ###
 
-POST http://localhost:8086/events
+POST http://localhost:8085/events
 Content-Type: application/json
 
 {
   "location": {
-    "name": "4",
-    "address": "4",
-    "coordinates": "4"
+    "id": "186"
   },
   "organiser": {
     "id": 1
@@ -73,5 +71,10 @@ Content-Type: application/json
 
 {
   "nickname": "nurazybr",
-  "password": "1234"
+  "password": "2323"
 }
+
+###
+
+GET http://localhost:8085/locations/186
+Content-Type: application/json

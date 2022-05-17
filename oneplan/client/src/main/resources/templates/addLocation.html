@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<h1>Create a new profile</h1>
+<h1>Create a new location</h1>
 
 </body>
 </html>
@@ -60,17 +60,17 @@
 <div class="container">
     <div class="navigation">
     </div>
-    <form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">
+    <form class="sign-form" method="post" action = "#" th:action = "@{/create-location}" th:object = "${locationModel}">
         <ol class="questions">
-            <span><label for="uname">Choose username:</label></span>
-            <input id="uname" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}"/>
-            <span><label for="email">Enter you email</label></span>
-            <input id="email" name="email" type="text" placeholder="Email" required="required" autofocus th:field = "*{email}"/>
-            <span><label for="password">Choose a password</label></span>
-            <input id="password" name="password" type="password" placeholder="Enter a password" required="required" autofocus th:field = "*{password}"/>
+            <span><label for="name">Choose a name:</label></span>
+            <input id="name" name="locationname" type="text" placeholder="Enter the name" required="required" autofocus th:field = "*{name}"/>
+            <span><label for="address">Enter the address:</label></span>
+            <input id="address" name="address" type="text" placeholder="Enter the address" required="required" autofocus th:field = "*{address}"/>
+            <span><label for="coordinates">Enter the coordinates:</label></span>
+            <input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" required="required" autofocus th:field = "*{coordinates}"/>
             <p style="margin-top: 20px;font-size: 25pt;float:right">
         </ol>
-        <div><button type="submit" >REGISTER</button></div>
-<!--        <center><div><a href ="/users/home">enter to the homepage</a></div></center>-->
+        <div><button type="submit" >CREATE</button></div>
+        <!--        <center><div><a href ="/users/home">enter to the homepage</a></div></center>-->
     </form>
 </div>

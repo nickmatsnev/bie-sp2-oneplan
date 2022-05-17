@@ -9,51 +9,45 @@
 </head>
 <body>
 
-<h1>OnePlan</h1>
+<h1 th:text = "${locationModel}"></h1>
 
 </body>
 </html>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Home Page </title>
+<title> Login Page </title>
 <style>
     Body {
         font-family: Calibri, Helvetica, sans-serif;
         background-color: white;
     }
-
-    img {
-        display: block;
-        max-width: 100%;
-    }
-
-
-    #eventButton {
+    button {
         font-style: normal;
         font-weight: 500;
-        font-size: 15px;
-        line-height: 36px;
-        height: 45px;
-        color: #d75f00;
-        align-items: center;
+        font-size: 20px;
+        line-height: 50px;
+        height: 55px;
+        color: #2945FF;
         /* Rectangle 2 */
         box-sizing: border-box;
         position: absolute;
-        left: 40.07%;
-        right: 40.07%;
-        border: 3px solid #d75f00;
+        left: 31.07%;
+        right: 31.07%;
+        border: 1px solid #2945FF;
         border-radius: 30px;
         background-color: white;
-        top: 10%;
     }
+
     button:hover {
         opacity: 0.7;
     }
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        margin: 10px 5px;
+    }
 
 </style>
-
 <form action="/create-event">
-    <div><button id ="eventButton" type="submit">NEW EVENT</button></div>
+    <div><button id ="signupButton" type="submit">go back</button></div>
 </form>
-
-
