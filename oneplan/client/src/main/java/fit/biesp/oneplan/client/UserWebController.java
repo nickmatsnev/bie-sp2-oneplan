@@ -26,6 +26,15 @@ public class UserWebController {
         this.userClient = userClient;
     }
 
+    @GetMapping("")
+    public String emptyUrl(Model model ) {
+        if (currentUser == null) {
+            return "redirect:/login";
+        } else {
+            return "redirect:/home";
+        }
+    }
+
     @GetMapping("/home")
     public String addHomeRender(Model model ) {
         if (currentUser == null){
