@@ -10,7 +10,10 @@ import fit.biesp.oneplan.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -72,5 +75,10 @@ public class EventService {
         }
         return message.toString();
     }
+
+//    public Collection<EventModel> getUserEvents(Long organiserId) {
+//        Set<EventModel> eventEntitySet = new HashSet<>();
+//        return eventEntitySet;
+//    }
 
 }

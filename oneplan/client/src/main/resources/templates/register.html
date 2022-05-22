@@ -38,6 +38,24 @@
         background-color: white;
     }
 
+    #returnButton {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 50px;
+        height: 55px;
+        color: #d75f00;
+        /* Rectangle 2 */
+        box-sizing: border-box;
+        position: absolute;
+        left: 40.07%;
+        right: 40.07%;
+        border: 3px solid #d75f00;
+        border-radius: 30px;
+        background-color: white;
+        top: 65%;
+    }
+
     input[type=text], input[type=password] {
         width: 100%;
         margin: 8px 0;
@@ -61,6 +79,7 @@
     <div class="navigation">
     </div>
     <form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">
+        <div class = "alert alert-warning" th:if="${userRegistrationSubmit}" th:text="${userRegistrationSubmit}"></div>
         <ol class="questions">
             <span><label for="uname">Choose username:</label></span>
             <input id="uname" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}"/>
@@ -74,3 +93,8 @@
 <!--        <center><div><a href ="/users/home">enter to the homepage</a></div></center>-->
     </form>
 </div>
+
+<form action="/login">
+    <div ><button  id ="returnButton" type="submit">RETURN</button></div>
+</form>
+

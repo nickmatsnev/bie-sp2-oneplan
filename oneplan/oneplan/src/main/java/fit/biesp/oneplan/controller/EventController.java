@@ -6,6 +6,7 @@ import fit.biesp.oneplan.exception.EventIsMissingException;
 import fit.biesp.oneplan.exception.LocationIsMissingException;
 import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.service.EventService;
+import fit.biesp.oneplan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,4 +61,13 @@ public class EventController {
             return ResponseEntity.badRequest().body("Couldn't delete event");
         }
     }
+//
+//    @GetMapping("/user")
+//    public ResponseEntity getUserEvents(@RequestBody Long organiserId) {
+//        try {
+//            return ResponseEntity.ok(EventService.getUserEvents(organiserId));
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("Error while trying to list events. " + e.getMessage());
+//        }
+//    }
 }

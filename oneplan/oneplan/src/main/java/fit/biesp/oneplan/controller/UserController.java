@@ -24,7 +24,7 @@ public class UserController {
             userService.registration(userModel);
             return ResponseEntity.ok("User created!");
         } catch (UserAlreadyExistsException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(e.getMessage());
         }
     }
 
@@ -34,11 +34,11 @@ public class UserController {
             var password = userService.getPassword(loginModel.getNickname());
             var user = userService.getUser(loginModel.getNickname());
             if (!Objects.equals(password, loginModel.getPassword())) {
-                return ResponseEntity.badRequest().body("invalid nickname or password");
+                return ResponseEntity.ok().body("invalid nickname or password");
             }
             return ResponseEntity.ok(user.getId());
         } catch ( UserNotFoundException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok().body(e.getMessage());
         }
     }
 

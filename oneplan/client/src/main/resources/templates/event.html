@@ -63,13 +63,13 @@
         font-size: 20px;
         line-height: 50px;
         height: 55px;
-        color: #2945FF;
+        color: #d75f00;
         /* Rectangle 2 */
         box-sizing: border-box;
         position: absolute;
         left: 40.07%;
         right: 40.07%;
-        border: 1px solid #2945FF;
+        border: 3px solid #d75f00;
         border-radius: 30px;
         background-color: white;
         top: 64%;
@@ -126,7 +126,7 @@
     <form class="sign-form" method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
         <tr class="questions">
             <div class="form-group blu-margin">
-                <select class="form-control" th:field="*{location.id}" id="dropOperator">
+                <select class="form-control" data-live-search="true" th:field="*{location.id}" id="dropOperator">
                     <option value="0">select location</option>
                     <option th:each="locations : ${locations}" th:value ="${locations.id}" th:text="${locations.address}">
                     </option>

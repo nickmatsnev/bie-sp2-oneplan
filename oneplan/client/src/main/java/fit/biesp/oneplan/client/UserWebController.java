@@ -54,11 +54,15 @@ public class UserWebController {
     @PostMapping("/login")
     public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) {
         currentUser = loginModel;
-        var id = model.addAttribute("loginModel", userClient.login(loginModel));
-        //userClient.login(loginModel);
-        model.addAttribute("currentId", currentId);
-        System.out.println(currentId);
-        return "home";
+        try {
+            model.addAttribute("loginModel", userClient.login(loginModel));
+            return "home";
+        } catch (Exception e){
+            model.addAttribute("loginModel", e);
+            return "redirect:/welcome";
+        }
+
+        //return "home";
     }
 
     @GetMapping("/registration")
@@ -68,16 +72,16 @@ public class UserWebController {
         return "register";
     }
 
-
     @PostMapping("/registration")
     public String addUserSubmit(Model model, @ModelAttribute UserRegistrationModel userRegistrationModel) {
         System.out.println("addsuserSubmitted");
         try {
-            model.addAttribute("userRegistrationDto", userClient.create(userRegistrationModel));
-        } catch(HttpClientErrorException.BadRequest e) {
-            model.addAttribute("userRegistrationDto", e);
+            model.addAttribute("userRegistrationSubmit", userClient.create(userRegistrationModel));
+        } catch(Exception e) {
+            model.addAttribute("userRegistrationSubmit", e);
         }
-        return "userexists";
+        model.addAttribute("userRegistrationDto", new UserRegistrationModel());
+        return "register";
     }
 
     @GetMapping("/create-location")
