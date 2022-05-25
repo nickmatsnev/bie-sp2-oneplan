@@ -9,7 +9,6 @@ import fit.biesp.oneplan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Objects;
 
 @RestController
@@ -62,6 +61,7 @@ public class UserController {
 //        }
 //    }
 
+
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@RequestBody UserModel userModel, @PathVariable("id") String nickname) {
         try {
@@ -81,6 +81,15 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }catch (Exception e){
             return  ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @GetMapping("/{id}/events")
+    public ResponseEntity getEvents(@PathVariable("id") String nickname) {
+        try{
+            return ResponseEntity.ok(userService.getOrganized(nickname));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
         }
     }
 

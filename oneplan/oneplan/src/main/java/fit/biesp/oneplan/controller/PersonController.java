@@ -58,4 +58,13 @@ public class PersonController {
             return  ResponseEntity.badRequest().body("Error");
         }
     }
+
+    @GetMapping("/{id}/toAttend")
+    public ResponseEntity getToAttend(@PathVariable("id") Long id) {
+        try{
+            return ResponseEntity.ok(personService.getToAttend(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
 }

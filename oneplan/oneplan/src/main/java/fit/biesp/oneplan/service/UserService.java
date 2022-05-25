@@ -1,13 +1,17 @@
 package fit.biesp.oneplan.service;
 
+import fit.biesp.oneplan.entity.EventEntity;
 import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
+import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Collection;
+import java.util.HashSet;
 
 @Service
 public class UserService {
@@ -61,5 +65,13 @@ public class UserService {
 
         userRepository.deleteById(id);
         return id;
+    }
+
+    public Collection<EventEntity> getOrganized(String nickname) throws UserNotFoundException {
+        if(userRepository.findByNickname(nickname) == null)
+            throw new UserNotFoundException("User not found!");
+
+        var user = userRepository.findByNickname(nickname);
+        return user.getEvents();
     }
 }
