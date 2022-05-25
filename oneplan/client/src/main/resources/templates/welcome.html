@@ -36,7 +36,26 @@
 
     img {
         display: block;
-        max-width: 100%;
+        max-width: 47.52%;
+    }
+
+    #image{
+        position: absolute;
+        left: 0;
+
+        top: 0;
+        z-index: -1;
+    }
+
+    .rectangle {
+        position: absolute;
+        left: 0%;
+        right: 0%;
+        top: 50.55%;
+        bottom: 0%;
+
+        background: rgba(218, 149, 45, 0.66);
+        border-radius: 49px;
     }
 
     #loginButton {
@@ -51,10 +70,12 @@
         position: absolute;
         left: 31.07%;
         right: 31.07%;
-        border: 1px solid #2945FF;
+        top: 75.43%;
+        bottom: 22.68%;
+        border: 3px solid #2945FF;
         border-radius: 30px;
-        background-color: white;
-        top: 26%;
+        /*background-color: white;*/
+        background-color: #ffeed6;
     }
 
     #signupButton {
@@ -68,12 +89,14 @@
         /* Rectangle 2 */
         box-sizing: border-box;
         position: absolute;
-        left: 40.07%;
-        right: 40.07%;
+        left: 35.75%;
+        right: 35.75%;
+        top: 84.02%;
+        bottom: 12.1%;
         border: 3px solid #d75f00;
         border-radius: 30px;
-        background-color: white;
-        top: 35%;
+        /*background-color: white;*/
+        background-color: #ffeed6;
     }
     input[type=text], input[type=password] {
         width: 60%;
@@ -82,23 +105,34 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        border: 1px solid #2945FF;
+        border: 2px solid #2945FF;
         box-sizing: content-box;
         border-radius: 10px;
         position: center;
+        bottom: 10%;
+        background-color: #ffeed6;
     }
     button:hover {
         opacity: 0.7;
     }
 
-</style>
+    #login {
+        width: 97.5%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        position: absolute;
+        bottom: 25.1%;
 
+    }
+
+</style>
+<div class="rectangle"></div>
 <form class="sign-form" method="post" action = "#" th:action = "@{/login}" th:object = "${loginModel}" >
     <tr class="questions">
-        <ol class="questions">
+        <ol id = "login" class="questions">
             <input id="nickname" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}"/>
             <input id="password" name="password" type="password" placeholder="Enter a password" required="required" autofocus th:field = "*{password}"/>
-            <p style="margin-top: 20px;font-size: 25pt;float:right">
         </ol>
         <div><button id ="loginButton" type="submit">LOGIN</button></div>
 </form>
@@ -108,3 +142,4 @@
     <div><button id ="signupButton" type="submit">SIGN UP</button></div>
 </form>
 
+<img id = "image" src="https://blush-design.imgix.net/collections/shiny-happy-people/c0c0cf87-a577-4a45-b133-7d237b4cc3e8.png?auto=compress&cs=srgb" alt="">

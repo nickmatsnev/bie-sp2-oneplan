@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 import javax.xml.stream.Location;
+import java.util.Objects;
 
 @Controller
 public class UserWebController {
@@ -40,6 +41,7 @@ public class UserWebController {
         if (currentUser == null){
             return "redirect:/login";
         }
+        model.addAttribute("username", currentUser);
         System.out.println("addhome");
         return "home";
     }
@@ -54,14 +56,8 @@ public class UserWebController {
     @PostMapping("/login")
     public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) {
         currentUser = loginModel;
-        try {
-            model.addAttribute("loginModel", userClient.login(loginModel));
-            return "home";
-        } catch (Exception e){
-            model.addAttribute("loginModel", e);
-            return "redirect:/welcome";
-        }
-
+        model.addAttribute("loginModel", userClient.login(loginModel));
+        return "redirect:/home";
         //return "home";
     }
 
@@ -75,11 +71,12 @@ public class UserWebController {
     @PostMapping("/registration")
     public String addUserSubmit(Model model, @ModelAttribute UserRegistrationModel userRegistrationModel) {
         System.out.println("addsuserSubmitted");
-        try {
-            model.addAttribute("userRegistrationSubmit", userClient.create(userRegistrationModel));
-        } catch(Exception e) {
-            model.addAttribute("userRegistrationSubmit", e);
+        if (!Objects.equals(userRegistrationModel.getPassword(), userRegistrationModel.getPasswordConfirm())){
+            model.addAttribute("userRegistrationSubmit", "Passwords don't match");
+            model.addAttribute("userRegistrationDto", new UserRegistrationModel());
+            return "register";
         }
+        model.addAttribute("userRegistrationSubmit", userClient.create(userRegistrationModel));
         model.addAttribute("userRegistrationDto", new UserRegistrationModel());
         return "register";
     }

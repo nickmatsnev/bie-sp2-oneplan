@@ -9,10 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationModel {
+public class FriendModel {
     private Long id;
     private String nickname;
     private String email;
-    private String password;
-    private String passwordConfirm;
 }
