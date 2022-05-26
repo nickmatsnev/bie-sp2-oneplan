@@ -124,9 +124,8 @@
     #createText {
         position: absolute;
         left: 11.21%;
-        right: 66.59%;
-        top: 13.07%;
-        bottom: 81.75%;
+        top: 11.45%;
+        bottom: 76.13%;
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
@@ -137,9 +136,8 @@
     #eventsText {
         position: absolute;
         left: 11.21%;
-        right: 66.59%;
-        top: 13.07%;
-        bottom: 81.75%;
+        top: 11.45%;
+        bottom: 76.13%;
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
@@ -170,10 +168,21 @@
     }
     #invitationsText{
         position: absolute;
-        left: 9.58%;
-        right: 66.12%;
-        top: 28.29%;
-        bottom: 66.52%;
+        left: 11.21%;
+        top: 11.45%;
+        bottom: 76.13%;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 24px;
+        color: #2945FF;
+    }
+
+    #networkText{
+        position: absolute;
+        left: 11.21%;
+        top: 11.45%;
+        bottom: 76.13%;
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
@@ -204,7 +213,7 @@
 <span th:text ="${loginModel}"></span>
 <!--<span th:text ="${loginModel}"></span>-->
 <form action="/create-event">
-    <div><button id ="createButton" type="submit"><div id = "createText"> Create an<br>event</div></button></div>
+    <div><button id ="createButton" type="submit"><div id = "createText"> Create an event</div></button></div>
 </form>
 
 <form action="/#">
@@ -212,11 +221,11 @@
 </form>
 
 <form action="/#">
-    <div><button id ="invitationsButton" type="submit"><div id = "invitationsText">Incoming <br>invitations</div> </button></div>
+    <div><button id ="invitationsButton" type="submit"><div id = "invitationsText">Incoming invitations</div> </button></div>
 </form>
 
 <form action="/#">
-    <div><button id ="networkButton" type="submit">My network</button></div>
+    <div><button id ="networkButton" type="submit"><div id = "networkText"> My network</div></dib></button></div>
 </form>
 
 <form action="/#">
