@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -67,11 +69,16 @@ public class UserService {
         return id;
     }
 
-    public Collection<EventEntity> getOrganized(String nickname) throws UserNotFoundException {
+    public Collection<EventModel> getOrganized(String nickname) throws UserNotFoundException {
         if(userRepository.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");
 
         var user = userRepository.findByNickname(nickname);
-        return user.getEvents();
+        Set<EventModel> events = new HashSet<>();
+        for(Iterator<EventEntity> it = user.getEvents().iterator(); it.hasNext(); ){
+            EventEntity x = it.next();
+            events.add(EventModel.toModel(x));
+        }
+        return events;
     }
 }
