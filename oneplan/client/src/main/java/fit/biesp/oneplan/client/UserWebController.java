@@ -1,28 +1,22 @@
 package fit.biesp.oneplan.client;
 
-import fit.biesp.oneplan.client.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.client.models.EventModel;
 import fit.biesp.oneplan.client.models.LocationModel;
 import fit.biesp.oneplan.client.models.LoginModel;
 import fit.biesp.oneplan.client.models.UserRegistrationModel;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.reactive.function.client.WebClientException;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.xml.stream.Location;
 import java.util.Objects;
 
 @Controller
 public class UserWebController {
     private final UserClient userClient;
-    String currentId = null;
     LoginModel currentUser;
-    LocationModel locatinn;
     public UserWebController(UserClient userClient) {
         this.userClient = userClient;
     }
@@ -126,5 +120,21 @@ public class UserWebController {
         System.out.println("xuy3");
         model.addAttribute("eventModel", userClient.createEvent(eventModel));
         return "eventCreated";
+    }
+
+    @GetMapping("/get-location")
+    public String getLocationRender(Mono<LocationModel> locationModel, Model model) {
+
+        locationModel = userClient.getOneLocation(186L);
+        model.addAttribute("locations", locationModel);
+        return "showloc";
+    }
+
+    @GetMapping("/get-events")
+    public String getUserEvents(Flux<EventModel> eventsModel, Model model) {
+
+        eventsModel = userClient.getUserEvents(currentUser.getNickname());
+        model.addAttribute("locations", eventsModel);
+        return "showloc";
     }
 }

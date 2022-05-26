@@ -68,6 +68,13 @@ public class UserClient {
                 .bodyToFlux(LocationModel.class); // interpret response body as a collection
     }
 
+    public Flux<EventModel> getUserEvents(String nickname) {
+        return userWebClient.get()
+                .uri("/users/{id}/events", nickname)
+                .retrieve() // request specification finished
+                .bodyToFlux(EventModel.class); // interpret response body as a collection
+    }
+
     public Mono<LocationModel> getOneLocation(Long newid) {
         return userWebClient.get()
                 .uri("/locations/{id}", newid)
