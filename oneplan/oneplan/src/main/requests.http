@@ -78,3 +78,12 @@ Content-Type: application/json
 
 GET http://localhost:8085/locations/186
 Content-Type: application/json
+
+###
+
+
+GET http://localhost:8085/users/matvey/events
+Content-Type: application/json
+
+
+###

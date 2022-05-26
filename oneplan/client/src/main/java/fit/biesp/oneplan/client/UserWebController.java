@@ -131,10 +131,14 @@ public class UserWebController {
     }
 
     @GetMapping("/get-events")
-    public String getUserEvents(Flux<EventModel> eventsModel, Model model) {
+    public String getUserEvents(Model model) {
 
-        eventsModel = userClient.getUserEvents(currentUser.getNickname());
-        model.addAttribute("locations", eventsModel);
-        return "showloc";
+        //Flux<EventModel> eventsModel = userClient.getUserEvents(currentUser.getNickname());
+        model.addAttribute("events", userClient.getUserEvents(currentUser.getNickname()));
+        return "eventsList";
+    }
+    @GetMapping("/profile")
+    public String getProfileRender() {
+        return "about";
     }
 }
