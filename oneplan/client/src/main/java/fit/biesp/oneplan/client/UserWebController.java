@@ -17,6 +17,7 @@ import java.util.Objects;
 public class UserWebController {
     private final UserClient userClient;
     LoginModel currentUser;
+    Long eventId;
     public UserWebController(UserClient userClient) {
         this.userClient = userClient;
     }
@@ -124,7 +125,9 @@ public class UserWebController {
 
     @GetMapping("/get-location")
     public String getLocationRender(Mono<LocationModel> locationModel, Model model) {
-
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         locationModel = userClient.getOneLocation(186L);
         model.addAttribute("locations", locationModel);
         return "showloc";
@@ -132,13 +135,35 @@ public class UserWebController {
 
     @GetMapping("/get-events")
     public String getUserEvents(Model model) {
-
+        if (currentUser == null){
+            return "redirect:/login";
+        }
         //Flux<EventModel> eventsModel = userClient.getUserEvents(currentUser.getNickname());
         model.addAttribute("events", userClient.getUserEvents(currentUser.getNickname()));
+        model.addAttribute("eventId", eventId);
         return "eventsList";
     }
     @GetMapping("/profile")
     public String getProfileRender() {
-        return "about";
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        return "profile";
+    }
+
+    @PostMapping("/get-events")
+    public String getEventDetails(Model model, @ModelAttribute EventModel eventModel) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("details", userClient.getOneEvent(eventModel.getId()));
+        model.addAttribute("eventId", eventId);
+        return "eventDetails";
+    }
+
+    @GetMapping("/logout")
+    public String profileLogout() {
+        currentUser = null;
+        return "redirect:/login";
     }
 }

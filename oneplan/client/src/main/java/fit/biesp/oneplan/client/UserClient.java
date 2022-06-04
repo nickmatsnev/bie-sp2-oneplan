@@ -3,6 +3,7 @@ import fit.biesp.oneplan.client.models.EventModel;
 import fit.biesp.oneplan.client.models.LocationModel;
 import fit.biesp.oneplan.client.models.LoginModel;
 import fit.biesp.oneplan.client.models.UserRegistrationModel;
+import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -80,6 +81,13 @@ public class UserClient {
                 .uri("/locations/{id}", newid)
                 .retrieve() // request specification finished
                 .bodyToMono(LocationModel.class);
+    }
+
+    public Mono<EventModel> getOneEvent(Long newid) {
+        return userWebClient.get()
+                .uri("/events/{id}", newid)
+                .retrieve() // request specification finished
+                .bodyToMono(EventModel.class);
     }
 
 
