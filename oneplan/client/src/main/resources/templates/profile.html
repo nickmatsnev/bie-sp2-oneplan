@@ -19,7 +19,7 @@
         font-family: Calibri, Helvetica, sans-serif;
         background-color: white;
     }
-    button {
+    #signupButton {
         font-style: normal;
         font-weight: 500;
         font-size: 20px;
@@ -31,7 +31,26 @@
         position: absolute;
         left: 31.07%;
         right: 31.07%;
+        top: 30%;
         border: 3px solid #d75f00;
+        border-radius: 30px;
+        background-color: white;
+    }
+
+    #logoutButton {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 50px;
+        height: 55px;
+        color: #2945FF;
+        /* Rectangle 2 */
+        box-sizing: border-box;
+        position: absolute;
+        left: 31.07%;
+        right: 31.07%;
+        top: 10%;
+        border: 4px solid #2945FF;
         border-radius: 30px;
         background-color: white;
     }
@@ -68,7 +87,7 @@
 
     /* Add a color to the active/current link */
     .topnav a.active {
-        background-color: #04AA6D;
+        background-color: #2945FF;
         color: white;
     }
 
@@ -79,8 +98,16 @@
     <a href="/get-events">My events</a>
     <a href="/create-event">Create event</a>
     <a href="/create-location">New location</a>
-    <a class="active"  href="/profile">Profile</a>
+    <a class="active" href="/profile">Profile</a>
+    <a href ="/about">About Us</a>
 </div>
+
 <form action="/home">
     <div><button id ="signupButton" type="submit">RETURN</button></div>
 </form>
+
+<form action="/logout">
+    <div><button id ="logoutButton" type="submit">LOGOUT</button></div>
+</form>
+
+

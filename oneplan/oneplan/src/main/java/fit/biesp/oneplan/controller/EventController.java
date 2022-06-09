@@ -21,7 +21,7 @@ public class EventController {
     public ResponseEntity createEvent(@RequestBody EventModel event) {
         try {
             var message = eventService.createEvent(event);
-            return ResponseEntity.ok("Event created. " + message);
+            return ResponseEntity.ok("" + message);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Event creation error. " + e.getMessage());
         }

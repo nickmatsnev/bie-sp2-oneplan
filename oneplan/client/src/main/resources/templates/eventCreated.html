@@ -9,8 +9,6 @@
 </head>
 <body>
 
-<h1 th:text = "${eventModel}"></h1>
-
 </body>
 </html>
 
@@ -73,7 +71,7 @@
 
   /* Add a color to the active/current link */
   .topnav a.active {
-    background-color: #04AA6D;
+    background-color: #2945FF;
     color: white;
   }
 
@@ -85,7 +83,10 @@
   <a class="active" href="/create-event">Create event</a>
   <a href="/create-location">New location</a>
   <a href="/profile">Profile</a>
+  <a href="/about">About Us</a>
 </div>
+
+<h1 th:text = "${eventModel}"></h1>
 
 <form action="/home">
   <div><button id ="button" type="submit">RETURN</button></div>

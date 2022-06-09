@@ -15,12 +15,13 @@ import reactor.core.publisher.Mono;
 @Component
 public class UserClient {
     private final WebClient userWebClient;
+    /// base url of server;
     public UserClient(@Value("http://localhost:8085") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
 
-    public Mono<String> create(UserRegistrationModel newUser) {
+    public Mono<String> create(UserRegistrationModel newUser) { /// api request builder for creation of a new user
             return userWebClient.post()
                     .uri("/users")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -34,7 +35,7 @@ public class UserClient {
                     .bodyToMono(String.class);
     }
 
-    public Mono<String> createLocation(LocationModel newLocation) {
+    public Mono<String> createLocation(LocationModel newLocation) { /// api request builder for the location creation
         return userWebClient.post()
                 .uri("/locations")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -48,7 +49,7 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Mono<String> login(LoginModel loginModel){
+    public Mono<String> login(LoginModel loginModel){ /// api request builder for logging in
         return userWebClient.post()
                 .uri("/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -62,28 +63,22 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Flux<LocationModel> getLocations() {
+    public Flux<LocationModel> getLocations() { /// api request builder for getting locations
         return userWebClient.get()
                 .uri("/locations/all")
                 .retrieve() // request specification finished
                 .bodyToFlux(LocationModel.class); // interpret response body as a collection
     }
 
-    public Flux<EventModel> getUserEvents(String nickname) {
+    public Flux<EventModel> getUserEvents(String nickname) { /// api request builder for getting the events
         return userWebClient.get()
                 .uri("/users/{id}/events", nickname)
                 .retrieve() // request specification finished
                 .bodyToFlux(EventModel.class); // interpret response body as a collection
     }
 
-    public Mono<LocationModel> getOneLocation(Long newid) {
-        return userWebClient.get()
-                .uri("/locations/{id}", newid)
-                .retrieve() // request specification finished
-                .bodyToMono(LocationModel.class);
-    }
 
-    public Mono<EventModel> getOneEvent(Long newid) {
+    public Mono<EventModel> getOneEvent(Long newid) { /// api request builder for getting the event details
         return userWebClient.get()
                 .uri("/events/{id}", newid)
                 .retrieve() // request specification finished
@@ -91,7 +86,7 @@ public class UserClient {
     }
 
 
-    public Mono<String> createEvent(EventModel newEvent) {
+    public Mono<String> createEvent(EventModel newEvent) { /// api request builder for event creation
         return userWebClient.post()
                 .uri("/events")
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML

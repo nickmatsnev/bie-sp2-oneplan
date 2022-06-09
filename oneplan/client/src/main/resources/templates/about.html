@@ -6,16 +6,120 @@
     </style>
     <title></title>
 
-    <link rel="stylesheet" type="text/css" href="styleabout.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
 </head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+    }
 
+    html {
+        box-sizing: border-box;
+    }
+
+    *,*:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 8px;
+    }
+
+    .about-section {
+        padding: 50px;
+        text-align: center;
+        background-color: #d75f00;
+        color: white;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .title {
+        color: grey;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #2945ff;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .button:hover {
+        background-color: #555;
+    }
+
+    @media screen and (max-width: 650px) {
+        .column {
+            width: 100%;
+            display: block;
+        }
+    }
+.topnav {
+background-color: #333;
+overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+float: left;
+color: #f2f2f2;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+background-color: #ddd;
+color: black;
+}
+
+
+/* Add a color to the active/current link */
+.topnav a.active {
+background-color: #2945FF;
+color: white;
+}
+
+</style>
+
+<div class="topnav">
+    <a href="/home">Home</a>
+    <a href="/get-events">My events</a>
+    <a href="/create-event">Create event</a>
+    <a href="/create-location">New location</a>
+    <a href="/profile">Profile</a>
+    <a class="active" href ="/about">About Us</a>
+</div>
 
 <div class="about-section">
     <h1>About Us Page...</h1>
     <p>ONE PLAN TEAM</p>
-    <p>this page is going to be "ABOUT USER"/profile page</p>
 </div>
 
 <h2 style="text-align:center">Our Team</h2>
@@ -63,7 +167,7 @@
         <div class="card">
             <!--       <img src="stasiosik.jpg" alt="kik" style="width:100%"> -->
             <div class="container">
-                <h2>stasiKarasik</h2>
+                <h2>ЭлектроСтасик</h2>
                 <p class="title">she is down</p>
                 <p>bla bla about kistas</p>
                 <p>rizaesta@cvut.cz</p>
