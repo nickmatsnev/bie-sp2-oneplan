@@ -24,13 +24,7 @@ public class EventService {
     private LocationService locationService;
 
     public String createEvent(EventModel event) throws LocationAlreadyExistsException, LocationIsMissingException {
-        // removed chek for existing event as it is not necessarily unique
-        // removed LocationIsMissingException as location is being created if missing
-//        if (event.getLocation().getId() == null) {
-//            var newLocation = locationService.postLocation(event.getLocation());
-//            event.setLocation(newLocation);
-//        }
-        var message = "event created";//getExistingEvents(event);
+        var message = "Event successfully created";
         eventRepository.save(EventModel.fromModel(event));
         return message;
     }

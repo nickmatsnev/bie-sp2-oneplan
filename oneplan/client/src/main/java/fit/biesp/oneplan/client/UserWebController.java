@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
-@Controller
+@Controller /// Controller class for the client, to get access from requests from browser
 public class UserWebController {
     private final UserClient userClient;
     LoginModel currentUser; /// model for the user login, saves the currently working user.
@@ -162,6 +162,18 @@ public class UserWebController {
 
     @GetMapping("/about") /// mapping to get the about page
     public String aboutPage() {
+        return "about";
+    }
+
+    @GetMapping("/change-password") /// mapping to get the password change page
+    public String passwordPage(Model model) {
+        model.addAttribute("password", new LoginModel());
+        return "about";
+    }
+
+    @PostMapping("/change-password") /// mapping to change the password in server
+    public String passwordChange(Model model, @ModelAttribute LoginModel loginModel) {
+        // need to check for old password and change for the new one, no need in update of nickname
         return "about";
     }
 }

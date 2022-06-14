@@ -9,8 +9,6 @@
 </head>
 <body>
 
-<h1 th:text = "${locationModel}"></h1>
-
 </body>
 </html>
 
@@ -78,12 +76,15 @@
 </style>
 
 <div class="topnav">
-    <a class="active" href="/home">Home</a>
+    <a href="/home">Home</a>
     <a href="/get-events">My events</a>
     <a href="/create-event">Create event</a>
-    <a href="/create-location">New location</a>
+    <a class="active" href="/create-location">New location</a>
     <a href="/about">About Us</a>
 </div>
+
+<h1 th:text = "${locationModel}"></h1>
+
 <form action="/create-event">
     <div><button id ="signupButton" type="submit">go back</button></div>
 </form>

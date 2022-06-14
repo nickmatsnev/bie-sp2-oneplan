@@ -31,7 +31,7 @@
         position: absolute;
         left: 31.07%;
         right: 31.07%;
-        top: 30%;
+        top: 40%;
         border: 3px solid #d75f00;
         border-radius: 30px;
         background-color: white;
@@ -49,10 +49,24 @@
         position: absolute;
         left: 31.07%;
         right: 31.07%;
-        top: 10%;
+        top: 30%;
         border: 4px solid #2945FF;
         border-radius: 30px;
         background-color: white;
+    }
+
+    #welcomeText{
+        position: absolute;
+        left: 9.58%;
+        right: 37.38%;
+        top: 15.48%;
+        bottom: 40.93%;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 24px;
+        /* identical to box height */
+        color: #2945FF;
     }
 
     button:hover {
@@ -101,6 +115,8 @@
     <a class="active" href="/profile">Profile</a>
     <a href ="/about">About Us</a>
 </div>
+
+<div id = "welcomeText" th:text = "'Username: ' + ${user.nickname} "></div>
 
 <form action="/home">
     <div><button id ="signupButton" type="submit">RETURN</button></div>

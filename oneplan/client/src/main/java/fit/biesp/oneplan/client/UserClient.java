@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
+@Component /// Class to convert the data from vrowser into api requests to server
 public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
