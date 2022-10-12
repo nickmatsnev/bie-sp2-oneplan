@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="iteration3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/documentation/iteration3/doc.zip!/" />
+      <root url="jar://$PROJECT_DIR$/documentation/iteration3/source.zip!/" />
+      <root url="jar://$PROJECT_DIR$/documentation/iteration3/client-doc.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

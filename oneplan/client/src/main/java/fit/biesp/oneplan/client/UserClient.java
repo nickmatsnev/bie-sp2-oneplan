@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
-    public UserClient(@Value("http://localhost:8085") String baseUrl) {
+    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
