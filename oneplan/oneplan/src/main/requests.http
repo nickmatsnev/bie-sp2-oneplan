@@ -1,0 +1,89 @@
+GET http://localhost:8086/users/?id=1
+Accept: application/json
+
+###
+
+GET http://localhost:8086/users/nurzybrs
+Accept: application/json
+
+###
+
+POST http://localhost:8085/users/
+Content-Type: application/json
+
+{
+  "nickname": "2",
+  "email": "2",
+  "password" : "2"
+}
+
+###
+
+POST http://localhost:8086/locations/
+Content-Type: application/json
+
+{
+  "name": "name",
+  "address": "somepaasword",
+  "coordinates": "ddd"
+}
+
+###
+
+POST http://localhost:8085/persons
+Content-Type: application/json
+
+{
+  "email": "someemail2"
+}
+
+###
+
+GET http://localhost:8085/locations/all
+Accept: application/json
+
+
+###
+
+POST http://localhost:8085/events
+Content-Type: application/json
+
+{
+  "location": {
+    "id": "186"
+  },
+  "organiser": {
+    "id": 1
+  },
+  "name": "4",
+  "description": "4",
+  "date": "2002-05-01",
+  "time": "01:01:01",
+  "capacity": 1
+}
+
+
+
+###
+
+POST http://localhost:8085/users/login
+Content-Type: application/json
+
+{
+  "nickname": "nurazybr",
+  "password": "2323"
+}
+
+###
+
+GET http://localhost:8085/locations/186
+Content-Type: application/json
+
+###
+
+
+GET http://localhost:8085/users/matvey/events
+Content-Type: application/json
+
+
+###
