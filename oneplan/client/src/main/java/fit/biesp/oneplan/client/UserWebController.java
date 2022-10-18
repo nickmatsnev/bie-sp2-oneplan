@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.client;
 
+import fit.biesp.oneplan.client.exception.UserNotFoundException;
 import fit.biesp.oneplan.client.models.EventModel;
 import fit.biesp.oneplan.client.models.LocationModel;
 import fit.biesp.oneplan.client.models.LoginModel;
@@ -40,11 +41,21 @@ public class UserWebController {
     }
 
     @PostMapping("/login") /// post mapping for sending to the server
-    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) {
+    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) throws Exception {
         currentUser = loginModel; /// assignment of the credentials to the current user
         /// attribute sending the loginModel to the server
-        model.addAttribute("loginModel", userClient.login(loginModel));
-        return "redirect:/home";
+        try {
+            model.addAttribute("loginModel", userClient.login(loginModel));
+            return "redirect:/home";
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public String handleAllException(Exception ex) {
+        return "invalidPassword";
     }
 
     @GetMapping("/home")    /// mapping for the home page

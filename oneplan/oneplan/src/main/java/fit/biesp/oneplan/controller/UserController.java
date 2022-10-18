@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.controller;
 
+import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
 import fit.biesp.oneplan.model.LoginModel;
@@ -7,8 +8,11 @@ import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Objects;
 
 @RestController
@@ -27,20 +31,23 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginModel loginModel){
-        try{
-            var password = userService.getPassword(loginModel.getNickname());
-            var user = userService.getUser(loginModel.getNickname());
-            if (!Objects.equals(password, loginModel.getPassword())) {
-                return ResponseEntity.ok().body("invalid nickname or password");
-            }
-            return ResponseEntity.ok(user.getId());
-        } catch ( UserNotFoundException e){
-            return ResponseEntity.ok().body(e.getMessage());
-        }
-    }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginModel loginModel) {
+        try {
+            boolean hasLoggedIn = userService.loginUser(loginModel.getNickname(), loginModel.getPassword());
+            if (!hasLoggedIn) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        UserEntity ent = userService.findByNickname(loginModel.getNickname());
+
+        return new ResponseEntity<>(
+                ent.getId().toString(),
+                HttpStatus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable("id") String nickname){
         try{
