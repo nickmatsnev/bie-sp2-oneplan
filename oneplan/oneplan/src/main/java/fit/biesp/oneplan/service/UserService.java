@@ -81,4 +81,21 @@ public class UserService {
         }
         return events;
     }
+
+    public boolean loginUser(String nickname, String password) {
+        UserEntity user = findOrThrow(nickname);
+        return password.equals(user.getPassword());
+    }
+
+    public UserEntity findByNickname(String nickname) {
+        return findOrThrow(nickname);
+    }
+    private UserEntity findOrThrow(String nickname) {
+        UserEntity optionalUser = userRepository.findByNickname(nickname);
+        if (optionalUser == null) {
+            throw new IllegalArgumentException();
+        }
+        return optionalUser;
+    }
+
 }
