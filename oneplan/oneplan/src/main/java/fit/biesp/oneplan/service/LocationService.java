@@ -45,6 +45,8 @@ public class LocationService {
         locationRepository.deleteById(id);
     }
 
+
+
     public List<EventModel> getEvents (String name) throws LocationIsMissingException {
         if (locationRepository.findByName(name) == null)
             throw new LocationIsMissingException("No location with name " + name + " exists");
