@@ -57,7 +57,7 @@ public class UserClient {
                 .bodyValue(loginModel)
                 .retrieve()
                 .onStatus(
-                        HttpStatus.BAD_REQUEST::equals,
+                        HttpStatus.UNAUTHORIZED::equals,
                         response -> response.bodyToMono(String.class).map(Exception::new)
                 )
                 .bodyToMono(String.class);
