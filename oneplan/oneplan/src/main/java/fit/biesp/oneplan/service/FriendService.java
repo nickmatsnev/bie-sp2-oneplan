@@ -11,6 +11,10 @@ public class FriendService {
     @Autowired
     private FriendRepository friendRepository;
 
+    public FriendEntity create(FriendEntity friend){
+        return friendRepository.save(friend);
+    }
+
     public FriendModel addFriend(FriendModel friendModel){
         return FriendModel.toModel(friendRepository.save(FriendModel.fromModel(friendModel)));
     }

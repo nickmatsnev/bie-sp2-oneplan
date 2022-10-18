@@ -90,8 +90,19 @@ public class UserService {
     public UserEntity findByNickname(String nickname) {
         return findOrThrow(nickname);
     }
+    public UserEntity findbyId(Integer id) {
+        return findOrThrow(id);
+    }
     private UserEntity findOrThrow(String nickname) {
         UserEntity optionalUser = userRepository.findByNickname(nickname);
+        if (optionalUser == null) {
+            throw new IllegalArgumentException();
+        }
+        return optionalUser;
+    }
+
+    private UserEntity findOrThrow(Integer id) {
+        UserEntity optionalUser = userRepository.findUserEntityById(id);
         if (optionalUser == null) {
             throw new IllegalArgumentException();
         }

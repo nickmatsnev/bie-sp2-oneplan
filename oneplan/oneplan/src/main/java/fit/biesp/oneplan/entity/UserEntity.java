@@ -15,9 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 public class UserEntity extends PersonEntity{
-    //@Id
-   // @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    //private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @NotNull
     @Column(name = "nickname")
