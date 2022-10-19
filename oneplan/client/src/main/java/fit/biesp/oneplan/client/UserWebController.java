@@ -165,6 +165,17 @@ public class UserWebController {
         return "eventDetails";
     }
 
+    @GetMapping("/get-one-event") /// mapping to open event details
+    public String getOneEvent(Model model, @ModelAttribute EventModel eventModel) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// getting the event model from the server
+        model.addAttribute("details", userClient.getOneEvent(4L));
+
+        return "eventDetails";
+    }
+
     @GetMapping("/logout") /// mapping to log out from the system
     public String profileLogout() {
         currentUser = null;
