@@ -126,9 +126,8 @@
         <td id ="date" th:text="${event.date}">date</td>
         <td id ="time" th:text="${event.time}">time</td>
         <td id ="address" th:text="${event.location.address}">address</td>
-        <td id ="id" th:text="${event.id}">id</td>
         <td><div>
-            <form action="/get-one-event">
+            <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
                 <div><button id="detailsButton" type="submit">DETAILS</button></div>
             </form>
         </div></td>
@@ -136,7 +135,7 @@
     </tbody>
 </table>
 
-
+<!--<form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">-->
 <form action="/home">
     <div><button id ="signupButton" type="submit">RETURN</button></div>
 </form>

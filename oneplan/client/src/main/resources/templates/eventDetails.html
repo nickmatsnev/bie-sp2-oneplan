@@ -19,6 +19,9 @@
         font-family: Calibri, Helvetica, sans-serif;
         background-color: white;
     }
+    #eventTable{
+        padding: 20px;
+    }
 
     #signupButton {
         font-style: normal;
@@ -35,6 +38,16 @@
         border-radius: 30px;
         background-color: white;
     }
+
+    #name, #name1, #address, #address1, #date, #date1, #time, #time1, #description, #description1, #organiser, #organiser1, #capacity, #capacity1 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 50px;
+        height: 55px;
+        color: #6b6a6a;
+    }
+
 
     button:hover {
         opacity: 0.7;
@@ -84,13 +97,46 @@
     <a href="/about">About Us</a>
 </div>
 
-<div th:text = "'Event Name:' + ${details.name}" ></div>
-<div th:text = "'Event Organiser:' + ${details.organiser.nickname}" ></div>
-<div th:text = "'Event Description:' + ${details.description}" ></div>
-<div th:text = "'Event Date:' + ${details.date}" ></div>
-<div th:text = "'Event Time:' + ${details.time}" ></div>
-<div th:text = "'Event Capacity:' + ${details.capacity}" ></div>
+<!--<div th:text = "'Event Name: ' + ${details.name}" ></div>-->
+<!--<div th:text = "'Event Organiser: ' + ${details.organiser.nickname}" ></div>-->
+<!--<div th:text = "'Event Description: ' + ${details.description}" ></div>-->
+<!--<div th:text = "'Event Date: ' + ${details.date}" ></div>-->
+<!--<div th:text = "'Event Time: ' + ${details.time}" ></div>-->
+<!--<div th:text = "'Event Location: ' + ${details.location.address}" ></div>-->
+<!--<div th:text = "'Event Capacity: ' + ${details.capacity}" ></div>-->
 
+<table class="table" id="eventTable">
+    <tbody>
+        <tr>
+            <th id ="name1">Name</th>
+            <td id ="name" th:text="${details.name}"></td>
+        </tr>
+        <tr>
+            <th id ="organiser1">Organiser</th>
+            <td id ="organiser" th:text="${details.organiser.nickname}"></td>
+        </tr>
+        <tr>
+            <th id ="description1">Description</th>
+            <td id ="description" th:text="${details.description}"></td>
+        </tr>
+        <tr>
+            <th id ="date1">Date</th>
+            <td id ="date" th:text="${details.date}"></td>
+        </tr>
+        <tr>
+            <th id ="time1">Time</th>
+            <td id ="time" th:text="${details.time}">ename</td>
+        </tr>
+        <tr>
+            <th id ="address1">Address</th>
+            <td id ="address" th:text="${details.location.address}"></td>
+        </tr>
+        <tr>
+            <th id ="capacity1">Capacity</th>
+            <td id ="capacity" th:text="${details.capacity}"></td>
+        </tr>
+    </tbody>
+</table>
 
 <form action="/get-events">
     <div><button id ="signupButton" type="submit">RETURN</button></div>
