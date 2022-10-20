@@ -52,7 +52,7 @@
         background-color: white;
     }
 
-    #name, #address, #date, #time, #ename, #edate, #elocation, #etime {
+    #name, #address, #date, #time, #ename, #edate, #elocation, #etime, #id, #eid {
         font-style: normal;
         font-weight: 500;
         font-size: 20px;
@@ -117,6 +117,7 @@
     <td id="edate">Event Date</td>
     <td id="etime">Event Time</td>
     <td id="elocation">Event location</td>
+    <td id="eid">Id</td>
     <td></td>
     </thead>
     <tbody>
@@ -125,14 +126,16 @@
         <td id ="date" th:text="${event.date}">date</td>
         <td id ="time" th:text="${event.time}">time</td>
         <td id ="address" th:text="${event.location.address}">address</td>
-        <td th:method="post" th:action="@{/details}" th:object="${event}"><div>
-            <button id ="detailsButton" type="submit">DETAILS</button>
+        <td><div>
+            <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
+                <div><button id="detailsButton" type="submit">DETAILS</button></div>
+            </form>
         </div></td>
     </tr>
     </tbody>
 </table>
 
-
+<!--<form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">-->
 <form action="/home">
     <div><button id ="signupButton" type="submit">RETURN</button></div>
 </form>

@@ -17,7 +17,6 @@ import java.util.Objects;
 public class UserWebController {
     private final UserClient userClient;
     LoginModel currentUser; /// model for the user login, saves the currently working user.
-    Long eventId;
     public UserWebController(UserClient userClient) {
         this.userClient = userClient;
     }
@@ -159,9 +158,19 @@ public class UserWebController {
         if (currentUser == null){
             return "redirect:/login";
         }
+        System.out.println(eventModel.getId() + "This is a Id of the printed value in event list");
         /// getting the event model from the server
-        model.addAttribute("details", userClient.getOneEvent(eventModel.getId()));
-        model.addAttribute("eventId", eventId);
+        return "eventDetails";
+    }
+
+    @GetMapping("/get-one-event/{id}") /// mapping to open event details
+    public String getOneEvent(Model model, @ModelAttribute EventModel eventModel, @PathVariable("id") Long id) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// getting the event model from the server
+        model.addAttribute("details", userClient.getOneEvent(id));
+
         return "eventDetails";
     }
 
