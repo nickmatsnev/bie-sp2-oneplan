@@ -48,7 +48,7 @@
         color: #2945FF;
         box-sizing: border-box;
         border: 3px solid #2945FF;
-        border-radius: 30px;
+        border-radius: 20px;
         background-color: white;
     }
 
@@ -98,6 +98,16 @@
         color: white;
     }
 
+    .topnav input[type=text] {
+        float: right;
+        padding: 6px;
+        border: none;
+        margin-top: 8px;
+        margin-right: 16px;
+        font-size: 17px;
+        border-radius: 5px;
+    }
+
 </style>
 
 <div class="topnav">
@@ -107,6 +117,7 @@
     <a href="/create-location">New location</a>
     <a href="/profile">Profile</a>
     <a href="/about">About Us</a>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
 </div>
 
 
@@ -117,7 +128,6 @@
     <td id="edate">Event Date</td>
     <td id="etime">Event Time</td>
     <td id="elocation">Event location</td>
-    <td id="eid">Id</td>
     <td></td>
     </thead>
     <tbody>
@@ -135,7 +145,30 @@
     </tbody>
 </table>
 
-<!--<form class="sign-form" method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">-->
 <form action="/home">
     <div><button id ="signupButton" type="submit">RETURN</button></div>
 </form>
+
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("eventTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

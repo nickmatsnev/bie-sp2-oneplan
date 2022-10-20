@@ -77,11 +77,35 @@ public class UserWebController {
 
     @PostMapping("/registration") /// post mapping to send the registering user credentials to the sever
     public String addUserSubmit(Model model, @ModelAttribute UserRegistrationModel userRegistrationModel) {
+
+
         /// if the password and password verification are not hte same throws error in the http
         if (!Objects.equals(userRegistrationModel.getPassword(), userRegistrationModel.getPasswordConfirm())){
             model.addAttribute("userRegistrationSubmit", "Passwords don't match");
             model.addAttribute("userRegistrationDto", new UserRegistrationModel());
             return "register";
+        }
+
+        if (userRegistrationModel.getPassword().length()<8)
+        {
+            model.addAttribute("userRegistrationSubmit", "Password should be at least 8 characters");
+            model.addAttribute("userRegistrationDto", new UserRegistrationModel());
+            return "register";
+        }
+
+        //      Checks each character to see if it is acceptable.
+        for (int i = 0; i < userRegistrationModel.getPassword().length(); i++){
+            char c = userRegistrationModel.getPassword().charAt(i);
+
+            if (       ('a' <= c && c <= 'z') // Checks if it is a lower case letter
+                    || ('A' <= c && c <= 'Z') //Checks if it is an upper case letter
+                    || ('0' <= c && c <= '9')){ //Checks to see if it is a digit
+
+                model.addAttribute("userRegistrationSubmit", "Password should contain at least 1 lower case, 1 uppercase letter and 1 digit");
+                model.addAttribute("userRegistrationDto", new UserRegistrationModel());
+                return "register";
+            }
+
         }
         /// sending the registration model to the server
         model.addAttribute("userRegistrationSubmit", userClient.create(userRegistrationModel));
