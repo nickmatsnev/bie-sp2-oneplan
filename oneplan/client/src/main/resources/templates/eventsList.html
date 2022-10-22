@@ -1,174 +1,100 @@
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        h1 {text-align: center;}
-    </style>
-    <title></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
-</head>
-<body>
-</body>
-</html>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("eventTable");
+            tr = table.getElementsByTagName("tr");
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Login Page </title>
-<style>
-    Body {
-        font-family: Calibri, Helvetica, sans-serif;
-        background-color: white;
-    }
-    #eventTable{
-        padding: 20px;
-    }
-
-
-    #signupButton {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #d75f00;
-        box-sizing: border-box;
-        position: absolute;
-        left: 31.07%;
-        right: 31.07%;
-        border: 3px solid #d75f00;
-        border-radius: 30px;
-        background-color: white;
-    }
-
-    #detailsButton {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #2945FF;
-        box-sizing: border-box;
-        border: 3px solid #2945FF;
-        border-radius: 20px;
-        background-color: white;
-    }
-
-    #name, #address, #date, #time, #ename, #edate, #elocation, #etime, #id, #eid {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #6b6a6a;
-    }
-
-    button:hover {
-        opacity: 0.7;
-    }
-
-
-    blockquote {
-        color: white;
-        text-align: center;
-    }
-
-    .topnav {
-        background-color: #333;
-        overflow: hidden;
-    }
-
-    /* Style the links inside the navigation bar */
-    .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-    }
-
-    /* Change the color of links on hover */
-    .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-
-    /* Add a color to the active/current link */
-    .topnav a.active {
-        background-color: #2945FF;
-        color: white;
-    }
-
-    .topnav input[type=text] {
-        float: right;
-        padding: 6px;
-        border: none;
-        margin-top: 8px;
-        margin-right: 16px;
-        font-size: 17px;
-        border-radius: 5px;
-    }
-
-</style>
-
-<div class="topnav">
-    <a href="/home">Home</a>
-    <a class="active" href="/get-events">My events</a>
-    <a href="/create-event">Create event</a>
-    <a href="/create-location">New location</a>
-    <a href="/profile">Profile</a>
-    <a href="/about">About Us</a>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-</div>
-
-
-
-<table class="table" id="eventTable">
-    <thead>
-    <td id="ename">Event Name</td>
-    <td id="edate">Event Date</td>
-    <td id="etime">Event Time</td>
-    <td id="elocation">Event location</td>
-    <td></td>
-    </thead>
-    <tbody>
-    <tr th:each="event: ${events}">
-        <td id ="name" th:text="${event.name}">ename</td>
-        <td id ="date" th:text="${event.date}">date</td>
-        <td id ="time" th:text="${event.time}">time</td>
-        <td id ="address" th:text="${event.location.address}">address</td>
-        <td><div>
-            <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
-                <div><button id="detailsButton" type="submit">DETAILS</button></div>
-            </form>
-        </div></td>
-    </tr>
-    </tbody>
-</table>
-
-<form action="/home">
-    <div><button id ="signupButton" type="submit">RETURN</button></div>
-</form>
-
-<script>
-    function myFunction() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("eventTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
         }
-    }
-</script>
+    </script>
+</head>
+<body class="p-3 m-0 border-0 bd-example">
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><span style="color: blue;">O</span>nePlan</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Events
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/get-events">My events</a></li>
+                        <li><a class="dropdown-item" href="/create-event">Create event</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About us</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+            <div th:text = "'Welcome to OnePlan, ' + ${username.nickname}"></div>
+          </span>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/logout">Log out</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <table class="table" id="eventTable">
+        <thead>
+        <td id="ename">Event Name</td>
+        <td id="edate">Event Date</td>
+        <td id="etime">Event Time</td>
+        <td id="elocation">Event location</td>
+        <td></td>
+        </thead>
+        <tbody>
+        <tr th:each="event: ${events}">
+            <td id ="name" th:text="${event.name}">ename</td>
+            <td id ="date" th:text="${event.date}">date</td>
+            <td id ="time" th:text="${event.time}">time</td>
+            <td id ="address" th:text="${event.location.address}">address</td>
+            <td><div>
+                <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
+                    <div><button class="btn btn-primary btn-sm" type="submit">DETAILS</button></div>
+                </form>
+            </div></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

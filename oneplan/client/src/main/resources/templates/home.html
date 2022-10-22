@@ -1,276 +1,85 @@
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        h1 {text-align: center;}
-    </style>
-    <title></title>
-
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+<body class="p-3 m-0 border-0 bd-example">
 
-
-<body>
-
-
-<div class="overlay">
-    <img src = "images/img.jpg" alt="">
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><span style="color: blue;">O</span>nePlan</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Events
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/get-events">My events</a></li>
+                        <li><a class="dropdown-item" href="/create-event">Create event</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About us</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+            <div th:text = "'Welcome to OnePlan, ' + ${username.nickname}"></div>
+          </span>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/logout">Log out</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="https://blush-design.imgix.net/collections/shiny-happy-people/c0c0cf87-a577-4a45-b133-7d237b4cc3e8.png?auto=compress&cs=srgb" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block" style="background-color: white;">
+                    <h5>Incoming invitations</h5>
+                    <a class="btn btn-outline-success" href="/#">Go to invitations</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://blush-design.imgix.net/collections/shiny-happy-people/c0c0cf87-a577-4a45-b133-7d237b4cc3e8.png?auto=compress&cs=srgb" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block" style="background-color: white;">
+                    <h5>My network</h5>
+                    <a class="btn btn-outline-success" href="/#">Go to network</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 </div>
-
-
 </body>
 </html>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Home Page </title>
-<style>
-    Body {
-        font-family: Calibri, Helvetica, sans-serif;
-        background-color: white;
-    }
-
-    img {
-        display: block;
-        max-width: 100%;
-        position: absolute;
-        left: 7.01%;
-        right: 7.01%;
-        top: 64.9%;
-        bottom: 35.1%;
-    }
-
-    #eventsButton {
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-
-        color: #2945FF;
-        position: absolute;
-        left: 46.73%;
-        right: 7.01%;
-        top: 11.45%;
-        bottom: 76.13%;
-        border: 2px solid #2945FF;
-        background: #eef1fc;
-        border-radius: 30px;
-    }
-    #invitationsButton {
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-
-        color: #2945FF;
-        position: absolute;
-        left: 7.01%;
-        right: 64.25%;
-        top: 26.67%;
-        bottom: 60.91%;
-
-        border: 2px solid #2945FF;
-        background: #ffffff;
-        border-radius: 30px;
-    }
-
-    #networkButton {
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #2945FF;
-        position: absolute;
-        left: 38.32%;
-        right: 7.01%;
-        top: 26.67%;
-        bottom: 60.91%;
-        border: 2px solid #2945FF;
-        background: #ffffff;
-        border-radius: 30px;
-    }
-
-    #profileButton {
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #2945FF;
-        position: absolute;
-        left: 7.01%;
-        right: 7.01%;
-        top: 41.9%;
-        bottom: 50.43%;
-        border: 2px solid #2945FF;
-        background: #ffffff;
-        border-radius: 30px;
-    }
-
-    #createButton {
-        position: absolute;
-        left: 7.01%;
-        right: 55.61%;
-        top: 11.45%;
-        bottom: 76.13%;
-
-        background: #ffffff;
-        border-radius: 30px;
-        border: 2px solid #2945FF;
-
-    }
-
-    #createText {
-        position: absolute;
-        left: 11.21%;
-        top: 11.45%;
-        bottom: 76.13%;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #2945FF;
-    }
-
-    #eventsText {
-        position: absolute;
-        left: 11.21%;
-        top: 11.45%;
-        bottom: 76.13%;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #2945FF;
-    }
-
-    #stick {
-        position: absolute;
-        left: 7.01%;
-        right: 7.01%;
-        top: 64.9%;
-        bottom: 35.1%;
-
-        border: 1px solid #2945FF;
-    }
-    #eventsUnderText{
-        position: absolute;
-        left: 50%;
-        right: 19.39%;
-        top: 17.71%;
-        bottom: 78.4%;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 15px;
-        line-height: 18px;
-        color: rgba(0, 0, 0, 0.55);
-    }
-    #invitationsText{
-        position: absolute;
-        left: 11.21%;
-        top: 11.45%;
-        bottom: 76.13%;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #2945FF;
-    }
-
-    #networkText{
-        position: absolute;
-        left: 11.21%;
-        top: 11.45%;
-        bottom: 76.13%;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 24px;
-        color: #2945FF;
-    }
-
-    #welcomeText{
-        position: absolute;
-        left: 9.58%;
-        right: 37.38%;
-        top: 56.48%;
-        bottom: 40.93%;
-        font-style: normal;
-        font-weight: 800;
-        font-size: 20px;
-        line-height: 24px;
-        /* identical to box height */
-        color: #2945FF;
-    }
-
-
-    button:hover {
-        opacity: 0.7;
-    }
-
-    .topnav {
-        background-color: #333;
-        overflow: hidden;
-    }
-
-    /* Style the links inside the navigation bar */
-    .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-    }
-
-    /* Change the color of links on hover */
-    .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-
-    /* Add a color to the active/current link */
-    .topnav a.active {
-        background-color: #2945FF;
-        color: white;
-    }
-
-</style>
-
-<div class="topnav">
-    <a class="active" href="/home">Home</a>
-    <a href="/get-events">My events</a>
-    <a href="/create-event">Create event</a>
-    <a href="/create-location">New location</a>
-    <a href="/profile">Profile</a>
-    <a href="/about">About Us</a>
-</div>
-
-<span th:text ="${loginModel}"></span>
-<!--<span th:text ="${loginModel}"></span>-->
-<form action="/create-event">
-    <div><button id ="createButton" type="submit"><div id = "createText"> Create an event</div></button></div>
-</form>
-
-<form action="/get-events">
-    <div><button id ="eventsButton" type="submit"><div id = "eventsText"> My events</div></button></div>
-</form>
-
-<form action="/#">
-    <div><button id ="invitationsButton" type="submit"><div id = "invitationsText">Incoming invitations</div> </button></div>
-</form>
-
-<form action="/#">
-    <div><button id ="networkButton" type="submit"><div id = "networkText"> My network</div></dib></button></div>
-</form>
-
-<form action="/profile">
-    <div><button id ="profileButton" type="submit">Profile</button></div>
-</form>
-
-
-<div id = "welcomeText" th:text = "'Welcome to OnePlan, ' + ${username.nickname}"></div>
-<div id ="stick"></div>
-<!--<img src = "images/img.jpg" alt="">-->
-<div id = "eventsUnderText">View, manage and
-    edit your events</div>

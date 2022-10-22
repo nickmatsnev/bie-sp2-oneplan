@@ -153,6 +153,7 @@
     <form class="sign-form" method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
         <tr class="questions">
             <div class="form-group blu-margin">
+                <span><label for="location">Choose a location:</label></span>
                 <select class="form-control" data-live-search="true" th:field="*{location.id}" id="dropOperator">
                     <option value="0">select location</option>
                     <option th:each="locations : ${locations}" th:value ="${locations.id}" th:text="${locations.address}">
@@ -174,10 +175,15 @@
                 </select>
             </div>
 <!--            <input id="visitors" name="attendees" type="text" placeholder="Who will attend? (optional)" autofocus th:field = "*{attendees}"/>-->
+            <span><label for="name1">Choose a name:</label></span>
             <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}"/>
+            <span><label for="description">Choose a description:</label></span>
             <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" required="required" placeholder="Short description" autofocus th:field = "*{description}"/>
+            <span><label for="date">Choose a date:</label></span>
             <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}"/>
+            <span><label for="time">Choose time:</label></span>
             <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" required="required" autofocus th:field = "*{time}"/>
+            <span><label for="people">Choose amount of people planned for the event:</label></span>
             <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" required="required" autofocus th:field = "*{capacity}"/>
             <p style="margin-top: 20px;font-size: 25pt;float:right">
 
