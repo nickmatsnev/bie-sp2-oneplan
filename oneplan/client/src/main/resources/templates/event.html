@@ -1,197 +1,123 @@
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en"  xmlns:th = "http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <style>
-        h1 {text-align: center;}
-    </style>
-    <title></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Add event</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
 
+<body class="p-3 m-0 border-0 bd-example">
 
-</body>
-</html>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Create Page </title>
-<style>
-    Body {
-        font-family: Calibri, Helvetica, sans-serif;
-        background-color: white;
-    }
-    button {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #2945FF;
-        /* Rectangle 2 */
-        box-sizing: border-box;
-        position: absolute;
-        left: 31.07%;
-        right: 31.07%;
-        border: 1px solid #2945FF;
-        border-radius: 30px;
-        background-color: white;
-    }
-
-    #location {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 40px;
-        height: 40px;
-        color: #2945FF;
-        /* Rectangle 2 */
-        box-sizing: border-box;
-        display: inline-block;
-        position: absolute;
-        left: 60.07%;
-        right: 10%;
-        border: 1px solid #2945FF;
-        border-radius: 30px;
-        background-color: white;
-        top: 9%;
-    }
-
-    #returnButton {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #d75f00;
-        /* Rectangle 2 */
-        box-sizing: border-box;
-        position: absolute;
-        left: 40.07%;
-        right: 40.07%;
-        border: 3px solid #d75f00;
-        border-radius: 30px;
-        background-color: white;
-        top: 64%;
-    }
-
-    input[type=text], input[type=number], input[type=time] , input[type=date] , input[type=password] {
-        width: 100%;
-        margin: 8px 0;
-        padding: 12px 20px;
-        display: inline-block;
-        border: 1px solid #2945FF;
-        box-sizing: border-box;
-        border-radius: 10px;
-    }
-
-    #dropOperator {
-        width: 50%;
-        margin: 8px 0;
-        padding: 10px 20px;
-        display: inline-block;
-        border: 1px solid #2945FF;
-        box-sizing: border-box;
-        border-radius: 10px;
-    }
-
-    button:hover {
-        opacity: 0.7;
-    }
-    .cancelbtn {
-        width: auto;
-        padding: 10px 18px;
-        margin: 10px 5px;
-    }
-
-    .topnav {
-        background-color: #333;
-        overflow: hidden;
-    }
-
-    /* Style the links inside the navigation bar */
-    .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-    }
-
-    /* Change the color of links on hover */
-    .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-
-
-    /* Add a color to the active/current link */
-    .topnav a.active {
-        background-color: #2945FF;
-        color: white;
-    }
-
-</style>
-
-<div class="topnav">
-    <a href="/home">Home</a>
-    <a href="/get-events">My events</a>
-    <a class="active" href="/create-event">Create event</a>
-    <a href="/create-location">New location</a>
-    <a href="/profile">Profile</a>
-    <a href ="/about">About Us</a>
-</div>
-
-
-
-<div class="container">
-    <div class="navigation">
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home"><span style="color: blue;">O</span>nePlan</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link  " aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " aria-current="page" href="/get-events">My events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  active" aria-current="page" href="/create-event">Create event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About us</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                    <div th:text="'Welcome to OnePlan, '"></div>
+                </span>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/logout">Log out</a>
+            </form>
+        </div>
     </div>
-    <form action="/create-location">
-        <div><button id ="location" type="submit">NEW LOCATION</button></div>
-    </form>
-    <form class="sign-form" method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
-        <tr class="questions">
-            <div class="form-group blu-margin">
-                <span><label for="location">Choose a location:</label></span>
-                <select class="form-control" data-live-search="true" th:field="*{location.id}" id="dropOperator">
-                    <option value="0">select location</option>
-                    <option th:each="locations : ${locations}" th:value ="${locations.id}" th:text="${locations.address}">
-                    </option>
-                </select>
+</nav>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card bg-white">
+                <div class="card-body p-5">
+                    <form class="mb-3 mt-md-4"  method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
+                        <div class="form-group blu-margin">
+                            <select class="form-control" type hidden th:field="*{organiser.id}" id="drop">
+                                <option th:value ="${userId}">
+                                </option>
+                            </select>
+                        </div>
+                        <h2 class="fw-bold mb-2 text-uppercase "><span style="color: blue;">A</span>dd event</h2>
+                        <div class="mb-3">
+                            <label for="dropOperator" class="form-label ">location</label>
+                            <div class="input-group">
+                                <select class="form-select" data-live-search="true" th:field="*{location.id}" id="dropOperator">
+                                    <option value="0">Choose...</option>
+                                    <option th:each="locations : ${locations}" th:value ="${locations.id}" th:text="${locations.address}"></option>
+                                </select>
+
+                                    <a class="btn btn-outline-primary" href="/create-location" type="submit">+ location</a>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name1" class="form-label ">name</label>
+                            <input id="name1" class="form-control" name="name1" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDescription" class="form-label ">description</label>
+                            <textarea  class="form-control" id="eventDescription" name="description" type="text" required="required" placeholder="Short description" autofocus th:field = "*{description}"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label ">choose date</label>
+
+                            <input class="form-control"  id="startDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="startTime" class="form-label ">choose time</label>
+                            <input class="form-control"  id="startTime" name="time" type="time"  step="3600000"  placeholder="Start time" required="required" autofocus th:field = "*{time}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="capacity" class="form-label ">Choose amount of participants</label>
+                            <input class="form-control" id="capacity" name="capacity" type="number" min="1" placeholder="capacity" required="required" autofocus th:field = "*{capacity}">
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn  btn-primary mt-2" type="submit">Create</button>
+                        </div>
+                        <div class="d-grid">
+                            <a class="btn btn-secondary mt-2" href="/home">return</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-
-<!--            <label for="locationid"></label><input id="locationid" name="id" type="number" placeholder="location ID(optional)"  th:field = "*{location.id}"/>-->
-<!--            <label for="locatename"></label><input id="locatename" name="name" type="text" placeholder="Enter a location name" required="required" th:field = "*{location.name}"/>-->
-<!--            <label for="address"></label><input id="address" name="address" type="text" placeholder="Enter a location address" required="required" th:field = "*{location.address}"/>-->
-<!--            <label for="coordinates"></label><input id="coordinates" name="coordinates" type="text" placeholder="Enter the coordinates" required="required" th:field = "*{location.coordinates}"/>-->
-<!--            <label for="organiser"></label><input id="organiser" name="id" type="number" placeholder="Your ID" required="required" autofocus th:field = "*{organiser.id}"/>-->
-<!--            <span th:field = "*{organiser.id}" th:value = "${userId}"></span>-->
-            <div class="form-group blu-margin">
-                <select class="form-control" type hidden th:field="*{organiser.id}" id="drop">
-                    <option th:value ="${userId}">
-                    </option>
-                </select>
-            </div>
-<!--            <input id="visitors" name="attendees" type="text" placeholder="Who will attend? (optional)" autofocus th:field = "*{attendees}"/>-->
-            <span><label for="name1">Choose a name:</label></span>
-            <label for="eventName"></label><input id="eventName" name="name" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}"/>
-            <span><label for="description">Choose a description:</label></span>
-            <label for="eventDescription"></label><input id="eventDescription" name="description" type="text" required="required" placeholder="Short description" autofocus th:field = "*{description}"/>
-            <span><label for="date">Choose a date:</label></span>
-            <label for="startDate"></label><input id="startDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}"/>
-            <span><label for="time">Choose time:</label></span>
-            <label for="startTime"></label><input id="startTime" name="time" type="time" step="1" placeholder="Start time" required="required" autofocus th:field = "*{time}"/>
-            <span><label for="people">Choose amount of people planned for the event:</label></span>
-            <label for="capacity"></label><input id="capacity" name="capacity" type="number" placeholder="capacity" required="required" autofocus th:field = "*{capacity}"/>
-            <p style="margin-top: 20px;font-size: 25pt;float:right">
-
-            <div class="error-message"></div>
-            <div><button type="submit">CREATE</button></div>
-    </form>
+        </div>
+    </div>
 </div>
 
-<form action="/home">
-    <div><button id ="returnButton" type="submit">RETURN</button></div>
-</form>
+<!-- Bootstrap scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+<!-- End of Bootstrap script -->
+</body>
