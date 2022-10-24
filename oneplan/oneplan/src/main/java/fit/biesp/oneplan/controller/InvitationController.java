@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +27,7 @@ public class InvitationController {
 
     private final FriendService friendService;
 
+
     private final String serverUrl = "https://app-oneplan-221011202557.azurewebsites.net/";
 
     public InvitationController(InvitationService invitationService, UserService userService, FriendService friendService) {
@@ -36,7 +36,14 @@ public class InvitationController {
         this.friendService = friendService;
     }
 
-
+    @PostMapping("/send")
+    public void send(@RequestBody String email){
+        // find user by email
+        // if exists then create invitation with receiver id and offer to login
+        // else create invitation without receiver id and offer to register
+        // ALSO change the void retturn type to ResponceEntity<String> or whatevs
+        // TODO
+    }
     @GetMapping
     public ResponseEntity<List<InvitationDTO>> getUserInvitations(@RequestHeader("Authorization") String header) {
         Integer userId =  Integer.valueOf(header);
@@ -67,7 +74,6 @@ public class InvitationController {
         InvitationEntity invitationEntity = invitationService.findByInvitationId(invitationId);
         if(invitationEntity.getReceiverId() != userId){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-            // TODO: instead of exception, forward to login
         }
         MailService.sendEmail(user.getEmail(), serverUrl + "/" + invitationId + "/accept");
         FriendEntity newFriend = new FriendEntity();
@@ -75,6 +81,7 @@ public class InvitationController {
         newFriend.setUserId(userId);
         newFriend.setNickname(user.getNickname());
         friendService.create(newFriend);
+        // TODO update of status instead of delete
         invitationService.delete(invitationId);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
