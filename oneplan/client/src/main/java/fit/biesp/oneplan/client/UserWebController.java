@@ -1,10 +1,7 @@
 package fit.biesp.oneplan.client;
 
 import fit.biesp.oneplan.client.exception.UserNotFoundException;
-import fit.biesp.oneplan.client.models.EventModel;
-import fit.biesp.oneplan.client.models.LocationModel;
-import fit.biesp.oneplan.client.models.LoginModel;
-import fit.biesp.oneplan.client.models.UserRegistrationModel;
+import fit.biesp.oneplan.client.models.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -218,5 +215,20 @@ public class UserWebController {
     public String passwordChange(Model model, @ModelAttribute LoginModel loginModel) {
         // need to check for old password and change for the new one, no need in update of nickname
         return "about";
+    }
+
+
+    @GetMapping("/sendemail")
+    // блять я не знаю в @ModelAttribute какая модель, можешь туда встать friend, user, person модели
+    public String sendInvitationPageMapping(Model model, @ModelAttribute invitationModel invitationModel) {
+        // здесь надо вызвать функцию по сбору АПИ в UserClien. а что туда передавать я хз, для примера сделал invitationModel а так можно что угодно
+        model.addAttribute("invitation", new invitationModel());
+        return "invitePage";
+    }
+
+    @PostMapping("/sendemail")
+    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute invitationModel invitationModel){
+        model.addAttribute("invite", userClient.createInvite(invitationModel));
+        return "invitePage";
     }
 }

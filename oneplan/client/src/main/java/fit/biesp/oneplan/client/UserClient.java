@@ -1,10 +1,8 @@
 package fit.biesp.oneplan.client;
-import fit.biesp.oneplan.client.models.EventModel;
-import fit.biesp.oneplan.client.models.LocationModel;
-import fit.biesp.oneplan.client.models.LoginModel;
-import fit.biesp.oneplan.client.models.UserRegistrationModel;
+import fit.biesp.oneplan.client.models.*;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -92,6 +90,16 @@ public class UserClient {
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newEvent)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> createInvite(invitationModel newPersonToInvite) { /// В параметр где newPersonToInvite надо вставить что будет передаваться на апи в бэк
+        return userWebClient.post()// здесь задаешь метод
+                .uri("/sendemail")// сам АПИ для бэка
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(newPersonToInvite) // сюда модельку, можно сделать только с айди ивента и передавать его в бэк с апи а не с bodyvalue
                 .retrieve()
                 .bodyToMono(String.class);
     }

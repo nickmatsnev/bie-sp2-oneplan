@@ -7,32 +7,8 @@
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
     <title>OnePlan Startup</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function myFunction() {
-            // Declare variables
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("eventTable");
-            tr = table.getElementsByTagName("tr");
-
-            // Loop through all table rows, and hide those who don't match the search query
-            for (i = 1; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 <body class="p-3 m-0 border-0 bd-example">
-
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="/home"><span style="color: blue;">O</span>nePlan</a>
@@ -42,13 +18,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/home">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/get-events">My events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/create-event">Create event</a>
+                    <a class="nav-link active" aria-current="page" href="/create-event">Create event</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/create-location">New location</a>
@@ -69,30 +45,14 @@
         </div>
     </div>
 </nav>
-<div class="container">
-    <input type="text" placeholder="Search.." id="myInput" onkeyup="myFunction()">
-    <table class="table" id="eventTable">
-        <thead>
-        <td id="ename">Event Name</td>
-        <td id="edate">Event Date</td>
-        <td id="etime">Event Time</td>
-        <td id="elocation">Event location</td>
-        <td></td>
-        </thead>
-        <tbody>
-        <tr th:each="event: ${events}">
-            <td id ="name" th:text="${event.name}">ename</td>
-            <td id ="date" th:text="${event.date}">date</td>
-            <td id ="time" th:text="${event.time}">time</td>
-            <td id ="address" th:text="${event.location.address}">address</td>
-            <td><div>
-                <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
-                    <div><button class="btn btn-primary btn-sm" type="submit">DETAILS</button></div>
-                </form>
-            </div></td>
-        </tr>
-        </tbody>
-    </table>
+
+<div>
+    Find your friend to invite!
+    <input type="text" placeholder="Search...">
 </div>
+<!--здесь откомменть строку ниже чтоб апи работало, я его отключил чтоб не было 500 постоянно-->
+<!--<form action="#" method="post" th:action="@{/sendemail}" th:object="${invitationModel}">-->
+    <div><button class="btn btn-primary btn-sm" type="submit">INVITE</button></div>
+<!--</form>-->
 </body>
 </html>
