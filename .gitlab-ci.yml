@@ -28,18 +28,18 @@ build:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build
-      - .gradle
+      - oneplan/oneplan/build
+      - oneplan/oneplan/.gradle
 
 test:
   stage: test
-  script: gradle check
+  script: cd oneplan/oneplan/ ; gradle check
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build
-      - .gradle
+      - oneplan/oneplan/build
+      - oneplan/oneplan/.gradle
 
 deploy:
   stage: deploy
