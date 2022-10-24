@@ -105,7 +105,6 @@ public class UserWebController {
                 model.addAttribute("userRegistrationDto", new UserRegistrationModel());
                 return "register";
             }
-
         }
         /// sending the registration model to the server
         model.addAttribute("userRegistrationSubmit", userClient.create(userRegistrationModel));
