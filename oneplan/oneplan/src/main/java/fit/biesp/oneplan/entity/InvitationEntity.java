@@ -23,12 +23,22 @@ public class InvitationEntity {
     @Column(name = "receiver_email")
     private String receiverEmail;
 
-    public InvitationEntity(int userId, int receiverId, int invitationId, int status, String receiverEmail) {
+    public InvitationEntity(int userId, int receiverId, int status, String receiverEmail) {
+        this.userId = userId;
+        this.receiverId = receiverId;
+        this.status = status;
+        this.receiverEmail = receiverEmail;
+    }
+    public InvitationEntity(int userId, String receiverEmail) {
         this.userId = userId;
         this.receiverId = receiverId;
         this.invitationId = invitationId;
-        this.status = status;
+        this.status = 0;
         this.receiverEmail = receiverEmail;
+    }
+
+    public InvitationEntity() {
+        
     }
 
     public int getUserId() {

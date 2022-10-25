@@ -28,6 +28,12 @@ public class InvitationService {
         }
         return invitationRepository.save(invitationEntity);
     }
+
+    public InvitationEntity updateStatus(int status, InvitationEntity invitationEntity){
+        invitationEntity.setStatus(status);
+        return invitationRepository.save(invitationEntity);
+    }
+
     public List<InvitationEntity> findAllByUserId(Integer userId){ return invitationRepository.findInvitationEntitiesByUserId(userId);}
     public InvitationEntity findByInvitationId(Integer invitationId){ return invitationRepository.findInvitationEntityByInvitationId(invitationId);}
 
