@@ -38,7 +38,7 @@ public class InvitationEntity {
     }
 
     public InvitationEntity() {
-        
+
     }
 
     public int getUserId() {
