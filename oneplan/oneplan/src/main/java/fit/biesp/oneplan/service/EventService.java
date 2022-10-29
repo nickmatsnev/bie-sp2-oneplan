@@ -29,14 +29,15 @@ public class EventService {
         return message;
     }
 
-    public void deleteEvent(Long id) throws EventIsMissingException {
+    public String deleteEvent(Long id) throws EventIsMissingException {
         if (eventRepository.findById(id).isEmpty()) {
             throw new EventIsMissingException("Event with id " + id + " does not exist");
         }
         eventRepository.deleteById(id);
+        return "Event deleted.";
     }
 
-    public void updateEvent(EventModel eventModel, Long id) throws EventIsMissingException {
+    public EventModel updateEvent(EventModel eventModel, Long id) throws EventIsMissingException {
         if (eventRepository.findById(id).isEmpty())
             throw new EventIsMissingException("Event with id " + id + " does not exist");
 
@@ -49,6 +50,7 @@ public class EventService {
         event.setCapacity(eventModel.getCapacity());
         event.renewAttendees(eventModel.getAttendees());
         eventRepository.save(event);
+        return EventModel.toModel(event);
     }
 
     public EventModel getEvent(Long id) throws EventIsMissingException {
