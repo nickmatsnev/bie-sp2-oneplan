@@ -68,6 +68,8 @@ public class UserClient {
                 .bodyToFlux(LocationModel.class); // interpret response body as a collection
     }
 
+
+
     public Flux<EventModel> getUserEvents(String nickname) { /// api request builder for getting the events
         return userWebClient.get()
                 .uri("/users/{id}/events", nickname)
@@ -94,12 +96,39 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Mono<String> createInvite(invitationModel newPersonToInvite) { /// В параметр где newPersonToInvite надо вставить что будет передаваться на апи в бэк
+    public Flux<InvitationModel> getInvites() {
+        return userWebClient.get()
+                .uri("/invitations/all")
+                .retrieve()
+                .bodyToFlux(InvitationModel.class);
+    }
+
+    public Mono<String> createInvite(InvitationDTO newPersonToInvite) { /// В параметр где newPersonToInvite надо вставить что будет передаваться на апи в бэк
         return userWebClient.post()// здесь задаешь метод
-                .uri("/sendemail")// сам АПИ для бэка
+                .uri("/invitations/create")// сам АПИ для бэка
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newPersonToInvite) // сюда модельку, можно сделать только с айди ивента и передавать его в бэк с апи а не с bodyvalue
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> accept(int invId, String userId){
+        return userWebClient.post()
+                .uri("/invitations/{id}/accept", invId)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", userId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> reject(int invId, String userId){
+        return userWebClient.post()
+                .uri("/invitations/{id}/reject", invId)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", userId)
                 .retrieve()
                 .bodyToMono(String.class);
     }

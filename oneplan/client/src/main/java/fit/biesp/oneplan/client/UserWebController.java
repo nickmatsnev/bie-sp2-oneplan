@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Objects;
 
 @Controller /// Controller class for the client, to get access from requests from browser
@@ -218,16 +219,29 @@ public class UserWebController {
     }
 
 
-    @GetMapping("/sendemail")
+    @GetMapping("/sendemail/{id}")
     // блять я не знаю в @ModelAttribute какая модель, можешь туда встать friend, user, person модели
-    public String sendInvitationPageMapping(Model model, @ModelAttribute invitationModel invitationModel) {
+    public String sendInvitationPageMapping(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Long id) {
+        List<InvitationModel> invitationModelList = (List<InvitationModel>) userClient.getInvites();
+        InvitationModel ourInvite = new InvitationModel();
+        // как я это вижу: мы посылаем хэш и потом проверяем на клиенте если совпадает
+        // то принтим аксепт и режект кнопки а если нет то редирект нахуй
+        for(InvitationModel inv : invitationModelList){
+            int hash = 7;
+            hash = 31 * hash + (int) inv.getUserId();
+            hash = 31 * hash + (inv.getReceiverEmail() == null ? 0 : inv.getReceiverEmail().hashCode());
+            if(hash == id){
+                ourInvite = inv;
+                model.addAttribute("invitation", ourInvite);
+                return "invitePage";
+            }
+        }
         // здесь надо вызвать функцию по сбору АПИ в UserClien. а что туда передавать я хз, для примера сделал invitationModel а так можно что угодно
-        model.addAttribute("invitation", new invitationModel());
-        return "invitePage";
+        return "redirect:/login";
     }
 
     @PostMapping("/sendemail")
-    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute invitationModel invitationModel){
+    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationModel){
         model.addAttribute("invite", userClient.createInvite(invitationModel));
         return "invitePage";
     }

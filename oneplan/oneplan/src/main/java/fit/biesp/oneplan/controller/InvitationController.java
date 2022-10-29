@@ -52,10 +52,15 @@ public class InvitationController {
     public ResponseEntity<String> send(@RequestBody InvitationCreateDTO invitationCreateDTO) throws IOException {
         // find user by email
         PersonEntity recipientEntity = personService.getByEmail(invitationCreateDTO.getRecipient_email());
+        int hash = 7;
+        hash = 31 * hash + (int) invitationCreateDTO.getSender_id();
+        hash = 31 * hash + (invitationCreateDTO.getRecipient_email() == null ? 0 : invitationCreateDTO.getRecipient_email().hashCode());
+
         if (recipientEntity == null){
             InvitationEntity invitationEntity = new InvitationEntity(invitationCreateDTO.getSender_id(),
                     invitationCreateDTO.getRecipient_email());
-            String link = clientUrl + "sentemail/" + invitationEntity.getInvitationId();
+
+            String link = clientUrl + "sendemail/" + hash;
             MailService.sendEmail(invitationCreateDTO.getRecipient_email(), link);
             invitationService.create(invitationEntity);
         }else{
@@ -63,7 +68,7 @@ public class InvitationController {
                     recipientEntity.getId().intValue(),
                     0,
                     invitationCreateDTO.getRecipient_email());
-            String link = clientUrl + "sentemail/" + invitationEntity.getInvitationId();
+            String link = clientUrl + "sendemail/" + hash;
             MailService.sendEmail(invitationCreateDTO.getRecipient_email(), link);
             invitationService.create(invitationEntity);
         }
@@ -71,7 +76,6 @@ public class InvitationController {
                 "\"" + invitationCreateDTO.getRecipient_email() + "\"",
                 HttpStatus.OK
         );
-        // TODO invitation list for every user
     }
     @GetMapping
     public ResponseEntity<List<InvitationDTO>> getUserInvitations(@RequestHeader("Authorization") String header) {
@@ -82,6 +86,20 @@ public class InvitationController {
             result.add( new InvitationDTO(element.getUserId(),element.getReceiverId(),element.getInvitationId()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity getAllLocations() {
+        try {
+            // so what I aim at here is
+            // sending entities to convert the values to hash on the server side and
+            // whenever someone calls client/invitations/hashcodeOfInvite,
+            // client service will check whether hash is valid and then
+            // would show options according to the status of the invitation
+            return ResponseEntity.ok(invitationService.getAll());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error while trying to list locations. " + e.getMessage());
+        }
     }
 
     @PostMapping("/{id}/reject")
@@ -97,7 +115,7 @@ public class InvitationController {
     }
     // in the passed header we have an id of the invited user
     @PostMapping("/{id}/accept")
-    public ResponseEntity<String> accept(@PathVariable("id") int invitationId, @RequestHeader("Authorization") String header) throws IOException {
+    public ResponseEntity<String> accept(@PathVariable("id") int invitationId, @RequestHeader("Authorization") String header) {
         Integer userId =  Integer.valueOf(header);
         UserEntity user = userService.findbyId(userId);
         InvitationEntity invitationEntity = invitationService.findByInvitationId(invitationId);
@@ -110,6 +128,6 @@ public class InvitationController {
         newFriend.setNickname(user.getNickname());
         friendService.create(newFriend);
         invitationService.updateStatus(1, invitationEntity);
-        return new ResponseEntity<>("{}", HttpStatus.OK);
+        return new ResponseEntity<>("hooray", HttpStatus.OK);
     }
 }

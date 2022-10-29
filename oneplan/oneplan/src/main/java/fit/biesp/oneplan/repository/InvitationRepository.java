@@ -10,4 +10,6 @@ public interface InvitationRepository extends CrudRepository<InvitationEntity, I
     InvitationEntity findInvitationEntityByInvitationId(int invitationId);
 
     List<InvitationEntity> findInvitationEntitiesByUserId(int userId);
+
+    List<InvitationEntity> getAll();
 }
