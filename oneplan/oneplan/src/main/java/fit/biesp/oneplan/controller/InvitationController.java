@@ -103,10 +103,9 @@ public class InvitationController {
     }
 
     @PostMapping("/{id}/reject")
-    public ResponseEntity<String> reject(@PathVariable("id") int invitationId, @RequestHeader("Authorization") String header) {
-        Integer userId =  Integer.valueOf(header);
+    public ResponseEntity<String> reject(@PathVariable("id") int invitationId) {
 
-        if (invitationService.findByInvitationId(invitationId).getReceiverId() == userId) {
+        if (invitationService.findByInvitationId(invitationId) != null) {
             invitationService.updateStatus(2, invitationService.findByInvitationId(invitationId));
             return new ResponseEntity<>("{}", HttpStatus.OK);
         } else {
@@ -115,16 +114,16 @@ public class InvitationController {
     }
     // in the passed header we have an id of the invited user
     @PostMapping("/{id}/accept")
-    public ResponseEntity<String> accept(@PathVariable("id") int invitationId, @RequestHeader("Authorization") String header) {
-        Integer userId =  Integer.valueOf(header);
-        UserEntity user = userService.findbyId(userId);
+    public ResponseEntity<String> accept(@PathVariable("id") int invitationId) {
         InvitationEntity invitationEntity = invitationService.findByInvitationId(invitationId);
-        if(invitationEntity.getReceiverId() != userId){
+        if(invitationEntity == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         FriendEntity newFriend = new FriendEntity();
-        newFriend.setEmail(user.getEmail());
-        newFriend.setUserId(userId);
+        PersonEntity personEntity = personService.getByEmail(invitationEntity.getReceiverEmail());
+        newFriend.setEmail(personEntity.getEmail());
+        UserEntity user = userService.findbyId(Math.toIntExact(personEntity.getId()));
+        newFriend.setUserId(Math.toIntExact(user.getId()));
         newFriend.setNickname(user.getNickname());
         friendService.create(newFriend);
         invitationService.updateStatus(1, invitationEntity);

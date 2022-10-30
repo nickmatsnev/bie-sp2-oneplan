@@ -105,7 +105,7 @@ public class UserClient {
 
     public Mono<String> createInvite(InvitationDTO newPersonToInvite) { /// В параметр где newPersonToInvite надо вставить что будет передаваться на апи в бэк
         return userWebClient.post()// здесь задаешь метод
-                .uri("/invitations/create")// сам АПИ для бэка
+                .uri("/invitations/send")// сам АПИ для бэка
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newPersonToInvite) // сюда модельку, можно сделать только с айди ивента и передавать его в бэк с апи а не с bodyvalue
