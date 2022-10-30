@@ -237,6 +237,7 @@ public class UserWebController {
             if(hash == id){
                 ourInvite = inv;
                 model.addAttribute("invitation", ourInvite);
+                model.addAttribute("hash", hash);
                 return "invitePage";
             }
         }

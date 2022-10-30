@@ -25,11 +25,11 @@
                         <div class="mb-3 d-flex justify-content-center">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <!--здесь откомменть строку ниже чтоб апи работало, я его отключил чтоб не было 500 постоянно-->
-                                <!--<form action="#" method="post" th:action="@{/sendemail}" th:object="${invitationModel}">-->
+                                <form action="#" method="post" th:action="@{/sendemail/{id}(id = ${hash})/accept}">
                                 <button type="button" class="btn btn-primary">Accept</button>
                                 <!--</form>-->
                                 <!--здесь откомменть строку ниже чтоб апи работало, я его отключил чтоб не было 500 постоянно-->
-                                <!--<form action="#" method="post" th:action="@{/sendemail}" th:object="${invitationModel}">-->
+                                <form action="#" method="post" th:action="@{/sendemail/{id}(id = ${hash})/reject}">
                                 <button type="button" class="btn btn-danger">Reject</button>
                                 <!--</form>-->
                             </div>
