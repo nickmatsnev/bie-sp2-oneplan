@@ -17,9 +17,9 @@
                 <div class="card bg-white">
                     <div class="card-body p-5">
                         <form class="mb-3 mt-md-4"  method="post" action = "#" th:action = "@{/registration}" th:object = "${userRegistrationDto}">
-                            <div class = "alert alert-warning" th:if="${userRegistrationSubmit}" th:text="${userRegistrationSubmit}"></div>
                             <h2 class="fw-bold mb-2 text-uppercase "><span style="color: blue;">O</span>nePlan Registration</h2>
                             <p class=" mb-5">Please enter your username, email and password!</p>
+                            <div class = "alert alert-warning" th:if="${userRegistrationSubmit}" th:text="${userRegistrationSubmit}"></div>
                             <div class="mb-3">
                                 <label for="text" class="form-label ">Username</label>
                                 <input type="text" class="form-control" id="uname" name="username" placeholder="john123" required="required" autofocus th:field = "*{nickname}">

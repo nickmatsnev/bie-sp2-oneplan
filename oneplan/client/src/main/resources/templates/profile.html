@@ -74,11 +74,12 @@
                 <label for="name1" class="form-label ">Email of a person you want to
                     invite</label>
                 <div class="input-group">
-                    <input id="name1" class="form-control" name="name1" type="text" placeholder="Email@email.com"
-                           required="required" autofocus>
-
-
-                    <a class="btn btn-outline-primary" href="#" type="submit"> send invite</a>
+                    <form action="#" method="post" th:action="@{/sendemail}" th:object="${invitationDTO}">
+                        <input id="name1" class="form-control" name="name1" type="text" placeholder="Email@email.com"
+                               required="required" autofocus th:field="*{recipient_email}">
+                        <input type="hidden" id="userId" name="custId" th:value="${user.id}" th:field="*{sender_id}">
+                        <button class="btn btn-outline-primary" type="submit">send invite</button>
+                    </form>
                 </div>
             </form>
         </div>

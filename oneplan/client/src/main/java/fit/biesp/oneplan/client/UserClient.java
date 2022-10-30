@@ -1,4 +1,5 @@
 package fit.biesp.oneplan.client;
+import fit.biesp.oneplan.client.exception.UserNotFoundException;
 import fit.biesp.oneplan.client.models.*;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,8 +56,8 @@ public class UserClient {
                 .bodyValue(loginModel)
                 .retrieve()
                 .onStatus(
-                        HttpStatus.UNAUTHORIZED::equals,
-                        response -> response.bodyToMono(String.class).map(Exception::new)
+                        HttpStatus.NOT_FOUND::equals,
+                        response -> response.bodyToMono(String.class).map(UserNotFoundException::new)
                 )
                 .bodyToMono(String.class);
     }
@@ -85,6 +86,12 @@ public class UserClient {
                 .bodyToMono(EventModel.class);
     }
 
+    public Mono<UserModel> getOneUser(String newid) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/users/{id}", newid)
+                .retrieve() // request specification finished
+                .bodyToMono(UserModel.class);
+    }
 
     public Mono<String> createEvent(EventModel newEvent) { /// api request builder for event creation
         return userWebClient.post()
@@ -113,22 +120,20 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Mono<String> accept(int invId, String userId){
+    public Mono<String> accept(int invId){
         return userWebClient.post()
                 .uri("/invitations/{id}/accept", invId)
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", userId)
                 .retrieve()
                 .bodyToMono(String.class);
     }
 
-    public Mono<String> reject(int invId, String userId){
+    public Mono<String> reject(int invId){
         return userWebClient.post()
                 .uri("/invitations/{id}/reject", invId)
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", userId)
                 .retrieve()
                 .bodyToMono(String.class);
     }

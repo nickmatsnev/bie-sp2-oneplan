@@ -14,6 +14,7 @@ import java.util.Objects;
 @Controller /// Controller class for the client, to get access from requests from browser
 public class UserWebController {
     private final UserClient userClient;
+    String errormsg;
     LoginModel currentUser; /// model for the user login, saves the currently working user.
     public UserWebController(UserClient userClient) {
         this.userClient = userClient;
@@ -34,25 +35,27 @@ public class UserWebController {
     public String enterRender(Model model) {
         /// attribute for the login model, model is username and login
         model.addAttribute("loginModel", new LoginModel());
+        model.addAttribute("OnSubmitError",errormsg);
         return "welcome";
     }
 
     @PostMapping("/login") /// post mapping for sending to the server
-    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) throws Exception {
+    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) throws UserNotFoundException {
         currentUser = loginModel; /// assignment of the credentials to the current user
         /// attribute sending the loginModel to the server
         try {
             model.addAttribute("loginModel", userClient.login(loginModel));
+            errormsg = "";
             return "redirect:/home";
         } catch (Exception e) {
-            throw new Exception();
+            throw new UserNotFoundException("not found");
         }
     }
 
-
-    @ExceptionHandler(Exception.class)
-    public String handleAllException(Exception ex) {
-        return "invalidPassword";
+    @ExceptionHandler(UserNotFoundException.class)
+    public String handleAllException(UserNotFoundException ex) {
+        errormsg = "Invalid Username or Password";
+        return "redirect:/login";
     }
 
     @GetMapping("/home")    /// mapping for the home page
@@ -165,12 +168,13 @@ public class UserWebController {
         return "eventsList";
     }
     @GetMapping("/profile") /// ьфззштп ещ пуе зкщашду зфпу
-    public String getProfileRender(Model model) {
+    public String getProfileRender(Model model, Model model1) {
         if (currentUser == null){
             return "redirect:/login";
         }
         /// attribute to get the user nickname into profile page
-        model.addAttribute("user", currentUser);
+        model1.addAttribute("invitationDTO", new InvitationDTO());
+        model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
         return "profile";
     }
 
@@ -242,7 +246,21 @@ public class UserWebController {
 
     @PostMapping("/sendemail")
     public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationModel){
-        model.addAttribute("invite", userClient.createInvite(invitationModel));
+        System.out.println(invitationModel.getRecipient_email() + "this is email");
+        System.out.println(invitationModel.getSender_id() + "this is Id");
+        model.addAttribute("invitationDTO", userClient.createInvite(invitationModel));
         return "invitePage";
+    }
+
+    @PostMapping("/sendemail/{id}/accept")
+    public String sendInvitationToTheBackEndPositive(Model model, @ModelAttribute InvitationDTO invitationModel, @PathVariable("id") Integer id){
+        model.addAttribute("invite", userClient.accept(id));
+        return "redirect:/welcome";
+    }
+
+    @PostMapping("/sendemail/{id}/reject")
+    public String sendInvitationToTheBackEndNegative(Model model, @ModelAttribute InvitationDTO invitationModel, @PathVariable("id") Integer id){
+        model.addAttribute("invite", userClient.reject(id));
+        return "redirect:/welcome";
     }
 }

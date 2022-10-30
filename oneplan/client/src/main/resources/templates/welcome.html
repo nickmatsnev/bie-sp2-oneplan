@@ -17,9 +17,9 @@
                 <div class="card bg-white">
                     <div class="card-body p-5">
                         <form class="mb-3 mt-md-4" method="post" action = "#" th:action = "@{/login}" th:object = "${loginModel}">
-
                             <h2 class="fw-bold mb-2 text-uppercase "><span style="color: blue;">O</span>nePlan</h2>
                             <p class=" mb-5">Please enter your username and password!</p>
+                            <div class = "alert alert-warning" th:if="${OnSubmitError}" th:text="${OnSubmitError}"></div>
                             <div class="mb-3">
                                 <label for="text" class="form-label ">Username</label>
                                 <input  id="nickname" class="form-control" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}">
