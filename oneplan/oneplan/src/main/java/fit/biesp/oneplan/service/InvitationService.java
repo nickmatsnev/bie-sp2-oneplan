@@ -37,6 +37,6 @@ public class InvitationService {
     public List<InvitationEntity> findAllByUserId(Integer userId){ return invitationRepository.findInvitationEntitiesByUserId(userId);}
     public InvitationEntity findByInvitationId(Integer invitationId){ return invitationRepository.findInvitationEntityByInvitationId(invitationId);}
 
-    public List<InvitationEntity> getAll() { return invitationRepository.getAll(); }
+    public List<InvitationEntity> getAll() { return invitationRepository.findAll(); }
 
 }

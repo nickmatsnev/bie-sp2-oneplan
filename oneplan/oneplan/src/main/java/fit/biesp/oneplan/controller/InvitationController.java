@@ -29,8 +29,6 @@ public class InvitationController {
     private final PersonService personService;
 
 
-
-    private final String serverUrl = "https://app-oneplan-221011202557.azurewebsites.net/";
     private final String clientUrl = "https://app-client-221011202557.azurewebsites.net/";
 
     public InvitationController(InvitationService invitationService,
@@ -51,7 +49,7 @@ public class InvitationController {
     @PostMapping("/send")
     public ResponseEntity<String> send(@RequestBody InvitationCreateDTO invitationCreateDTO) throws IOException {
         // find user by email
-        PersonEntity recipientEntity = personService.getByEmail(invitationCreateDTO.getRecipient_email());
+        PersonEntity recipientEntity = personService.unsafeGetByEmail(invitationCreateDTO.getRecipient_email());
         int hash = 7;
         hash = 31 * hash + (int) invitationCreateDTO.getSender_id();
         hash = 31 * hash + (invitationCreateDTO.getRecipient_email() == null ? 0 : invitationCreateDTO.getRecipient_email().hashCode());
@@ -89,7 +87,7 @@ public class InvitationController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAllLocations() {
+    public ResponseEntity getAllInvitations() {
         try {
             // so what I aim at here is
             // sending entities to convert the values to hash on the server side and
