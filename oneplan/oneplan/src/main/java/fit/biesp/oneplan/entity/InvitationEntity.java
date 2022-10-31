@@ -8,7 +8,7 @@ import java.util.Objects;
 public class InvitationEntity {
     @Basic
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "invitation_id")
@@ -20,12 +20,12 @@ public class InvitationEntity {
     @Column(name = "receiver_email")
     private String receiverEmail;
 
-    public InvitationEntity(int userId, int status, String receiverEmail) {
+    public InvitationEntity(Long userId, int status, String receiverEmail) {
         this.userId = userId;
         this.status = status;
         this.receiverEmail = receiverEmail;
     }
-    public InvitationEntity(int userId, String receiverEmail) {
+    public InvitationEntity(Long userId, String receiverEmail) {
         this.userId = userId;
         this.status = 0;
         this.receiverEmail = receiverEmail;
@@ -35,11 +35,11 @@ public class InvitationEntity {
 
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

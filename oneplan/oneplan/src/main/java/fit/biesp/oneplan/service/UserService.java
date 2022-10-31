@@ -90,7 +90,7 @@ public class UserService {
     public UserEntity findByNickname(String nickname) {
         return findOrThrow(nickname);
     }
-    public UserEntity findbyId(Integer id) {
+    public UserEntity findbyId(Long id) {
         return findOrThrow(id);
     }
     private UserEntity findOrThrow(String nickname) {
@@ -101,7 +101,7 @@ public class UserService {
         return optionalUser;
     }
 
-    private UserEntity findOrThrow(Integer id) {
+    private UserEntity findOrThrow(Long id) {
         UserEntity optionalUser = userRepository.findUserEntityById(id);
         if (optionalUser == null) {
             throw new IllegalArgumentException();

@@ -55,14 +55,14 @@ public class InvitationController {
         hash = 31 * hash + (invitationCreateDTO.getRecipient_email() == null ? 0 : invitationCreateDTO.getRecipient_email().hashCode());
 
         if (recipientEntity == null){
-            InvitationEntity invitationEntity = new InvitationEntity(invitationCreateDTO.getSender_id(),
+            InvitationEntity invitationEntity = new InvitationEntity(Long.valueOf(invitationCreateDTO.getSender_id()),
                     invitationCreateDTO.getRecipient_email());
 
             String link = clientUrl + "sendemail/" + hash;
             MailService.sendEmail(invitationCreateDTO.getRecipient_email(), link);
             invitationService.create(invitationEntity);
         }else{
-            InvitationEntity invitationEntity = new InvitationEntity(invitationCreateDTO.getSender_id(),
+            InvitationEntity invitationEntity = new InvitationEntity(Long.valueOf(invitationCreateDTO.getSender_id()),
                     0,
                     invitationCreateDTO.getRecipient_email());
             String link = clientUrl + "sendemail/" + hash;
@@ -74,12 +74,13 @@ public class InvitationController {
                 HttpStatus.OK
         );
     }
-    @GetMapping
-    public ResponseEntity<List<InvitationDTO>> getUserInvitations(int id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<List<InvitationDTO>> getUserInvitations(@PathVariable Integer id) {
         List<InvitationDTO> result = new ArrayList<>();
+        System.out.println(id);
         List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(id);
         for( InvitationEntity element : invitationEntityList){
-            result.add( new InvitationDTO(element.getUserId(), element.getReceiverEmail(), element.getInvitationId()));
+            result.add( new InvitationDTO(element.getUserId().intValue(), element.getReceiverEmail(), element.getInvitationId()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -99,7 +100,7 @@ public class InvitationController {
     }
 
     @PostMapping("/{id}/reject")
-    public ResponseEntity<String> reject(@PathVariable("id") int invitationId) {
+    public ResponseEntity<String> reject(@PathVariable("id") Integer invitationId) {
 
         if (invitationService.findByInvitationId(invitationId) != null) {
             invitationService.updateStatus(2, invitationService.findByInvitationId(invitationId));
@@ -110,17 +111,20 @@ public class InvitationController {
     }
     // in the passed header we have an id of the invited user
     @PostMapping("/{id}/accept")
-    public ResponseEntity<String> accept(@PathVariable("id") int invitationId) {
+    public ResponseEntity<String> accept(@PathVariable("id") Integer invitationId) {
         InvitationEntity invitationEntity = invitationService.findByInvitationId(invitationId);
         if(invitationEntity == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         FriendEntity newFriend = new FriendEntity();
-        PersonEntity personEntity = personService.getByEmail(invitationEntity.getReceiverEmail());
-        newFriend.setEmail(personEntity.getEmail());
-        UserEntity user = userService.findbyId(Math.toIntExact(personEntity.getId()));
-        newFriend.setUserId(Math.toIntExact(user.getId()));
+
+        newFriend.setEmail(invitationEntity.getReceiverEmail());
+        UserEntity user = userService.findbyId(invitationEntity.getUserId());
+        newFriend.setUserId(invitationEntity.getUserId().intValue());
         newFriend.setNickname(user.getNickname());
+        System.out.println(newFriend.getEmail());
+        System.out.println(newFriend.getNickname());
+        System.out.println(newFriend.getUserId());
         friendService.create(newFriend);
         invitationService.updateStatus(1, invitationEntity);
         return new ResponseEntity<>("hooray", HttpStatus.OK);

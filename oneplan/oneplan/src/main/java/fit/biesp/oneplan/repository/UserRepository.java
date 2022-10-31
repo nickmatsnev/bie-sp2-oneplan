@@ -7,5 +7,5 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     UserEntity findByNickname(String email);
     UserEntity findByEmail(String email);
 
-    UserEntity findUserEntityById(Integer id);
+    UserEntity findUserEntityById(Long id);
 }

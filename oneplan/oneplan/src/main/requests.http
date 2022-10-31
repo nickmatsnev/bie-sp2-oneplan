@@ -95,3 +95,8 @@ Content-Type: application/json
   "sender_id": 1,
   "recipient_email": "matsnev2001@yandex.ru"
 }
+###
+
+
+POST https://app-oneplan-221011202557.azurewebsites.net/invitations/3/accept
+Content-Type: application/json
