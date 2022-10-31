@@ -9,9 +9,6 @@ public class InvitationEntity {
     @Basic
     @Column(name = "user_id")
     private int userId;
-    @Basic
-    @Column(name = "receiver_id")
-    private int receiverId;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "invitation_id")
@@ -23,16 +20,13 @@ public class InvitationEntity {
     @Column(name = "receiver_email")
     private String receiverEmail;
 
-    public InvitationEntity(int userId, int receiverId, int status, String receiverEmail) {
+    public InvitationEntity(int userId, int status, String receiverEmail) {
         this.userId = userId;
-        this.receiverId = receiverId;
         this.status = status;
         this.receiverEmail = receiverEmail;
     }
     public InvitationEntity(int userId, String receiverEmail) {
         this.userId = userId;
-        this.receiverId = receiverId;
-        this.invitationId = invitationId;
         this.status = 0;
         this.receiverEmail = receiverEmail;
     }
@@ -49,17 +43,6 @@ public class InvitationEntity {
         this.userId = userId;
     }
 
-    public int getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(Integer receiverId) {
-        this.receiverId = receiverId;
-    }
-
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
-    }
 
     public int getInvitationId() {
         return invitationId;
@@ -82,12 +65,12 @@ public class InvitationEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InvitationEntity that = (InvitationEntity) o;
-        return userId == that.userId && receiverId == that.receiverId && invitationId == that.invitationId && status == that.status;
+        return userId == that.userId && invitationId == that.invitationId && status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, receiverId, invitationId, status);
+        return Objects.hash(userId, invitationId, status);
     }
 
     public String getReceiverEmail() {

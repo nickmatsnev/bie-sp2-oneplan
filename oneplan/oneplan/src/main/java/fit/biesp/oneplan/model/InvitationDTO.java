@@ -2,12 +2,15 @@ package fit.biesp.oneplan.model;
 
 public class InvitationDTO {
     private int userId;
-    private int receiverId;
+    private String receiverEmail;
     private int invitationId;
 
-    public InvitationDTO(int userId, int receiverId, int invitationId) {
+    public InvitationDTO() {
+    }
+
+    public InvitationDTO(int userId, String receiverEmail, int invitationId) {
         this.userId = userId;
-        this.receiverId = receiverId;
+        this.receiverEmail = receiverEmail;
         this.invitationId = invitationId;
     }
 
@@ -19,12 +22,12 @@ public class InvitationDTO {
         this.userId = userId;
     }
 
-    public int getReceiverId() {
-        return receiverId;
+    public String getReceiverEmail() {
+        return receiverEmail;
     }
 
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
     }
 
     public int getInvitationId() {

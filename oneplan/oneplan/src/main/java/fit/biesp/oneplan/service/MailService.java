@@ -18,7 +18,7 @@ public class MailService {
         Email from = new Email("matsnnik@fit.cvut.cz");
         String subject = "Sending Invitation for Friendship";
         Email to = new Email(toEmail);
-        Content content = new Content("text/plain", "Become my friend, i will pass parameters later.\n" +
+        Content content = new Content("text/plain", "Become my friend, link  to join is below.\n" +
                 linkToInvite + "\n thank you for accepting it.");
         Mail mail = new Mail(from, subject, to, content);
         // our api key

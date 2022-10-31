@@ -63,7 +63,6 @@ public class InvitationController {
             invitationService.create(invitationEntity);
         }else{
             InvitationEntity invitationEntity = new InvitationEntity(invitationCreateDTO.getSender_id(),
-                    recipientEntity.getId().intValue(),
                     0,
                     invitationCreateDTO.getRecipient_email());
             String link = clientUrl + "sendemail/" + hash;
@@ -76,12 +75,11 @@ public class InvitationController {
         );
     }
     @GetMapping
-    public ResponseEntity<List<InvitationDTO>> getUserInvitations(@RequestHeader("Authorization") String header) {
-        Integer userId =  Integer.valueOf(header);
+    public ResponseEntity<List<InvitationDTO>> getUserInvitations(int id) {
         List<InvitationDTO> result = new ArrayList<>();
-        List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(userId);
+        List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(id);
         for( InvitationEntity element : invitationEntityList){
-            result.add( new InvitationDTO(element.getUserId(),element.getReceiverId(),element.getInvitationId()));
+            result.add( new InvitationDTO(element.getUserId(), element.getReceiverEmail(), element.getInvitationId()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
