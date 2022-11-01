@@ -14,7 +14,7 @@ public class GeneralTest extends BaseTest{
     @Test
     public void createFriendTest() throws Exception {
         Mockito.when(friendService.addFriend(friendModel))
-                .thenReturn("Friend successfully created");
+                .thenReturn(friendModel);
 
         friendMvc.perform(MockMvcRequestBuilders.post("/friends")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -43,8 +43,6 @@ public class GeneralTest extends BaseTest{
                 .andReturn();
 
         assertEquals(response.getResponse().getStatus(), 200);
-        assertEquals(response.getResponse().getContentAsString(),
-                "Friend has been deleted successfully");
     }
 
     @Test

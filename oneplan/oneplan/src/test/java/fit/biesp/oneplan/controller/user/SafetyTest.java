@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.Mockito.when;
 
-public class SafetyTest extends BaseTest{
+public class SafetyTest extends BaseTest {
 
     @Test
     public void createEmptyUserTest() throws Exception {

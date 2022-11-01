@@ -1,9 +1,11 @@
 package fit.biesp.oneplan.controller.person;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fit.biesp.oneplan.controller.PersonController;
 import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.model.PersonModel;
 import fit.biesp.oneplan.service.PersonService;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +34,7 @@ public class BaseTest {
                 "updatedEmail");
         this.updatedPersonModel = PersonModel.toModel(updatedPersonEntity);
         this.personModel = PersonModel.toModel(personEntity);
+        personModel.setId(1L);
         this.objectMapper = new ObjectMapper();
     }
 

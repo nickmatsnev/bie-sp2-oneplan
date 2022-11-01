@@ -14,7 +14,7 @@ public class GeneralTest extends BaseTest{
     @Test
     public void createPersonTest() throws Exception {
         Mockito.when(personService.addPerson(personModel))
-                .thenReturn("Person successfully created");
+                .thenReturn(personModel);
 
         personMvc.perform(MockMvcRequestBuilders.post("/persons")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -43,8 +43,6 @@ public class GeneralTest extends BaseTest{
                 .andReturn();
 
         assertEquals(response.getResponse().getStatus(), 200);
-        assertEquals(response.getResponse().getContentAsString(),
-                "Person with id null has been deleted successfully");
     }
 
     @Test

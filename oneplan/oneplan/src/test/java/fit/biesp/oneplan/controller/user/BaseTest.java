@@ -1,10 +1,12 @@
 package fit.biesp.oneplan.controller.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fit.biesp.oneplan.controller.UserController;
 import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,9 +32,10 @@ public class BaseTest {
         this.userEntity = new UserEntity(
                 "name", "email", "password");
         this.updatedUserEntity = new UserEntity(
-                "updatedName","updatedEmail", "updatedPassword");
+                "updatedName", "updatedEmail", "updatedPassword");
         this.updatedUserModel = UserModel.toModel(updatedUserEntity);
         this.userModel = UserModel.toModel(userEntity);
+        userModel.setId(1L);
         this.userRegistrationModel = UserRegistrationModel.toModel(userEntity);
         this.objectMapper = new ObjectMapper();
     }

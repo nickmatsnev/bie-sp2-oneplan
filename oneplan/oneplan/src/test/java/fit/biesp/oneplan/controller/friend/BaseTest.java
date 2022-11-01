@@ -1,9 +1,11 @@
 package fit.biesp.oneplan.controller.friend;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fit.biesp.oneplan.controller.FriendController;
 import fit.biesp.oneplan.entity.FriendEntity;
 import fit.biesp.oneplan.model.FriendModel;
 import fit.biesp.oneplan.service.FriendService;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +34,7 @@ public class BaseTest {
                 "updatedName","updatedEmail");
         this.updatedFriendModel = FriendModel.toModel(updatedFriendEntity);
         this.friendModel = FriendModel.toModel(friendEntity);
+        friendModel.setId(1L);
         this.objectMapper = new ObjectMapper();
     }
 }

@@ -9,12 +9,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GeneralTest extends BaseTest{
+public class GeneralTest extends BaseTest {
 
     @Test
     public void createUserTest() throws Exception {
         Mockito.when(userService.registration(userRegistrationModel))
-                .thenReturn("User successfully created");
+                .thenReturn(userModel);
 
         userMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -43,8 +43,6 @@ public class GeneralTest extends BaseTest{
                 .andReturn();
 
         assertEquals(response.getResponse().getStatus(), 200);
-        assertEquals(response.getResponse().getContentAsString(),
-                "User has been deleted successfully");
     }
 
     @Test
