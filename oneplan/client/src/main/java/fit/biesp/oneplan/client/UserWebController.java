@@ -228,26 +228,13 @@ public class UserWebController {
 
     @GetMapping("/sendemail/{id}")
     // блять я не знаю в @ModelAttribute какая модель, можешь туда встать friend, user, person модели
-    public String sendInvitationPageMapping(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Long id) {
-        Flux<InvitationModel> invitationModelListFlux = userClient.getInvites();
-        List<InvitationModel> invitationModelList = new ArrayList<>();
-        invitationModelListFlux.collectList().subscribe(invitationModelList::addAll);
-        InvitationModel ourInvite = new InvitationModel();
+    public String sendInvitationPageMapping(Model model, @ModelAttribute InvitationWelcomeModel invitationModel, @PathVariable("id") int id) {
+        Mono<InvitationWelcomeModel> ourInvite = userClient.getInvite(id);
         // как я это вижу: мы посылаем хэш и потом проверяем на клиенте если совпадает
-        // то принтим аксепт и режект кнопки а если нет то редирект нахуй
-        for(InvitationModel inv : invitationModelList){
-            int hash = 7;
-            hash = 31 * hash + (int) inv.getUserId();
-            hash = 31 * hash + (inv.getReceiverEmail() == null ? 0 : inv.getReceiverEmail().hashCode());
-            if(hash == id){
-                ourInvite = inv;
-                model.addAttribute("invitation", ourInvite);
-                model.addAttribute("hash", hash);
-                return "invitePage";
-            }
-        }
+        // то принтим аксепт и режект кнопки а если нет то редирект нах
+        model.addAttribute("invitation", ourInvite);
+        return "invitePage";
         // здесь надо вызвать функцию по сбору АПИ в UserClien. а что туда передавать я хз, для примера сделал invitationModel а так можно что угодно
-        return "redirect:/login";
     }
 
     @PostMapping("/profile")
@@ -258,14 +245,16 @@ public class UserWebController {
     }
 
     @PostMapping("/sendemail/{id}/accept")
-    public String sendInvitationToTheBackEndPositive(Model model, @ModelAttribute InvitationDTO invitationModel, @PathVariable("id") Integer id){
+    public String sendInvitationToTheBackEndPositive(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Integer id){
         model.addAttribute("invite", userClient.accept(id));
+        model.addAttribute("invitation", invitationModel);
         return "redirect:/welcome";
     }
 
     @PostMapping("/sendemail/{id}/reject")
-    public String sendInvitationToTheBackEndNegative(Model model, @ModelAttribute InvitationDTO invitationModel, @PathVariable("id") Integer id){
+    public String sendInvitationToTheBackEndNegative(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Integer id){
         model.addAttribute("invite", userClient.reject(id));
+        model.addAttribute("invitation", invitationModel);
         return "redirect:/welcome";
     }
 }

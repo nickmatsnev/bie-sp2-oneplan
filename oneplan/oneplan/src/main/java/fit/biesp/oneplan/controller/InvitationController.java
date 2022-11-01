@@ -7,6 +7,7 @@ import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.model.InvitationCreateDTO;
 import fit.biesp.oneplan.model.InvitationDTO;
+import fit.biesp.oneplan.model.InvitationWithNameDTO;
 import fit.biesp.oneplan.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,22 +51,19 @@ public class InvitationController {
     public ResponseEntity<String> send(@RequestBody InvitationCreateDTO invitationCreateDTO) throws IOException {
         // find user by email
         PersonEntity recipientEntity = personService.unsafeGetByEmail(invitationCreateDTO.getRecipient_email());
-        int hash = 7;
-        hash = 31 * hash + (int) invitationCreateDTO.getSender_id();
-        hash = 31 * hash + (invitationCreateDTO.getRecipient_email() == null ? 0 : invitationCreateDTO.getRecipient_email().hashCode());
 
         if (recipientEntity == null){
             InvitationEntity invitationEntity = new InvitationEntity(Long.valueOf(invitationCreateDTO.getSender_id()),
                     invitationCreateDTO.getRecipient_email());
 
-            String link = clientUrl + "sendemail/" + hash;
+            String link = clientUrl + "sendemail/" + invitationEntity.getInvitationId();
             MailService.sendEmail(invitationCreateDTO.getRecipient_email(), link);
             invitationService.create(invitationEntity);
         }else{
             InvitationEntity invitationEntity = new InvitationEntity(Long.valueOf(invitationCreateDTO.getSender_id()),
                     0,
                     invitationCreateDTO.getRecipient_email());
-            String link = clientUrl + "sendemail/" + hash;
+            String link = clientUrl + "sendemail/" + invitationEntity.getInvitationId();
             MailService.sendEmail(invitationCreateDTO.getRecipient_email(), link);
             invitationService.create(invitationEntity);
         }
@@ -74,8 +72,8 @@ public class InvitationController {
                 HttpStatus.OK
         );
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<List<InvitationDTO>> getUserInvitations(@PathVariable Integer id) {
+    @GetMapping("user/{id}")
+    public ResponseEntity<List<InvitationDTO>> getUserInvitations(@PathVariable("id") Integer id) {
         List<InvitationDTO> result = new ArrayList<>();
         System.out.println(id);
         List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(id);
@@ -83,6 +81,17 @@ public class InvitationController {
             result.add( new InvitationDTO(element.getUserId().intValue(), element.getReceiverEmail(), element.getInvitationId()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<InvitationWithNameDTO> getInvitation(@PathVariable("id") Integer id) {
+        InvitationEntity invitationEntity = invitationService.findByInvitationId(id);
+        InvitationWithNameDTO invitationWithNameDTO = new InvitationWithNameDTO(
+                userService.findbyId(invitationEntity.getUserId()).getNickname(),
+                invitationEntity.getReceiverEmail(),
+                invitationEntity.getInvitationId()
+        );
+        return new ResponseEntity<>(invitationWithNameDTO, HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -104,7 +113,7 @@ public class InvitationController {
 
         if (invitationService.findByInvitationId(invitationId) != null) {
             invitationService.updateStatus(2, invitationService.findByInvitationId(invitationId));
-            return new ResponseEntity<>("{}", HttpStatus.OK);
+            return new ResponseEntity<>("2", HttpStatus.OK);
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -127,6 +136,6 @@ public class InvitationController {
         System.out.println(newFriend.getUserId());
         friendService.create(newFriend);
         invitationService.updateStatus(1, invitationEntity);
-        return new ResponseEntity<>("hooray", HttpStatus.OK);
+        return new ResponseEntity<>("1", HttpStatus.OK);
     }
 }

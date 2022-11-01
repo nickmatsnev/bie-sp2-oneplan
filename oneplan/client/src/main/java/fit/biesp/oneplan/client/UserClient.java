@@ -17,7 +17,8 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
-    public UserClient(@Value("http://localhost:8080") String baseUrl) {
+    //@Value("http://app-oneplan-221011202557.azurewebsites.net/"
+    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net/") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
@@ -105,11 +106,11 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Flux<InvitationModel> getInvites() {
+    public Mono<InvitationWelcomeModel> getInvite(long id) {
         return userWebClient.get()
-                .uri("/invitations/all")
+                .uri("/invitations/{id}", id)
                 .retrieve()
-                .bodyToFlux(InvitationModel.class);
+                .bodyToMono(InvitationWelcomeModel.class);
     }
 
     public Mono<String> createInvite(InvitationDTO newPersonToInvite) { /// В параметр где newPersonToInvite надо вставить что будет передаваться на апи в бэк
@@ -124,7 +125,7 @@ public class UserClient {
 
     public Flux<InvitationModel> getUserInvites(Integer id) { /// api request builder for getting the events
         return userWebClient.get()
-                .uri("/invitations/{id}", id)
+                .uri("/invitations/user/{id}", id)
                 .retrieve() // request specification finished
                 .bodyToFlux(InvitationModel.class); // interpret response body as a collection
     }
