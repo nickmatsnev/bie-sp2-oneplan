@@ -82,7 +82,16 @@ public class InvitationController {
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+    @GetMapping("/user/nickname/{nickname}")
+    public ResponseEntity<List<InvitationDTO>> getByNickname(@PathVariable("nickname") String nickname){
+        UserEntity user = userService.findByNickname(nickname);
+        List<InvitationDTO> result = new ArrayList<>();
+        List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(Math.toIntExact(user.getId()));
+        for( InvitationEntity element : invitationEntityList){
+            result.add( new InvitationDTO(element.getUserId().intValue(), element.getReceiverEmail(), element.getInvitationId()));
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<InvitationWithNameDTO> getInvitation(@PathVariable("id") Integer id) {
         InvitationEntity invitationEntity = invitationService.findByInvitationId(id);
@@ -107,6 +116,8 @@ public class InvitationController {
             return ResponseEntity.badRequest().body("Error while trying to list locations. " + e.getMessage());
         }
     }
+
+
 
     @PostMapping("/{id}/reject")
     public ResponseEntity<String> reject(@PathVariable("id") Integer invitationId) {
