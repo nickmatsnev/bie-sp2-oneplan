@@ -123,11 +123,11 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Flux<InvitationModel> getUserInvites(Integer id) { /// api request builder for getting the events
+    public Flux<InvitationWelcomeModel> getUserInvites(String nickname) { /// api request builder for getting the events
         return userWebClient.get()
-                .uri("/invitations/user/{id}", id)
+                .uri("/invitations/users/nickname/{nickname}", nickname)
                 .retrieve() // request specification finished
-                .bodyToFlux(InvitationModel.class); // interpret response body as a collection
+                .bodyToFlux(InvitationWelcomeModel.class); // interpret response body as a collection
     }
 
     public Mono<String> accept(int invId){

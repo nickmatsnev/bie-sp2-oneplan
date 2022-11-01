@@ -159,6 +159,25 @@
                 </tbody>
             </table>
         </div>
+    <div class="col-12">
+        <h3>My Invitations</h3>
+    </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <td id="userIde">user nickname</td>
+                <td id="receiverEmaile">receiver Email</td>
+                <td id="invitationIde">invitation id</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invites}">
+                    <td id ="userName" th:text="${invite.userName}">userName</td>
+                    <td id ="receiverEmail" th:text="${invite.receiverEmail}">receiverEmail</td>
+                    <td id ="invitationId" th:text="${invite.invitationId}">invitationId</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <!-- Bootstrap scripts -->

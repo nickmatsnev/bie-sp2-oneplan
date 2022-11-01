@@ -72,23 +72,25 @@ public class InvitationController {
                 HttpStatus.OK
         );
     }
-    @GetMapping("user/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<List<InvitationDTO>> getUserInvitations(@PathVariable("id") Integer id) {
         List<InvitationDTO> result = new ArrayList<>();
-        System.out.println(id);
         List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(id);
         for( InvitationEntity element : invitationEntityList){
             result.add( new InvitationDTO(element.getUserId().intValue(), element.getReceiverEmail(), element.getInvitationId()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    @GetMapping("/user/nickname/{nickname}")
-    public ResponseEntity<List<InvitationDTO>> getByNickname(@PathVariable("nickname") String nickname){
+    @GetMapping("/users/nickname/{nickname}")
+    public ResponseEntity<List<InvitationWithNameDTO>> getByNickname(@PathVariable("nickname") String nickname){
         UserEntity user = userService.findByNickname(nickname);
-        List<InvitationDTO> result = new ArrayList<>();
+        List<InvitationWithNameDTO> result = new ArrayList<>();
         List<InvitationEntity> invitationEntityList = invitationService.findAllByUserId(Math.toIntExact(user.getId()));
         for( InvitationEntity element : invitationEntityList){
-            result.add( new InvitationDTO(element.getUserId().intValue(), element.getReceiverEmail(), element.getInvitationId()));
+            result.add( new InvitationWithNameDTO(
+                    userService.findbyId(Long.valueOf(element.getUserId())).getNickname(),
+                    element.getReceiverEmail(),
+                    element.getInvitationId()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -96,7 +98,7 @@ public class InvitationController {
     public ResponseEntity<InvitationWithNameDTO> getInvitation(@PathVariable("id") Integer id) {
         InvitationEntity invitationEntity = invitationService.findByInvitationId(id);
         InvitationWithNameDTO invitationWithNameDTO = new InvitationWithNameDTO(
-                userService.findbyId(invitationEntity.getUserId()).getNickname(),
+                userService.findbyId(invitationEntity.getUserId().longValue()).getNickname(),
                 invitationEntity.getReceiverEmail(),
                 invitationEntity.getInvitationId()
         );
@@ -139,7 +141,7 @@ public class InvitationController {
         FriendEntity newFriend = new FriendEntity();
 
         newFriend.setEmail(invitationEntity.getReceiverEmail());
-        UserEntity user = userService.findbyId(invitationEntity.getUserId());
+        UserEntity user = userService.findbyId(invitationEntity.getUserId().longValue());
         newFriend.setUserId(invitationEntity.getUserId().intValue());
         newFriend.setNickname(user.getNickname());
         System.out.println(newFriend.getEmail());

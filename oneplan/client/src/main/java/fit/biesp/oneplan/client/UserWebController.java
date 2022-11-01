@@ -177,6 +177,7 @@ public class UserWebController {
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
         model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         System.out.println("Reached getMapping on Profile");
         return "profile";
     }
@@ -241,6 +242,7 @@ public class UserWebController {
     public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationDTO){
         System.out.println("Reached postMapping on Profile");
         model.addAttribute("invitationDTO", userClient.createInvite(invitationDTO));
+        model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         return "redirect:/profile";
     }
 
@@ -256,5 +258,15 @@ public class UserWebController {
         model.addAttribute("invite", userClient.reject(id));
         model.addAttribute("invitation", invitationModel);
         return "redirect:/welcome";
+    }
+    @PostMapping("/get-invites") /// mapping to open event details
+    public String getInvites(Model model, @ModelAttribute InvitationWelcomeModel invitationModel) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+
+        model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
+        /// getting the event model from the server
+        return "redirect:/profile";
     }
 }
