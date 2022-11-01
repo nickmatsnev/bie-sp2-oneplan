@@ -28,4 +28,9 @@ public class FriendEntity {
     //@ManyToOne
     //@JoinColumn(name = "user_id")
     //private UserEntity user;
+
+    public FriendEntity(String nickname, String email) {
+        this.nickname = nickname;
+        this.email = email;
+    }
 }
