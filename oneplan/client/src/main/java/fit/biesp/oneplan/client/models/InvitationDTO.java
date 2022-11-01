@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvitationDTO {
-    Integer sender_id;
-    String recipient_email;
+    private Integer sender_id;
+    private String recipient_email;
 }

@@ -63,6 +63,9 @@
             <li class="list-group-item"><b>Email:</b>
                 <div id="email" th:text="${user.email} "></div>
             </li>
+            <li class="list-group-item"><b>Email:</b>
+                <div id="userId1" th:text="${user.id} "></div>
+            </li>
         </ul>
 
     </div>
@@ -74,10 +77,13 @@
                 <label for="name1" class="form-label ">Email of a person you want to
                     invite</label>
                 <div class="input-group">
-                    <form action="#" method="post" th:action="@{/sendemail}" th:object="${invitationDTO}">
+                    <form action="#" method="post" th:action="@{/profile}" th:object="${invitationDTO}">
                         <input id="name1" class="form-control" name="name1" type="text" placeholder="Email@email.com"
                                required="required" autofocus th:field="*{recipient_email}">
-                        <input type="hidden" id="userId" name="custId" th:value="${user.id}" th:field="*{sender_id}">
+                        <select class="form-control" type hidden th:field="*{sender_id}" id="drop">
+                            <option th:value ="${user.id}">
+                            </option>
+                        </select>
                         <button class="btn btn-outline-primary" type="submit">send invite</button>
                     </form>
                 </div>

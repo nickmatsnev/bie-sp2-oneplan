@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -94,19 +96,19 @@ public class UserWebController {
             return "register";
         }
 
-        //      Checks each character to see if it is acceptable.
-        for (int i = 0; i < userRegistrationModel.getPassword().length(); i++){
-            char c = userRegistrationModel.getPassword().charAt(i);
-
-            if (       ('a' <= c && c <= 'z') // Checks if it is a lower case letter
-                    || ('A' <= c && c <= 'Z') //Checks if it is an upper case letter
-                    || ('0' <= c && c <= '9')){ //Checks to see if it is a digit
-
-                model.addAttribute("userRegistrationSubmit", "Password should contain at least 1 lower case, 1 uppercase letter and 1 digit");
-                model.addAttribute("userRegistrationDto", new UserRegistrationModel());
-                return "register";
-            }
-        }
+//        //      Checks each character to see if it is acceptable.
+//        for (int i = 0; i < userRegistrationModel.getPassword().length(); i++){
+//            char c = userRegistrationModel.getPassword().charAt(i);
+//
+//            if (       ('a' <= c && c <= 'z') // Checks if it is a lower case letter
+//                    || ('A' <= c && c <= 'Z') //Checks if it is an upper case letter
+//                    || ('0' <= c && c <= '9')){ //Checks to see if it is a digit
+//
+//                model.addAttribute("userRegistrationSubmit", "Password should contain at least 1 lower case, 1 uppercase letter and 1 digit");
+//                model.addAttribute("userRegistrationDto", new UserRegistrationModel());
+//                return "register";
+//            }
+//        }
         /// sending the registration model to the server
         model.addAttribute("userRegistrationSubmit", userClient.create(userRegistrationModel));
         model.addAttribute("userRegistrationDto", new UserRegistrationModel());
@@ -175,6 +177,7 @@ public class UserWebController {
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
         model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
+        System.out.println("Reached getMapping on Profile");
         return "profile";
     }
 
@@ -226,7 +229,9 @@ public class UserWebController {
     @GetMapping("/sendemail/{id}")
     // блять я не знаю в @ModelAttribute какая модель, можешь туда встать friend, user, person модели
     public String sendInvitationPageMapping(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Long id) {
-        List<InvitationModel> invitationModelList = (List<InvitationModel>) userClient.getInvites();
+        Flux<InvitationModel> invitationModelListFlux = userClient.getInvites();
+        List<InvitationModel> invitationModelList = new ArrayList<>();
+        invitationModelListFlux.collectList().subscribe(invitationModelList::addAll);
         InvitationModel ourInvite = new InvitationModel();
         // как я это вижу: мы посылаем хэш и потом проверяем на клиенте если совпадает
         // то принтим аксепт и режект кнопки а если нет то редирект нахуй
@@ -245,12 +250,11 @@ public class UserWebController {
         return "redirect:/login";
     }
 
-    @PostMapping("/sendemail")
-    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationModel){
-        System.out.println(invitationModel.getRecipient_email() + "this is email");
-        System.out.println(invitationModel.getSender_id() + "this is Id");
-        model.addAttribute("invitationDTO", userClient.createInvite(invitationModel));
-        return "invitePage";
+    @PostMapping("/profile")
+    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationDTO){
+        System.out.println("Reached postMapping on Profile");
+        model.addAttribute("invitationDTO", userClient.createInvite(invitationDTO));
+        return "redirect:/profile";
     }
 
     @PostMapping("/sendemail/{id}/accept")

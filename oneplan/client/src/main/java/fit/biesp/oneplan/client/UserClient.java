@@ -11,11 +11,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 @Component /// Class to convert the data from vrowser into api requests to server
 public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
-    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net") String baseUrl) {
+    public UserClient(@Value("http://localhost:8080") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
@@ -118,6 +120,13 @@ public class UserClient {
                 .bodyValue(newPersonToInvite) // сюда модельку, можно сделать только с айди ивента и передавать его в бэк с апи а не с bodyvalue
                 .retrieve()
                 .bodyToMono(String.class);
+    }
+
+    public Flux<InvitationModel> getUserInvites(Integer id) { /// api request builder for getting the events
+        return userWebClient.get()
+                .uri("/invitations/{id}", id)
+                .retrieve() // request specification finished
+                .bodyToFlux(InvitationModel.class); // interpret response body as a collection
     }
 
     public Mono<String> accept(int invId){
