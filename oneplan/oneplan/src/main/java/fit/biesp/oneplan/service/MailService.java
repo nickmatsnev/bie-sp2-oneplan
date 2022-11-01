@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MailService {
 
     public static void sendEmail(String toEmail, String linkToInvite) throws IOException {
-        Email from = new Email("one@plan.com");
+        Email from = new Email("matsnnik@fit.cvut.cz");
         String subject = "Sending Invitation for Friendship";
         Email to = new Email(toEmail);
         Content content = new Content("text/plain", "Become my friend, link  to join is below.\n" +
