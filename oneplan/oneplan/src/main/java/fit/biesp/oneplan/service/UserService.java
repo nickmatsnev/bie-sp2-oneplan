@@ -10,10 +10,8 @@ import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
 
 @Service
 public class UserService {
@@ -100,6 +98,8 @@ public class UserService {
         }
         return optionalUser;
     }
+
+    public List<UserEntity> getAll(){ return userRepository.findAll(); }
 
     private UserEntity findOrThrow(Long id) {
         UserEntity optionalUser = userRepository.findUserEntityById(id);

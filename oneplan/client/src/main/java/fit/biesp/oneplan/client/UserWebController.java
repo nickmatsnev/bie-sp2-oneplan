@@ -178,6 +178,8 @@ public class UserWebController {
         model1.addAttribute("invitationDTO", new InvitationDTO());
         model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("allUsers", userClient.getAllUsers());
         System.out.println("Reached getMapping on Profile");
         return "profile";
     }
@@ -242,7 +244,10 @@ public class UserWebController {
     public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationDTO){
         System.out.println("Reached postMapping on Profile");
         model.addAttribute("invitationDTO", userClient.createInvite(invitationDTO));
+        model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("allUsers", userClient.getAllUsers());
         return "redirect:/profile";
     }
 

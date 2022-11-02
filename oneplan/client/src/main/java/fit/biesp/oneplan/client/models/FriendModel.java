@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FriendModel {
-    private Long id;
+    private int id;
     private String nickname;
     private String email;
+    private int userId;
 }

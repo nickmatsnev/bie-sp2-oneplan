@@ -129,6 +129,19 @@ public class UserClient {
                 .retrieve() // request specification finished
                 .bodyToFlux(InvitationWelcomeModel.class); // interpret response body as a collection
     }
+    public Flux<FriendModel> getFriendsById(String nickname){
+        return userWebClient.get()
+                .uri("/friends/user/{nickname}", nickname)
+                .retrieve()
+                .bodyToFlux(FriendModel.class);
+    }
+
+    public Flux<UserModel> getAllUsers(){
+        return userWebClient.get()
+                .uri("/users/all")
+                .retrieve()
+                .bodyToFlux(UserModel.class);
+    }
 
     public Mono<String> accept(int invId){
         return userWebClient.post()

@@ -6,6 +6,8 @@ import fit.biesp.oneplan.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FriendService {
     @Autowired
@@ -38,4 +40,6 @@ public class FriendService {
         friendRepository.deleteById(id);
         return id;
     }
+
+    public List<FriendEntity> findAllByUserId(Integer userId){ return friendRepository.findAllByUserId(userId);}
 }

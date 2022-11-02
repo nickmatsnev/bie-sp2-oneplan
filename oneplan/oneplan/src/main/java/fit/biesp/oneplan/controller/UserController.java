@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -98,6 +100,20 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserModel>> getAllUsers(){
+        List<UserEntity> entities = userService.getAll();
+        List<UserModel> models = new ArrayList<>();
+        for(UserEntity entity : entities){
+            models.add(new UserModel(
+                    entity.getId(),
+                    entity.getNickname(),
+                    entity.getEmail()
+            ));
+        }
+        return new ResponseEntity<>(models, HttpStatus.OK);
     }
 
 }
