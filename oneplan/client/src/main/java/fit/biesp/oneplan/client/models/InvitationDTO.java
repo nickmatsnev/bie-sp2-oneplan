@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserModel {
-    private Long id;
-    private String nickname;
-    private String email;
+public class InvitationDTO {
+    private Integer sender_id;
+    private String recipient_email;
 }

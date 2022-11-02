@@ -1,129 +1,242 @@
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <style>
-        h1 {text-align: center;}
-    </style>
-    <title></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>OnePlan Startup</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
 
-</body>
-</html>
+<body class="p-3 m-0 border-0 bd-example">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title> Login Page </title>
-<style>
-    Body {
-        font-family: Calibri, Helvetica, sans-serif;
-        background-color: white;
-    }
-    #signupButton {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #d75f00;
-        /* Rectangle 2 */
-        box-sizing: border-box;
-        position: absolute;
-        left: 31.07%;
-        right: 31.07%;
-        top: 40%;
-        border: 3px solid #d75f00;
-        border-radius: 30px;
-        background-color: white;
-    }
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home"><span style="color: blue;">O</span>nePlan</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/get-events">My events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-event">Create event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About us</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                    <div th:text="'Welcome to OnePlan'"></div>
+                </span>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/logout">Log out</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container mt-4">
+    <div class="card">
 
-    #logoutButton {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 50px;
-        height: 55px;
-        color: #2945FF;
-        /* Rectangle 2 */
-        box-sizing: border-box;
-        position: absolute;
-        left: 31.07%;
-        right: 31.07%;
-        top: 30%;
-        border: 4px solid #2945FF;
-        border-radius: 30px;
-        background-color: white;
-    }
+        <div class="card-body">
+            <h5 class="card-title">Profile</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Username:</b>
+                <div id="user" th:text="${user.nickname} "></div>
+            </li>
+            <li class="list-group-item"><b>Email:</b>
+                <div id="email" th:text="${user.email} "></div>
+            </li>
+            <li class="list-group-item"><b>Email:</b>
+                <div id="userId1" th:text="${user.id} "></div>
+            </li>
+        </ul>
 
-    #welcomeText{
-        position: absolute;
-        left: 9.58%;
-        right: 37.38%;
-        top: 15.48%;
-        bottom: 40.93%;
-        font-style: normal;
-        font-weight: 800;
-        font-size: 20px;
-        line-height: 24px;
-        /* identical to box height */
-        color: #2945FF;
-    }
-
-    button:hover {
-        opacity: 0.7;
-    }
-    .cancelbtn {
-        width: auto;
-        padding: 10px 18px;
-        margin: 10px 5px;
-    }
-
-    .topnav {
-        background-color: #333;
-        overflow: hidden;
-    }
-
-    /* Style the links inside the navigation bar */
-    .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-    }
-
-    /* Change the color of links on hover */
-    .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-
-    /* Add a color to the active/current link */
-    .topnav a.active {
-        background-color: #2945FF;
-        color: white;
-    }
-
-</style>
-
-<div class="topnav">
-    <a href="/home">Home</a>
-    <a href="/get-events">My events</a>
-    <a href="/create-event">Create event</a>
-    <a href="/create-location">New location</a>
-    <a class="active" href="/profile">Profile</a>
-    <a href ="/about">About Us</a>
+    </div>
 </div>
+<div class="container overflow-hidden text-center mt-4">
+    <div class="row gy-5">
+        <div class="col-6">
+            <form class="mb-3 mt-md-4" method="post" action="#">
+                <label for="name1" class="form-label ">Email of a person you want to
+                    invite</label>
+                <div class="input-group">
+                    <form action="#" method="post" th:action="@{/profile}" th:object="${invitationDTO}">
+                        <input id="name1" class="form-control" name="name1" type="text" placeholder="Email@email.com"
+                               required="required" autofocus th:field="*{recipient_email}">
+                        <select class="form-control" type hidden th:field="*{sender_id}" id="drop">
+                            <option th:value ="${user.id}">
+                            </option>
+                        </select>
+                        <button class="btn btn-outline-primary" type="submit">send invite</button>
+                    </form>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+            <form class="mb-3 mt-md-4" method="post" action="#">
+                <label for="myInput" class="form-label ">Friend's name, surname or email you want to find your mate!</label>
+                <div class="input-group">
+                    <input class="form-control" name="name1" id="myInput" onkeyup="myFunction()"  type="text" placeholder="Type to search"
+                           required="required" autofocus>
 
-<div id = "welcomeText" th:text = "'Username: ' + ${user.nickname} "></div>
 
-<form action="/home">
-    <div><button id ="signupButton" type="submit">RETURN</button></div>
-</form>
+                    <a class="btn btn-outline-info" href="#" type="submit"> search</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-12">
+            <table  class="table">
+                <thead>
+                <th id="Friendnickname">Friend's nickname</th>
+                <th id="Friendemail">Friend's email</th>
+                <th id="Friendfriend">Remove friend</th>
+                </thead>
+                <tbody>
+                <tr th:each="friend: ${friends}">
+                    <td id ="nickname" th:text="${friend.nickname}">userName</td>
+                    <td id ="femail" th:text="${friend.email}">receiverEmail</td>
+                    <td>
+                        <button class="btn btn-danger">Remove</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <div class="col-12">
+        <h3>My Invitations</h3>
+    </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <td id="userIde">user nickname</td>
+                <td id="receiverEmaile">receiver Email</td>
+                <td id="invitationIde">invitation id</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invites}">
+                    <td id ="userName" th:text="${invite.userName}">userName</td>
+                    <td id ="receiverEmail" th:text="${invite.receiverEmail}">receiverEmail</td>
+                    <td id ="invitationId" th:text="${invite.invitationId}">invitationId</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <h3>Add a friend from existing users!</h3>
+        </div>
+        <div class="col-12">
+            <form class="mb-3 mt-md-4" method="post" action="#">
+                <label for="myInput1" class="form-label ">Friend's nickname enter you should!</label>
+                <div class="input-group">
+                    <input class="form-control" name="name2" id="myInput1" onkeyup="myFunction1()"  type="text" placeholder="Type to search"
+                           required="required" autofocus>
 
-<form action="/logout">
-    <div><button id ="logoutButton" type="submit">LOGOUT</button></div>
-</form>
 
+                    <a class="btn btn-outline-secondary"  href="#" type="submit"> search</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                <th>User's ID</th>
+                <th>User's nickname</th>
+                <th>User's email</th>
+                <th>Add friend</th>
+                </thead>
+                <tbody id="myTable1">
+                <tr th:each="user: ${allUsers}">
+                    <td id ="usI" th:text="${user.id}"></td>
+                    <td id ="usN" th:text="${user.nickname}"></td>
+                    <td id ="usE" th:text="${user.email}"></td>
+                    <td id ="usAdd">
+                        <button class="btn btn-info">Add</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+</div>
+<!-- Bootstrap scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+
+            td = tr[i].getElementsByTagName("td");
+            for(j = 0; j < td.length - 1; j++){
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+        }
+    }
+</script>
+<script>
+    function myFunction1() {
+        // Declare variables
+
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput1");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable1");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+
+            td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+        }
+    }
+</script>
+<!-- End of Bootstrap script -->
+</body>

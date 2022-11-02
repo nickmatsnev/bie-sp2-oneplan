@@ -53,5 +53,21 @@ public class PersonService {
         var person = personRepository.findById(id);
         return person.get().getEventsToAttend();
     }
+    public PersonEntity getByEmail(String email){
+        return findOrThrow(email);
+    }
+
+    public PersonEntity unsafeGetByEmail(String email){
+        return personRepository.findByEmail(email);
+    }
+
+    private PersonEntity findOrThrow(String email){
+        PersonEntity optionalPerson =  personRepository.findByEmail(email);
+        if (optionalPerson == null) {
+            throw new IllegalArgumentException();
+        }
+        return optionalPerson;
+
+    }
 
 }

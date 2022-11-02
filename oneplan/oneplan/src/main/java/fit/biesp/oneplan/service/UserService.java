@@ -10,10 +10,8 @@ import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
 
 @Service
 public class UserService {
@@ -81,4 +79,34 @@ public class UserService {
         }
         return events;
     }
+
+    public boolean loginUser(String nickname, String password) {
+        UserEntity user = findOrThrow(nickname);
+        return password.equals(user.getPassword());
+    }
+
+    public UserEntity findByNickname(String nickname) {
+        return findOrThrow(nickname);
+    }
+    public UserEntity findbyId(Long id) {
+        return findOrThrow(id);
+    }
+    private UserEntity findOrThrow(String nickname) {
+        UserEntity optionalUser = userRepository.findByNickname(nickname);
+        if (optionalUser == null) {
+            throw new IllegalArgumentException();
+        }
+        return optionalUser;
+    }
+
+    public List<UserEntity> getAll(){ return userRepository.findAll(); }
+
+    private UserEntity findOrThrow(Long id) {
+        UserEntity optionalUser = userRepository.findUserEntityById(id);
+        if (optionalUser == null) {
+            throw new IllegalArgumentException();
+        }
+        return optionalUser;
+    }
+
 }

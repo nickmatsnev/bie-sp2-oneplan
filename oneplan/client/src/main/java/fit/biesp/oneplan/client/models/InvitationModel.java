@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserModel {
-    private Long id;
-    private String nickname;
-    private String email;
+public class InvitationModel {
+    private int userId;
+    private String receiverEmail;
+    private int invitationId;
 }
