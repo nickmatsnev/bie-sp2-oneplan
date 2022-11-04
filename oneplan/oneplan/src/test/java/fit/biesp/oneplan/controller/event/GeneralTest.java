@@ -52,7 +52,7 @@ public class GeneralTest extends BaseTest {
 
         assertEquals(response.getResponse().getStatus(), 200);
         assertEquals(response.getResponse().getContentAsString(),
-                "Event with id null has been deleted successfully");
+                "Event with id 1 has been deleted successfully");
     }
 
     @Test
