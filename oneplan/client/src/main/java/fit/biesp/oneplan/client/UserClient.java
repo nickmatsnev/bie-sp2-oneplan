@@ -1,10 +1,9 @@
 package fit.biesp.oneplan.client;
-import fit.biesp.oneplan.client.models.EventModel;
-import fit.biesp.oneplan.client.models.LocationModel;
-import fit.biesp.oneplan.client.models.LoginModel;
-import fit.biesp.oneplan.client.models.UserRegistrationModel;
+import fit.biesp.oneplan.client.exception.UserNotFoundException;
+import fit.biesp.oneplan.client.models.*;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -12,11 +11,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 @Component /// Class to convert the data from vrowser into api requests to server
 public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
-    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net") String baseUrl) {
+    //@Value("http://app-oneplan-221011202557.azurewebsites.net/"
+    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net/") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
@@ -57,8 +59,8 @@ public class UserClient {
                 .bodyValue(loginModel)
                 .retrieve()
                 .onStatus(
-                        HttpStatus.BAD_REQUEST::equals,
-                        response -> response.bodyToMono(String.class).map(Exception::new)
+                        HttpStatus.NOT_FOUND::equals,
+                        response -> response.bodyToMono(String.class).map(UserNotFoundException::new)
                 )
                 .bodyToMono(String.class);
     }
@@ -69,6 +71,8 @@ public class UserClient {
                 .retrieve() // request specification finished
                 .bodyToFlux(LocationModel.class); // interpret response body as a collection
     }
+
+
 
     public Flux<EventModel> getUserEvents(String nickname) { /// api request builder for getting the events
         return userWebClient.get()
@@ -85,6 +89,12 @@ public class UserClient {
                 .bodyToMono(EventModel.class);
     }
 
+    public Mono<UserModel> getOneUser(String newid) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/users/{id}", newid)
+                .retrieve() // request specification finished
+                .bodyToMono(UserModel.class);
+    }
 
     public Mono<String> createEvent(EventModel newEvent) { /// api request builder for event creation
         return userWebClient.post()
@@ -92,6 +102,61 @@ public class UserClient {
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(newEvent)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<InvitationWelcomeModel> getInvite(long id) {
+        return userWebClient.get()
+                .uri("/invitations/{id}", id)
+                .retrieve()
+                .bodyToMono(InvitationWelcomeModel.class);
+    }
+
+    public Mono<String> createInvite(InvitationDTO newPersonToInvite) { /// В параметр где newPersonToInvite надо вставить что будет передаваться на апи в бэк
+        return userWebClient.post()// здесь задаешь метод
+                .uri("/invitations/send")// сам АПИ для бэка
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(newPersonToInvite) // сюда модельку, можно сделать только с айди ивента и передавать его в бэк с апи а не с bodyvalue
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Flux<InvitationWelcomeModel> getUserInvites(String nickname) { /// api request builder for getting the events
+        return userWebClient.get()
+                .uri("/invitations/users/nickname/{nickname}", nickname)
+                .retrieve() // request specification finished
+                .bodyToFlux(InvitationWelcomeModel.class); // interpret response body as a collection
+    }
+    public Flux<FriendModel> getFriendsById(String nickname){
+        return userWebClient.get()
+                .uri("/friends/user/{nickname}", nickname)
+                .retrieve()
+                .bodyToFlux(FriendModel.class);
+    }
+
+    public Flux<UserModel> getAllUsers(){
+        return userWebClient.get()
+                .uri("/users/all")
+                .retrieve()
+                .bodyToFlux(UserModel.class);
+    }
+
+    public Mono<String> accept(int invId){
+        return userWebClient.post()
+                .uri("/invitations/{id}/accept", invId)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> reject(int invId){
+        return userWebClient.post()
+                .uri("/invitations/{id}/reject", invId)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class);
     }

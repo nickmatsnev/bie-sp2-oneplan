@@ -87,3 +87,47 @@ Content-Type: application/json
 
 
 ###
+
+POST http://localhost:8085/invitations/send
+Content-Type: application/json
+
+{
+  "sender_id": 1,
+  "recipient_email": "matsnev2001@yandex.ru"
+}
+###
+
+
+GET https://app-oneplan-221011202557.azurewebsites.net/invitations/3
+Content-Type: application/json
+###
+
+
+GET https://app-oneplan-221011202557.azurewebsites.net/invitations/user/1
+Content-Type: application/json
+###
+
+
+GET  https://app-oneplan-221011202557.azurewebsites.net/invitations/users/nickname/{{nickname}}
+Content-Type: application/json
+###
+
+
+GET https://app-oneplan-221011202557.azurewebsites.net/invitations/user/nickname/1
+Content-Type: application/json
+###
+
+
+GET http://localhost:8085/friends/user/nick
+Content-Type: application/json
+
+###
+
+
+GET http://localhost:8085/users/all
+Content-Type: application/json
+###
+
+
+GET https://app-oneplan-221011202557.azurewebsites.net/users/all
+Content-Type: application/json
