@@ -51,7 +51,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteEvent(Long id) {
+    public ResponseEntity deleteEvent(@PathVariable Long id) {
         try {
             eventService.deleteEvent(id);
             return ResponseEntity.ok("Event with id " + id + " has been deleted successfully");

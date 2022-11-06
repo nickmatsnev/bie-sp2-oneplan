@@ -39,10 +39,12 @@ public class LocationService {
     }
 
 
-    public void deleteLocation(Long id) throws LocationIsMissingException {
-        if (locationRepository.findById(id).isEmpty())
+    public LocationModel deleteLocation(Long id) throws LocationIsMissingException {
+        var res = locationRepository.findById(id);
+        if (res.isEmpty())
             throw new LocationIsMissingException("No location with id " + id + " exists");
-        locationRepository.deleteById(id);
+        locationRepository.deleteById(res.get().getId());
+        return LocationModel.toModel(res.get());
     }
 
 
