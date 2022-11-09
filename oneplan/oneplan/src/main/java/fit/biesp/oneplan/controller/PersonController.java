@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/// Handles HTTP requests for non-registered person
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
     @Autowired
     private PersonService personService;
 
+    // Post request to create person
     @PostMapping()
     public ResponseEntity addPerson(@RequestBody PersonModel person){
         try{
@@ -26,6 +28,7 @@ public class PersonController {
         }
     }
 
+    // Get request to get person from database
     @GetMapping("/{id}")
     public ResponseEntity getPerson(@PathVariable("id") Long id){
         try{
@@ -37,6 +40,7 @@ public class PersonController {
         }
     }
 
+    // Put request to update person in database
     @PutMapping("/{id}")
     public ResponseEntity updatePerson(@RequestBody PersonModel personModel, @PathVariable("id") Long id) {
         try {
@@ -48,6 +52,7 @@ public class PersonController {
         }
     }
 
+    // Delete request to delete person from database
     @DeleteMapping("/{id}")
     public  ResponseEntity deletePerson(@PathVariable("id") Long id){
         try {
@@ -59,6 +64,7 @@ public class PersonController {
         }
     }
 
+    // Get request to get person's events to attend from database
     @GetMapping("/{id}/toAttend")
     public ResponseEntity getToAttend(@PathVariable("id") Long id) {
         try{

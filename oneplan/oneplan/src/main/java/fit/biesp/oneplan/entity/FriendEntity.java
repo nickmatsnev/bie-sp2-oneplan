@@ -35,6 +35,11 @@ public class FriendEntity {
         this.userId = userId;
     }
 
+    public FriendEntity(String email, String nickname) {
+        this.email = email;
+        this.nickname = nickname;
+    }
+
     public long getId() {
         return id;
     }

@@ -73,8 +73,7 @@ public class UserService {
 
         var user = userRepository.findByNickname(nickname);
         Set<EventModel> events = new HashSet<>();
-        for(Iterator<EventEntity> it = user.getEvents().iterator(); it.hasNext(); ){
-            EventEntity x = it.next();
+        for (EventEntity x : user.getEvents()) {
             events.add(EventModel.toModel(x));
         }
         return events;
