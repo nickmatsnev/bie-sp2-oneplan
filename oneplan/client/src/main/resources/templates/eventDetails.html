@@ -38,7 +38,7 @@
                 </li>
             </ul>
             <span class="navbar-text">
-            <div th:text = "'Welcome to OnePlan'"></div>
+            <div th:text = "'Welcome to OnePlan, ' + ${username.nickname} + ' '" ></div>
           </span>
             <form class="d-flex" role="search">
                 <a class="btn btn-outline-success" href="/logout">Log out</a>
@@ -78,13 +78,41 @@
                 <th id ="capacity1">Capacity</th>
                 <td id ="capacity" th:text="${details.capacity}"></td>
             </tr>
+            <tr>
+                <th id ="parts">Participants</th>
+                <td id ="parts1" th:text="${details.attendees}"></td>
+            </tr>
             </tbody>
         </table>
     </div>
     <div class="container">
-        invite by email
-        <input type="text" placeholder="Email of a friend..">
-        <a class="btn btn-secondary" href="/sendemail">Invite</a>
+        <div class="mb-3">
+            <label for="dropOperator" class="form-label ">Choose friend to add</label>
+            <div class="input-group">
+
+                <form method="post" action="#" th:action = "@{/add-friend-to-event}" th:object = "${eventInviteModel}">
+                    <label for="myInput1" class="form-label ">Friend's email enter you should!</label>
+                    <select class="form-select" data-live-search="true" id="dropOperator"  th:field="*{recipientEmail}" >
+                    <option value="0">Choose...</option>
+                    <option th:each="friend : ${friends}" th:value ="${friend.email}" th:text="${friend.email}"></option>
+                </select>
+
+                    <select class="form-control" type hidden th:field="*{sender}" id="drop1">
+                        <option th:value ="${currentUser}">
+                        </option>
+                    </select>
+                    <select class="form-control" type hidden th:field="*{eventModel}" id="drop2">
+                        <option th:value ="${details}">
+                        </option>
+                    </select>
+                    <select class="form-control" type hidden th:field="*{status}" id="drop3">
+                        <option th:value="0">
+                        </option>
+                    </select>
+                        <button class="btn btn-outline-primary"  type="submit">Invite friend</button>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="container">
         <a class="btn btn-secondary" href="/get-events">Return</a>

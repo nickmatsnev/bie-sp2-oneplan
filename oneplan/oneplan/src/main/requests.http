@@ -131,3 +131,14 @@ Content-Type: application/json
 
 GET https://app-oneplan-221011202557.azurewebsites.net/users/all
 Content-Type: application/json
+###
+
+POST http://localhost:8085/friends/create
+Content-Type: application/json
+
+{
+  "email": "matsnev2001@yandex.ru",
+  "userId": 2
+}
+###
+POST http://localhost:8085/friends/

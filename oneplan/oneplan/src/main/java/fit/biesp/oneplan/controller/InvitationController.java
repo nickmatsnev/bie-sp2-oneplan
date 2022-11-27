@@ -30,7 +30,7 @@ public class InvitationController {
     private final PersonService personService;
 
 
-    private final String clientUrl = "https://app-client-221011202557.azurewebsites.net/";
+    private final String clientUrl = "http://localhost:8090/";
 
     public InvitationController(InvitationService invitationService,
                                 UserService userService,

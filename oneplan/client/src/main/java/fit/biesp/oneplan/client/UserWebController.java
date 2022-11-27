@@ -176,9 +176,10 @@ public class UserWebController {
         }
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
-        model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("allUsers", userClient.getAllUsers());
         System.out.println("Reached getMapping on Profile");
         return "profile";
@@ -200,6 +201,10 @@ public class UserWebController {
             return "redirect:/login";
         }
         /// getting the event model from the server
+        model.addAttribute("username", currentUser);
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("eventInviteModel", new EventInviteModel());
         model.addAttribute("details", userClient.getOneEvent(id));
 
         return "eventDetails";
@@ -244,7 +249,7 @@ public class UserWebController {
     public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationDTO){
         System.out.println("Reached postMapping on Profile");
         model.addAttribute("invitationDTO", userClient.createInvite(invitationDTO));
-        model.addAttribute("user", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("allUsers", userClient.getAllUsers());
@@ -273,5 +278,33 @@ public class UserWebController {
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         /// getting the event model from the server
         return "redirect:/profile";
+    }
+    @PostMapping("/delete-friend")
+    public String deleteFriendSubmit(Model model, @ModelAttribute FriendModel friendModel){
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// passing the event model to the User Client, Create Event
+        model.addAttribute("friendModel", userClient.deleteFriend(friendModel));
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/add-friend") /// post mapping to pass the event model to the server
+    public String addFriendSubmit(Model model, @ModelAttribute FriendCreateModel friendCreateModel) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// passing the event model to the User Client, Create Event
+        model.addAttribute("friendModel", userClient.createFriend(friendCreateModel));
+        return "redirect:/profile";
+    }
+    @PostMapping("/add-friend-to-event") /// post mapping to pass the eventInvite model to the server
+    public String addFriendToEventSubmit(Model model, @ModelAttribute EventInviteModel eventInviteModel) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// passing the event model to the User Client, Create Event
+        model.addAttribute("eventInviteModel", userClient.createEventInvite(eventInviteModel));
+        return "redirect:/eventsList";
     }
 }

@@ -1,6 +1,7 @@
 package fit.biesp.oneplan.service;
 
 import fit.biesp.oneplan.entity.FriendEntity;
+import fit.biesp.oneplan.model.FriendCreateModel;
 import fit.biesp.oneplan.model.FriendModel;
 import fit.biesp.oneplan.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class FriendService {
 
     public FriendModel addFriend(FriendModel friendModel){
         return FriendModel.toModel(friendRepository.save(FriendModel.fromModel(friendModel)));
+    }
+    public void addFriendNew(FriendCreateModel friendModel){
+        friendRepository.save(friendModel.fromFullModel());
     }
 
     public FriendModel getFriend(String nickname){
@@ -39,6 +43,12 @@ public class FriendService {
         Long id = friend.getId();
         friendRepository.deleteById(id);
         return id;
+    }
+
+    public Long deleteByUserIdAndEmail(String email, int userId){
+        FriendEntity friend = friendRepository.findByUserIdAndEmail(userId, email);
+        friendRepository.deleteById(friend.getId());
+        return friend.getId();
     }
 
     public List<FriendEntity> findAllByUserId(Integer userId){ return friendRepository.findAllByUserId(userId);}

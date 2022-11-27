@@ -10,4 +10,6 @@ public interface FriendRepository extends CrudRepository<FriendEntity, Long> {
     FriendEntity findByEmail(String email);
 
     List<FriendEntity> findAllByUserId(Integer userId);
+
+    FriendEntity findByUserIdAndEmail(int userId, String email);
 }

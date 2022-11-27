@@ -20,6 +20,7 @@ public class EventController {
     @PostMapping
     public ResponseEntity createEvent(@RequestBody EventModel event) {
         try {
+            System.out.println(event.getName());
             var message = eventService.createEvent(event);
             return ResponseEntity.ok("" + message);
         } catch (Exception e) {
@@ -61,6 +62,7 @@ public class EventController {
             return ResponseEntity.badRequest().body("Couldn't delete event");
         }
     }
+
 //
 //    @GetMapping("/user")
 //    public ResponseEntity getUserEvents(@RequestBody Long organiserId) {

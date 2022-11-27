@@ -18,7 +18,7 @@ public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
     //@Value("http://app-oneplan-221011202557.azurewebsites.net/"
-    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net/") String baseUrl) {
+    public UserClient(@Value("http://localhost:8085/") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
@@ -158,6 +158,51 @@ public class UserClient {
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> deleteFriend(FriendModel friendModel){
+        return userWebClient.post()
+                .uri("/friends/{userid}/{email}", friendModel.getUserId(), friendModel.getEmail())
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(friendModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+
+    }
+    public Mono<String> createFriend(FriendCreateModel friendCreateModel) { /// api request builder for event creation
+        return userWebClient.post()
+                .uri("/friends/create")
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(friendCreateModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> createEventInvite(EventInviteModel inviteModel){
+        System.out.println("Welcoem to createEventInvite!");
+        System.out.println(inviteModel.getEventModel().getName());
+        System.out.println(inviteModel.getRecipientEmail());
+        System.out.println(inviteModel.getSender().getEmail());
+        return userWebClient.post()
+                .uri("/event-invites/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(inviteModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
                 .bodyToMono(String.class);
     }
 }

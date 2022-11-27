@@ -28,6 +28,11 @@ public class FriendEntity {
     @Column(name = "user_id")
     private int userId;
 
+    public FriendEntity(String email, int userId) {
+        this.email = email;
+        this.userId = userId;
+        this.nickname = "no nickname";
+    }
 
     public FriendEntity(String email, String nickname, int userId) {
         this.email = email;

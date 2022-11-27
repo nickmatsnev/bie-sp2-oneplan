@@ -3,6 +3,7 @@ package fit.biesp.oneplan.controller;
 import fit.biesp.oneplan.entity.FriendEntity;
 import fit.biesp.oneplan.entity.InvitationEntity;
 import fit.biesp.oneplan.entity.UserEntity;
+import fit.biesp.oneplan.model.FriendCreateModel;
 import fit.biesp.oneplan.model.FriendFullModel;
 import fit.biesp.oneplan.model.FriendModel;
 import fit.biesp.oneplan.model.InvitationWithNameDTO;
@@ -33,7 +34,17 @@ public class FriendController{
     public ResponseEntity addFriend(FriendModel friendModel){
         try{
             friendService.addFriend(friendModel);
-            return ResponseEntity.ok("User created!");
+            return ResponseEntity.ok("Friend created!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+    @PostMapping("/create")
+    public ResponseEntity addFriendNew(@RequestBody FriendCreateModel friendModel){
+        try{
+            System.out.println("friends email: "  + friendModel.getEmail());
+            friendService.addFriendNew(friendModel);
+            return ResponseEntity.ok("Friend created!");
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error");
         }
@@ -57,10 +68,10 @@ public class FriendController{
         }
     }
 
-    @DeleteMapping("/{id}")
-    public  ResponseEntity deleteFriend(@PathVariable("id") String nickname){
+    @PostMappingй("/{userid}/{email}")
+    public  ResponseEntity deleteFriend(@PathVariable("userid") int userId, @PathVariable("email") String recipientEmail){
         try {
-            return ResponseEntity.ok(friendService.delete(nickname));
+            return ResponseEntity.ok(friendService.deleteByUserIdAndEmail(recipientEmail, userId));
         }catch (Exception e){
             return  ResponseEntity.badRequest().body("Error");
         }

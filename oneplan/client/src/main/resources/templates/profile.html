@@ -58,13 +58,13 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><b>Username:</b>
-                <div id="user" th:text="${user.nickname} "></div>
+                <div id="user" th:text="${currentUser.nickname} "></div>
             </li>
             <li class="list-group-item"><b>Email:</b>
-                <div id="email" th:text="${user.email} "></div>
+                <div id="email" th:text="${currentUser.email} "></div>
             </li>
             <li class="list-group-item"><b>Email:</b>
-                <div id="userId1" th:text="${user.id} "></div>
+                <div id="userId1" th:text="${currentUser.id} "></div>
             </li>
         </ul>
 
@@ -81,7 +81,7 @@
                         <input id="name1" class="form-control" name="name1" type="text" placeholder="Email@email.com"
                                required="required" autofocus th:field="*{recipient_email}">
                         <select class="form-control" type hidden th:field="*{sender_id}" id="drop">
-                            <option th:value ="${user.id}">
+                            <option th:value ="${currentUser.id}">
                             </option>
                         </select>
                         <button class="btn btn-outline-primary" type="submit">send invite</button>
@@ -113,7 +113,18 @@
                     <td id ="nickname" th:text="${friend.nickname}">userName</td>
                     <td id ="femail" th:text="${friend.email}">receiverEmail</td>
                     <td>
-                        <button class="btn btn-danger">Remove</button>
+                        <form method="post" action="#" th:action = "@{/delete-friend}" th:object = "${friendModel}">
+                            <select class="form-control" type hidden th:field="*{userId}" id="drop1">
+                                <option th:value ="${currentUser.id}">
+                                </option>
+                            </select>
+                            <select class="form-control" type hidden th:field="*{email}" id="drop2">
+                                <option th:value ="${friend.email}">
+                                </option>
+                            </select>
+                                <button class="btn btn-outline-danger"  type="submit"> remove</button>
+                            </div>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -139,38 +150,24 @@
             </table>
         </div>
         <div class="col-12">
-            <h3>Add a friend from existing users!</h3>
+            <h3>Add a friend!</h3>
         </div>
         <div class="col-12">
-            <form class="mb-3 mt-md-4" method="post" action="#">
-                <label for="myInput1" class="form-label ">Friend's nickname enter you should!</label>
+            <form class="mb-3 mt-md-4" method="post" action="#" th:action = "@{/add-friend}" th:object = "${friendModel}">
+                <label for="myInput1" class="form-label ">Friend's email enter you should!</label>
+                <select class="form-control" type hidden th:field="*{userId}" id="drop1">
+                    <option th:value ="${currentUser.id}">
+                    </option>
+                </select>
+
                 <div class="input-group">
-                    <input class="form-control" name="name2" id="myInput1" onkeyup="myFunction1()"  type="text" placeholder="Type to search"
-                           required="required" autofocus>
+                    <input class="form-control" name="name2" id="myInput1" onkeyup="myFunction1()"  type="text" placeholder="Add email of a friend"
+                           required="required" autofocus th:field="*{email}" >
 
 
-                    <a class="btn btn-outline-secondary"  href="#" type="submit"> search</a>
+                    <button class="btn btn-outline-secondary"  type="submit"> add</button>
                 </div>
             </form>
-        </div>
-        <div class="col-12">
-            <table class="table table-bordered">
-                <thead>
-                <th>User's ID</th>
-                <th>User's nickname</th>
-                <th>User's email</th>
-                <th>Add friend</th>
-                </thead>
-                <tbody id="myTable1">
-                <tr th:each="user: ${allUsers}">
-                    <td id ="usI" th:text="${user.id}"></td>
-                    <td id ="usN" th:text="${user.nickname}"></td>
-                    <td id ="usE" th:text="${user.email}"></td>
-                    <td id ="usAdd">
-                        <button class="btn btn-info">Add</button></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 
