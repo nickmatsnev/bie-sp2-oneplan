@@ -23,6 +23,16 @@ public class EventInvitationsEntity {
     @JoinColumn(name = "event_id")
     private EventEntity event;
 
+    public EventInvitationsEntity() {
+    }
+
+    public EventInvitationsEntity(UserEntity sender, String recipientEmail, EventEntity event) {
+        this.status = 0;
+        this.sender = sender;
+        this.recipientEmail = recipientEmail;
+        this.event = event;
+    }
+
     public long getEiid() {
         return eiid;
     }

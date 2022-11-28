@@ -188,11 +188,9 @@ public class UserClient {
                 .bodyToMono(String.class);
     }
 
-    public Mono<String> createEventInvite(EventInviteModel inviteModel){
+    public Mono<String> createEventInvite(EventInviteRealModel inviteModel){
         System.out.println("Welcome to createEventInvite!");
-        System.out.println(inviteModel.getEventModel().getName());
         System.out.println(inviteModel.getRecipientEmail());
-        System.out.println(inviteModel.getSender().getEmail());
         return userWebClient.post()
                 .uri("/event-invites/create")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -204,5 +202,11 @@ public class UserClient {
                         response -> response.bodyToMono(String.class).map(Exception::new)
                 )
                 .bodyToMono(String.class);
+    }
+    public Flux<EventInviteModel> getEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/nickname/{nickname}", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
     }
 }

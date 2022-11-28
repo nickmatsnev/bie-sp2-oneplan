@@ -177,7 +177,7 @@ public class UserWebController {
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
         model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
-        model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
+        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("friendModelDelete", new FriendCreateModel());
@@ -205,7 +205,7 @@ public class UserWebController {
         model.addAttribute("username", currentUser);
         model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
-        model.addAttribute("eventInviteModel", new EventInviteModel());
+        model.addAttribute("eventInviteModel", new EventInviteRealModel());
         model.addAttribute("details", userClient.getOneEvent(id));
 
         return "eventDetails";
@@ -299,7 +299,7 @@ public class UserWebController {
         return "redirect:/profile";
     }
     @PostMapping("/add-friend-to-event") /// post mapping to pass the eventInvite model to the server
-    public String addFriendToEventSubmit(Model model, @ModelAttribute EventInviteModel eventInviteModel) {
+    public String addFriendToEventSubmit(Model model, @ModelAttribute EventInviteRealModel eventInviteModel) {
         System.out.println("add friend to event welcomes you");
         System.out.println(eventInviteModel.getRecipientEmail());
         if (currentUser == null){
@@ -307,6 +307,7 @@ public class UserWebController {
         }
         /// passing the event model to the User Client, Create Event
         model.addAttribute("eventInviteModel", userClient.createEventInvite(eventInviteModel));
-        return "redirect:/eventsList";
+        return "eventsList";
     }
+
 }

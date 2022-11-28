@@ -24,4 +24,13 @@ public class EventInviteModel {
         entity.setRecipientEmail(model.getRecipientEmail());
         return entity;
     }
+    public static EventInviteModel toModel(EventInvitationsEntity entity){
+        EventInviteModel model = new EventInviteModel();
+        model.setEventModel(EventModel.toModel(entity.getEventId()));
+        model.setSender(UserModel.toModel(entity.getSenderId()));
+        model.setRecipientEmail(entity.getRecipientEmail());
+        model.setStatus(entity.getStatus());
+        return model;
+    }
+
 }

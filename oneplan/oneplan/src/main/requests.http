@@ -141,4 +141,24 @@ Content-Type: application/json
   "userId": 3
 }
 ###
-POST http://localhost:8085/friends/3/1@1.1
+POST http://localhost:8085/event-invites/create
+Content-Type: application/json
+
+{
+  "recipientEmail": "test@test.com",
+  "sender": 1,
+  "eventModel": 4,
+  "status": 0
+}
+###
+
+
+GET http://localhost:8085/event-invites/matsnev2001@yandex.ru
+###
+
+
+GET http://localhost:8085/event-invites/nickname/nick
+###
+
+
+GET http://localhost:8085/event-invites/accept/ntest@test.com/1

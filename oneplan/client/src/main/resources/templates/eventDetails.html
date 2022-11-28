@@ -91,7 +91,7 @@
             <div class="input-group">
 
                 <form method="post" action="#" th:action = "@{/add-friend-to-event}" th:object = "${eventInviteModel}">
-                    <label for="myInput1" class="form-label ">Friend's email enter you should!</label>
+                    <label for="dropOperator" class="form-label ">Friend's email enter you should!</label>
                     <select class="form-select" data-live-search="true" id="dropOperator"  th:field="*{recipientEmail}" >
                     <option value="0">Choose...</option>
                         <th:block th:each="friend : ${friends}">
@@ -100,16 +100,12 @@
 
                 </select>
 
-                    <select class="form-control" type hidden th:field="*{sender}" id="drop1">
-                        <option th:value ="${currentUser}">
+                    <select class="form-control" type hidden th:field="*{senderId}" id="drop1">
+                        <option th:value ="${currentUser.id}">
                         </option>
                     </select>
-                    <select class="form-control" type hidden th:field="*{eventModel}" id="drop2">
-                        <option th:value ="${details}">
-                        </option>
-                    </select>
-                    <select class="form-control" type hidden th:field="*{status}" id="drop3">
-                        <option th:value="0">
+                    <select class="form-control" type hidden th:field="*{eventModelId}" id="drop2">
+                        <option th:value ="${details.id}">
                         </option>
                     </select>
                         <button class="btn btn-outline-primary"  type="submit">Invite friend</button>
