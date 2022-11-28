@@ -68,9 +68,12 @@ public class FriendController{
         }
     }
 
-    @PostMappingй("/{userid}/{email}")
+    @PostMapping("/{userid}/{email}")
     public  ResponseEntity deleteFriend(@PathVariable("userid") int userId, @PathVariable("email") String recipientEmail){
         try {
+            System.out.println("Welcome in delete friend");
+            System.out.println(recipientEmail);
+            System.out.println(userId);
             return ResponseEntity.ok(friendService.deleteByUserIdAndEmail(recipientEmail, userId));
         }catch (Exception e){
             return  ResponseEntity.badRequest().body("Error");

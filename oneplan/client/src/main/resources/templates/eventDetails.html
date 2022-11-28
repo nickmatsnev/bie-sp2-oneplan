@@ -94,7 +94,10 @@
                     <label for="myInput1" class="form-label ">Friend's email enter you should!</label>
                     <select class="form-select" data-live-search="true" id="dropOperator"  th:field="*{recipientEmail}" >
                     <option value="0">Choose...</option>
-                    <option th:each="friend : ${friends}" th:value ="${friend.email}" th:text="${friend.email}"></option>
+                        <th:block th:each="friend : ${friends}">
+                            <option th:value ="${friend.email}" th:text="${friend.email}"></option>
+                        </th:block>
+
                 </select>
 
                     <select class="form-control" type hidden th:field="*{sender}" id="drop1">

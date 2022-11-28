@@ -137,8 +137,8 @@ POST http://localhost:8085/friends/create
 Content-Type: application/json
 
 {
-  "email": "matsnev2001@yandex.ru",
-  "userId": 2
+  "email": "2@22.2",
+  "userId": 3
 }
 ###
-POST http://localhost:8085/friends/
+POST http://localhost:8085/friends/3/1@1.1

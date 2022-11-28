@@ -180,6 +180,7 @@ public class UserWebController {
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
+        model.addAttribute("friendModelDelete", new FriendCreateModel());
         model.addAttribute("allUsers", userClient.getAllUsers());
         System.out.println("Reached getMapping on Profile");
         return "profile";
@@ -251,7 +252,6 @@ public class UserWebController {
         model.addAttribute("invitationDTO", userClient.createInvite(invitationDTO));
         model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
-        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("allUsers", userClient.getAllUsers());
         return "redirect:/profile";
     }
@@ -279,13 +279,13 @@ public class UserWebController {
         /// getting the event model from the server
         return "redirect:/profile";
     }
-    @PostMapping("/delete-friend")
-    public String deleteFriendSubmit(Model model, @ModelAttribute FriendModel friendModel){
+    @PostMapping("/delete-friend/{id}/{email}")
+    public String deleteFriendSubmit(Model model, @PathVariable("id") int userId, @PathVariable("email") String email){
         if (currentUser == null){
             return "redirect:/login";
         }
         /// passing the event model to the User Client, Create Event
-        model.addAttribute("friendModel", userClient.deleteFriend(friendModel));
+        model.addAttribute("friendModelDelete", userClient.deleteFriend(userId, email));
         return "redirect:/profile";
     }
 
@@ -300,6 +300,8 @@ public class UserWebController {
     }
     @PostMapping("/add-friend-to-event") /// post mapping to pass the eventInvite model to the server
     public String addFriendToEventSubmit(Model model, @ModelAttribute EventInviteModel eventInviteModel) {
+        System.out.println("add friend to event welcomes you");
+        System.out.println(eventInviteModel.getRecipientEmail());
         if (currentUser == null){
             return "redirect:/login";
         }

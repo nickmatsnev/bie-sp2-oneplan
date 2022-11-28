@@ -160,12 +160,12 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
-    public Mono<String> deleteFriend(FriendModel friendModel){
+    public Mono<String> deleteFriend(int userId, String email){
         return userWebClient.post()
-                .uri("/friends/{userid}/{email}", friendModel.getUserId(), friendModel.getEmail())
+                .uri("/friends/{userid}/{email}", userId, email)
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(friendModel)
+                .bodyValue(email)
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,
@@ -189,7 +189,7 @@ public class UserClient {
     }
 
     public Mono<String> createEventInvite(EventInviteModel inviteModel){
-        System.out.println("Welcoem to createEventInvite!");
+        System.out.println("Welcome to createEventInvite!");
         System.out.println(inviteModel.getEventModel().getName());
         System.out.println(inviteModel.getRecipientEmail());
         System.out.println(inviteModel.getSender().getEmail());

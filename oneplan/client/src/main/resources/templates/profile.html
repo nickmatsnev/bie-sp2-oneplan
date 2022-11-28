@@ -90,7 +90,7 @@
             </form>
         </div>
         <div class="col-6">
-            <form class="mb-3 mt-md-4" method="post" action="#">
+            <div class="mb-3 mt-md-4">
                 <label for="myInput" class="form-label ">Friend's name, surname or email you want to find your mate!</label>
                 <div class="input-group">
                     <input class="form-control" name="name1" id="myInput" onkeyup="myFunction()"  type="text" placeholder="Type to search"
@@ -99,7 +99,7 @@
 
                     <a class="btn btn-outline-info" href="#" type="submit"> search</a>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="col-12">
             <table  class="table">
@@ -110,20 +110,11 @@
                 </thead>
                 <tbody>
                 <tr th:each="friend: ${friends}">
-                    <td id ="nickname" th:text="${friend.nickname}">userName</td>
+                    <td id ="nickname" th:text="${friend.nickname}">username</td>
                     <td id ="femail" th:text="${friend.email}">receiverEmail</td>
                     <td>
-                        <form method="post" action="#" th:action = "@{/delete-friend}" th:object = "${friendModel}">
-                            <select class="form-control" type hidden th:field="*{userId}" id="drop1">
-                                <option th:value ="${currentUser.id}">
-                                </option>
-                            </select>
-                            <select class="form-control" type hidden th:field="*{email}" id="drop2">
-                                <option th:value ="${friend.email}">
-                                </option>
-                            </select>
-                                <button class="btn btn-outline-danger"  type="submit"> remove</button>
-                            </div>
+                        <form method="post" action="#" th:id="'form' + ${friend.email}" th:action = "@{/delete-friend/{id}/{email}(id = ${currentUser.id}, email = ${friend.email})}">
+                                <button class="btn btn-outline-danger" th:id="'remove' + ${friend.email}" type="submit"> remove</button>
                         </form>
                     </td>
                 </tr>
