@@ -239,4 +239,11 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+
+    public Mono<String> deleteEvent(Long eventId){
+        return userWebClient.get()
+                .uri("/events/delete/{id}", eventId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
 }

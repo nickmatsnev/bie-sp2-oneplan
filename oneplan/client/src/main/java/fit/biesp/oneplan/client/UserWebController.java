@@ -310,7 +310,7 @@ public class UserWebController {
         }
         /// passing the event model to the User Client, Create Event
         model.addAttribute("eventInviteModel", userClient.createEventInvite(eventInviteModel));
-        return "redirect:/eventsList";
+        return "redirect:/get-events";
     }
 
     @GetMapping("/accept-inv-event/{email}/{senderid}")
@@ -325,4 +325,9 @@ public class UserWebController {
         return "redirect:/profile";
     }
 
+    @GetMapping("/delete-event/{id}")
+    public String deleteEvent(Model model, @PathVariable("id") Long eventId){
+        model.addAttribute("deleteEvent", userClient.deleteEvent(eventId));
+        return "redirect:/get-events";
+    }
 }

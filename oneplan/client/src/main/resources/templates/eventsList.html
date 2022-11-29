@@ -76,6 +76,7 @@
     </div>
     <table class="table" id="eventTable">
         <thead>
+        <td id="eid">Event ID</td>
         <td id="ename">Event Name</td>
         <td id="edate">Event Date</td>
         <td id="etime">Event Time</td>
@@ -84,13 +85,19 @@
         </thead>
         <tbody>
         <tr th:each="event: ${events}">
+            <td id ="name" th:text="${event.id}">id</td>
             <td id ="name" th:text="${event.name}">ename</td>
             <td id ="date" th:text="${event.date}">date</td>
             <td id ="time" th:text="${event.time}">time</td>
             <td id ="address" th:text="${event.location.address}">address</td>
             <td><div>
                 <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
-                    <div><button class="btn btn-primary btn-sm" type="submit">DETAILS</button></div>
+                    <div><button class="btn btn-primary btn-sm" type="submit">Details</button></div>
+                </form>
+            </div></td>
+            <td><div>
+                <form action="#" method="get" th:action="@{/delete-event/{id}(id = ${event.id})}">
+                    <div><button class="btn btn-danger btn-sm" type="submit">Delete</button></div>
                 </form>
             </div></td>
         </tr>
