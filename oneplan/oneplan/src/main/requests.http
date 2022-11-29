@@ -161,4 +161,8 @@ GET http://localhost:8085/event-invites/nickname/nick
 ###
 
 
-GET http://localhost:8085/event-invites/accept/ntest@test.com/1
+GET http://localhost:8085/event-invites/accept/test@test.com/3
+###
+
+
+GET http://localhost:8085/event-invites/invites/nick/pending

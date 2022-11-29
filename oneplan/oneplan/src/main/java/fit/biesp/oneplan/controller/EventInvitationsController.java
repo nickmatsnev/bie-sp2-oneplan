@@ -75,33 +75,78 @@ public class EventInvitationsController {
             return ResponseEntity.badRequest().body("Event invite creation error. " + e.getMessage());
         }
     }
+    @GetMapping("/invites/{nickname}/pending")
+    public ResponseEntity getPendingInvitesByRecipientNickName(@PathVariable("nickname") String nickname){
+        try{
+            UserEntity user = userService.findByNickname(nickname);
+            List<EventInvitationsEntity> entities = eventInvitationService.getEntitiesByEmail(user.getEmail());
+            List<EventInviteModel> models = new ArrayList<>();
+            for(EventInvitationsEntity e: entities){
+                if (e.getStatus() == 0) {
+                    models.add(EventInviteModel.toModel(e));
+                }
+            }
+            return ResponseEntity.ok(models);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite creation error. " + e.getMessage());
+        }
+    }
+    @GetMapping("/invites/{nickname}/accepted")
+    public ResponseEntity getAcceptedInvitesByRecipientNickName(@PathVariable("nickname") String nickname){
+        try{
+            UserEntity user = userService.findByNickname(nickname);
+            List<EventInvitationsEntity> entities = eventInvitationService.getEntitiesByEmail(user.getEmail());
+            List<EventInviteModel> models = new ArrayList<>();
+            for(EventInvitationsEntity e: entities){
+                if (e.getStatus() == 1) {
+                    models.add(EventInviteModel.toModel(e));
+                }
+            }
+            return ResponseEntity.ok(models);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite creation error. " + e.getMessage());
+        }
+    }
+    @GetMapping("/invites/{nickname}/rejected")
+    public ResponseEntity getRejectedInvitesByRecipientNickName(@PathVariable("nickname") String nickname){
+        try{
+            UserEntity user = userService.findByNickname(nickname);
+            List<EventInvitationsEntity> entities = eventInvitationService.getEntitiesByEmail(user.getEmail());
+            List<EventInviteModel> models = new ArrayList<>();
+            for(EventInvitationsEntity e: entities){
+                if (e.getStatus() == 2){
+                    models.add(EventInviteModel.toModel(e));
+                }
+            }
+            return ResponseEntity.ok(models);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite creation error. " + e.getMessage());
+        }
+    }
     @GetMapping("/accept/{email}/{senderid}")
     public ResponseEntity accept(@PathVariable("email") String email, @PathVariable("senderid") int senderId){
         try{
             UserEntity user = userService.findbyId((long) senderId);
+            PersonEntity person = personService.getByEmail(email);
             EventInvitationsEntity entity = eventInvitationService.getByEmailAndSenderId(email, user);
             EventEntity event = entity.getEventId();
-
-            List<PersonEntity> attendees = event.getAttendees();
+            event.addAttendee(user);
+            event.addAttendee(person);
 
             UserEntity optRecipient = entity.getSenderId();
 
+
             System.out.println(optRecipient.getNickname());
-            if(attendees == null){
-                List<PersonEntity> newAttendees = new ArrayList<>();
-                newAttendees.add(optRecipient);
-                event.setAttendees(newAttendees);
-            }else{
-                attendees.add(optRecipient);
-                event.setAttendees(attendees);
-            }
-            System.out.println(optRecipient.getNickname());
-            eventService.updateEvent(EventModel.toModel(event), event.getId());
+            //eventService.updateEvent(EventModel.toModel(event), event.getId());
+            System.out.println(optRecipient.getNickname() + " +0");
 
             List<EventEntity> optRecipientList = optRecipient.getEvents();
+            System.out.println(optRecipient.getNickname() + " +1");
             optRecipientList.add(event);
             optRecipient.setEvents(optRecipientList);
-            userService.updateUser(UserModel.toModel(optRecipient), optRecipient.getNickname());
+            System.out.println(optRecipient.getNickname() + " +2");
+            userService.updateUserEntity(optRecipient, optRecipient.getNickname());
+            System.out.println(optRecipient.getNickname() + " +3");
             entity.setStatus(1);
             return ResponseEntity.ok(eventInvitationService.acceptByRecipientEmailAndSenderId(email, user));
         } catch(Exception e){

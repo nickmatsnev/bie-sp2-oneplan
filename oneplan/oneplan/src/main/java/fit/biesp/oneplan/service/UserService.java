@@ -1,12 +1,14 @@
 package fit.biesp.oneplan.service;
 
 import fit.biesp.oneplan.entity.EventEntity;
+import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
 import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
+import fit.biesp.oneplan.repository.PersonRepository;
 import fit.biesp.oneplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.*;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
     public UserModel registration(UserRegistrationModel userModel) throws UserAlreadyExistsException {
         if(userRepository.findByNickname(userModel.getNickname()) != null)
@@ -55,6 +59,12 @@ public class UserService {
 
         return UserModel.toModel(userRepository.save(user));
     }
+    public UserEntity updateUserEntity(UserEntity user, String nickname) throws UserNotFoundException {
+        if (userRepository.findByNickname(nickname) == null)
+            throw new UserNotFoundException("User not found!");
+
+        return userRepository.save(user);
+    }
 
     public Long delete(String nickname) throws UserNotFoundException {
         if(userRepository.findByNickname(nickname) == null)
@@ -66,7 +76,20 @@ public class UserService {
         userRepository.deleteById(id);
         return id;
     }
+    public List<EventEntity> getEvents(String nickname)throws UserNotFoundException {
+        if(userRepository.findByNickname(nickname) == null)
+            throw new UserNotFoundException("User not found!");
 
+        UserEntity user = userRepository.findByNickname(nickname);
+        Optional<PersonEntity> optionalPersonEntity = personRepository.findById(user.getId());
+        PersonEntity person = optionalPersonEntity.get();
+        var all = person.getEventsToAttend();
+        all.addAll(user.getEvents());
+        for(var i : person.getEventsToAttend()){
+            System.out.println("events where person is attendee : " + i.getName());
+        }
+        return all;
+    }
     public Collection<EventModel> getOrganized(String nickname) throws UserNotFoundException {
         if(userRepository.findByNickname(nickname) == null)
             throw new UserNotFoundException("User not found!");

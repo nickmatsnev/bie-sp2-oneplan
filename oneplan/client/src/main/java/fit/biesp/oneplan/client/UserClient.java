@@ -209,4 +209,34 @@ public class UserClient {
                 .retrieve()
                 .bodyToFlux(EventInviteModel.class);
     }
+    public Flux<EventInviteModel> getPendingEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/invites/{nickname}/pending", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Flux<EventInviteModel> getAcceptedEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/invites/{nickname}/accepted", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Flux<EventInviteModel> getRejectedEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/invites/{nickname}/rejected", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Mono<String> acceptInvToEvent(String recipientEmail, int senderId){
+        return userWebClient.get()
+                .uri("/event-invites/accept/{email}/{senderid}", recipientEmail, senderId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> rejectInvToEvent(String recipientEmail, int senderId){
+        return userWebClient.get()
+                .uri("/event-invites/reject/{email}/{senderid}", recipientEmail, senderId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
 }

@@ -3,6 +3,7 @@ package fit.biesp.oneplan.controller;
 import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
+import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.model.LoginModel;
 import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
@@ -96,7 +97,13 @@ public class UserController {
     @GetMapping("/{id}/events")
     public ResponseEntity getEvents(@PathVariable("id") String nickname) {
         try{
-            return ResponseEntity.ok(userService.getOrganized(nickname));
+            List<EventModel> events = new ArrayList<>();
+            for(var i : userService.getEvents(nickname)){
+                events.add(EventModel.toModel(i));
+                System.out.println(i.getName());
+            }
+
+            return ResponseEntity.ok(events);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }

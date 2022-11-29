@@ -1,6 +1,7 @@
 package fit.biesp.oneplan.service;
 
 import fit.biesp.oneplan.entity.EventEntity;
+import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.exception.*;
 import fit.biesp.oneplan.model.EventModel;
 import fit.biesp.oneplan.model.LocationModel;
@@ -10,10 +11,7 @@ import fit.biesp.oneplan.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class EventService {
@@ -25,7 +23,8 @@ public class EventService {
 
     public String createEvent(EventModel event) throws LocationAlreadyExistsException, LocationIsMissingException {
         var message = "Event successfully created";
-        eventRepository.save(EventModel.fromModel(event));
+        EventEntity eventEntity = EventModel.fromModel(event);
+        eventRepository.save(eventEntity);
         return message;
     }
 

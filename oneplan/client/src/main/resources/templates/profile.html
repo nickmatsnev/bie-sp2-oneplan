@@ -122,13 +122,14 @@
             </table>
         </div>
     <div class="col-12">
-        <h3>My Invitations</h3>
+        <h3>My Pending Invitations</h3>
     </div>
         <div class="col-12">
             <table class="table">
                 <thead>
                 <td id="receiverEmaile">nickname of sender</td>
                 <td id="2">email of sender</td>
+                <td id="3">name of the event</td>
                 <td id="3">name of the location</td>
                 <td id="4">address of the location</td>
                 <td id="5">status</td>
@@ -136,12 +137,79 @@
                 <td id="7">reject</td>
                 </thead>
                 <tbody>
-                <tr th:each="invite: ${invites}">
+                <tr th:each="invite: ${invitesPending}">
                     <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
                     <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name}">name of the location</td>
                     <td id ="invitationId4" th:text="${invite.eventModel.location.address}">address of the location</td>
                     <td id ="invitationId" th:text="${invite.status}">status</td>
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/accept-inv-event/{email}/{senderid}(email = ${currentUser.email}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-info" th:id="'add' + ${invite.sender.email}" type="submit"> accept</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/reject-inv-event/{email}/{senderid}(email = ${currentUser.email}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-danger" th:id="'remove' + ${invite.sender.email}" type="submit"> reject</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <h3>My Accepted Invitations</h3>
+        </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <td id="receiverEmaile">nickname of sender</td>
+                <td id="2">email of sender</td>
+                <td id="3">name of the event</td>
+                <td id="3">name of the location</td>
+                <td id="4">address of the location</td>
+                <td id="5">status</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invitesAccepted}">
+                    <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
+                    <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.location.name}">name of the location</td>
+                    <td id ="invitationId4" th:text="${invite.eventModel.location.address}">address of the location</td>
+                    <td id ="invitationId" th:text="${invite.status}">status</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <h3>My Rejected Invitations</h3>
+        </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <td id="receiverEmaile">nickname of sender</td>
+                <td id="2">email of sender</td>
+                <td id="3">name of the event</td>
+                <td id="3">name of the location</td>
+                <td id="4">address of the location</td>
+                <td id="5">status</td>
+                <td id="6">accept</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invitesRejected}">
+                    <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
+                    <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.location.name}">name of the location</td>
+                    <td id ="invitationId4" th:text="${invite.eventModel.location.address}">address of the location</td>
+                    <td id ="invitationId" th:text="${invite.status}">status</td>
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/accept-inv-event/{email}/{senderid}(email = ${currentUser.email}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-info" th:id="'add' + ${invite.sender.email}" type="submit"> accept</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>

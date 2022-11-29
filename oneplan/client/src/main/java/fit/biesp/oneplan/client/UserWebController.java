@@ -178,6 +178,9 @@ public class UserWebController {
         model1.addAttribute("invitationDTO", new InvitationDTO());
         model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("friendModelDelete", new FriendCreateModel());
@@ -307,7 +310,19 @@ public class UserWebController {
         }
         /// passing the event model to the User Client, Create Event
         model.addAttribute("eventInviteModel", userClient.createEventInvite(eventInviteModel));
-        return "eventsList";
+        return "redirect:/eventsList";
+    }
+
+    @GetMapping("/accept-inv-event/{email}/{senderid}")
+    public String addEventToMine(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
+        model.addAttribute("invitationtEventAccept", userClient.acceptInvToEvent(recipientEmail, senderId));
+        return "redirect:/get-events";
+
+    }
+    @GetMapping("/reject-inv-event/{email}/{senderid}")
+    public String rejectInvEvent(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
+        model.addAttribute("invitationtEventReject", userClient.rejectInvToEvent(recipientEmail, senderId));
+        return "redirect:/profile";
     }
 
 }
