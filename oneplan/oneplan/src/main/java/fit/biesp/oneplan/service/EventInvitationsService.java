@@ -25,6 +25,9 @@ public class EventInvitationsService {
     public List<EventInvitationsEntity> getEntitiesByEmail(String email){
         return eventInvitationsRepository.getAllByRecipientEmail(email);
     }
+    public List<EventInvitationsEntity> getEntitiesBySender(UserEntity sender){
+        return eventInvitationsRepository.getAllBySender(sender);
+    }
 
     public String acceptByRecipientEmailAndSenderId(String email, UserEntity user){
         EventInvitationsEntity entity = eventInvitationsRepository.getByRecipientEmailAndSender(email, user);

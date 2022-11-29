@@ -10,4 +10,5 @@ public interface EventInvitationsRepository extends CrudRepository<EventInvitati
     List<EventInvitationsEntity> getAllByRecipientEmail(String email);
     EventInvitationsEntity getByRecipientEmailAndSender(String email, UserEntity sender);
 
+    List<EventInvitationsEntity> getAllBySender(UserEntity sender);
 }

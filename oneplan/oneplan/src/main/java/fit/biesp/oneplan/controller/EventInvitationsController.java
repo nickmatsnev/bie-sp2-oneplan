@@ -75,6 +75,20 @@ public class EventInvitationsController {
             return ResponseEntity.badRequest().body("Event invite creation error. " + e.getMessage());
         }
     }
+    @GetMapping("/sender/nickname/{nickname}")
+    public ResponseEntity getInvitesBySenderNickname(@PathVariable("nickname") String nickname){
+        try{
+            UserEntity user = userService.findByNickname(nickname);
+            List<EventInvitationsEntity> entities = eventInvitationService.getEntitiesBySender(user);
+            List<EventInviteModel> models = new ArrayList<>();
+            for(EventInvitationsEntity e: entities){
+                models.add(EventInviteModel.toModel(e));
+            }
+            return ResponseEntity.ok(models);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite parsing error. " + e.getMessage());
+        }
+    }
     @GetMapping("/invites/{nickname}/pending")
     public ResponseEntity getPendingInvitesByRecipientNickName(@PathVariable("nickname") String nickname){
         try{

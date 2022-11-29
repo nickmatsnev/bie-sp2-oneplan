@@ -170,3 +170,7 @@ GET http://localhost:8085/event-invites/invites/nick/pending
 
 ###
 DELETE  http://localhost:8085/events/4
+###
+
+
+GET http://localhost:8085/event-invites/sender/nickname/nick

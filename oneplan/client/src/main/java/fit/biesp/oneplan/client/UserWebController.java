@@ -181,6 +181,7 @@ public class UserWebController {
         model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
         model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
         model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("friendModelDelete", new FriendCreateModel());
