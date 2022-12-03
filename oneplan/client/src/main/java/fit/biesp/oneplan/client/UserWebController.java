@@ -189,6 +189,46 @@ public class UserWebController {
         System.out.println("Reached getMapping on Profile");
         return "profile";
     }
+    @GetMapping("/get-my-invites") /// ьфззштп ещ пуе зкщашду зфпу
+    public String getMyInvitesRender(Model model, Model model1) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// attribute to get the user nickname into profile page
+        model1.addAttribute("invitationDTO", new InvitationDTO());
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(currentUser.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("friendModel", new FriendCreateModel());
+        model.addAttribute("friendModelDelete", new FriendCreateModel());
+        model.addAttribute("allUsers", userClient.getAllUsers());
+        System.out.println("Reached getMapping on myInvites");
+        return "myInvites";
+    }
+    @GetMapping("/get-my-friends") /// ьфззштп ещ пуе зкщашду зфпу
+    public String getMyFriendsRender(Model model, Model model1) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        /// attribute to get the user nickname into profile page
+        model1.addAttribute("invitationDTO", new InvitationDTO());
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
+        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(currentUser.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("friendModel", new FriendCreateModel());
+        model.addAttribute("friendModelDelete", new FriendCreateModel());
+        model.addAttribute("allUsers", userClient.getAllUsers());
+        System.out.println("Reached getMapping on my network");
+        return "myNetwork";
+    }
 
     @PostMapping("/get-events") /// mapping to open event details
     public String getEventDetails(Model model, @ModelAttribute EventModel eventModel) {
@@ -281,7 +321,7 @@ public class UserWebController {
 
         model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
         /// getting the event model from the server
-        return "redirect:/profile";
+        return "redirect:/get-my-invites";
     }
     @PostMapping("/delete-friend/{id}/{email}")
     public String deleteFriendSubmit(Model model, @PathVariable("id") int userId, @PathVariable("email") String email){
@@ -290,7 +330,7 @@ public class UserWebController {
         }
         /// passing the event model to the User Client, Create Event
         model.addAttribute("friendModelDelete", userClient.deleteFriend(userId, email));
-        return "redirect:/profile";
+        return "redirect:/get-my-friends";
     }
 
     @PostMapping("/add-friend") /// post mapping to pass the event model to the server
@@ -300,7 +340,7 @@ public class UserWebController {
         }
         /// passing the event model to the User Client, Create Event
         model.addAttribute("friendModel", userClient.createFriend(friendCreateModel));
-        return "redirect:/profile";
+        return "redirect:/get-my-friends";
     }
     @PostMapping("/add-friend-to-event") /// post mapping to pass the eventInvite model to the server
     public String addFriendToEventSubmit(Model model, @ModelAttribute EventInviteRealModel eventInviteModel) {
@@ -317,13 +357,13 @@ public class UserWebController {
     @GetMapping("/accept-inv-event/{email}/{senderid}")
     public String addEventToMine(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
         model.addAttribute("invitationtEventAccept", userClient.acceptInvToEvent(recipientEmail, senderId));
-        return "redirect:/get-events";
+        return "redirect:/get-my-invites";
 
     }
     @GetMapping("/reject-inv-event/{email}/{senderid}")
     public String rejectInvEvent(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
         model.addAttribute("invitationtEventReject", userClient.rejectInvToEvent(recipientEmail, senderId));
-        return "redirect:/profile";
+        return "redirect:/get-my-invites";
     }
 
     @GetMapping("/delete-event/{id}")

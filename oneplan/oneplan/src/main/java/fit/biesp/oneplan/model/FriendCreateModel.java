@@ -1,17 +1,17 @@
 package fit.biesp.oneplan.model;
 
 import fit.biesp.oneplan.entity.FriendEntity;
-
 public class FriendCreateModel {
-    private String email;
+    private String email, name;
     private int userId;
 
     public FriendCreateModel() {
     }
 
-    public FriendCreateModel(String email, int userId) {
+    public FriendCreateModel(String email, String name, int userId) {
         this.email = email;
         this.userId = userId;
+        this.name = name;
     }
 
     public String getEmail() {
@@ -30,8 +30,15 @@ public class FriendCreateModel {
         this.userId = userId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public FriendEntity fromFullModel(){
         return new FriendEntity(getEmail(),
-                getUserId());
+                getName(), getUserId());
     }
 }

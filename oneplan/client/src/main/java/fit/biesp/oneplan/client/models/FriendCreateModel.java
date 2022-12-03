@@ -1,15 +1,16 @@
 package fit.biesp.oneplan.client.models;
 
 public class FriendCreateModel {
-    private String email;
+    private String email, name;
     private int userId;
 
     public FriendCreateModel() {
     }
 
-    public FriendCreateModel(String email, String nickname, int userId) {
+    public FriendCreateModel(String email, String name, int userId) {
         this.email = email;
         this.userId = userId;
+        this.name = name;
     }
 
     public String getEmail() {
@@ -28,4 +29,11 @@ public class FriendCreateModel {
         this.userId = userId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
