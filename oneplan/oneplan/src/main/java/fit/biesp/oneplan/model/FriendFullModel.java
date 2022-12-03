@@ -7,24 +7,25 @@ import lombok.Setter;
 
 
 public class FriendFullModel {
-    private int friendId, userId;
+    private int userId;
+    private long friendId;
     private String email, nickname;
 
     public FriendFullModel() {
     }
 
-    public FriendFullModel(int friendId, int userId, String email, String nickname) {
+    public FriendFullModel(long friendId, int userId, String email, String nickname) {
         this.friendId = friendId;
         this.userId = userId;
         this.email = email;
         this.nickname = nickname;
     }
 
-    public int getFriendId() {
+    public long getFriendId() {
         return friendId;
     }
 
-    public void setFriendId(int friendId) {
+    public void setFriendId(long friendId) {
         this.friendId = friendId;
     }
 

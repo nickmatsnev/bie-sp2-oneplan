@@ -136,6 +136,18 @@ public class UserClient {
                 .bodyToFlux(FriendModel.class);
     }
 
+    public Mono<FriendModel> getOneFriend(String friendId) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/friends/{id}", friendId)
+                .retrieve() // request specification finished
+                .bodyToMono(FriendModel.class);
+    }
+    public Mono<FriendModel> getOneFriendById(long friendId) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/friends/get/{id}", friendId)
+                .retrieve() // request specification finished
+                .bodyToMono(FriendModel.class);
+    }
     public Flux<UserModel> getAllUsers(){
         return userWebClient.get()
                 .uri("/users/all")
@@ -166,6 +178,20 @@ public class UserClient {
                 .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(email)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+
+    }
+    public Mono<String> updateFriend(int friendId, FriendModel friendModel){
+        return userWebClient.post()
+                .uri("/friends/update/{id}", friendId)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(friendModel)
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,

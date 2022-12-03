@@ -14,12 +14,14 @@ public class FriendModel {
     private Long id;
     private String nickname;
     private String email;
+    private int userId;
 
     public static FriendModel toModel(FriendEntity entity){
         FriendModel model = new FriendModel();
         model.setId(entity.getId());
         model.setNickname(entity.getNickname());
         model.setEmail(entity.getEmail());
+        model.setUserId(entity.getUserId());
         return model;
     }
 
@@ -28,6 +30,7 @@ public class FriendModel {
         entity.setId(model.getId());
         entity.setNickname(model.getNickname());
         entity.setEmail(model.getEmail());
+        entity.setUserId(model.getUserId());
         return entity;
     }
 }

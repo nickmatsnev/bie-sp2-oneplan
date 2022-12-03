@@ -56,26 +56,6 @@
         </div>
     </div>
 </nav>
-<div class="container mt-4">
-    <div class="card">
-
-        <div class="card-body">
-            <h5 class="card-title">Profile</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><b>Username:</b>
-                <div id="user" th:text="${currentUser.nickname} "></div>
-            </li>
-            <li class="list-group-item"><b>Email:</b>
-                <div id="email" th:text="${currentUser.email} "></div>
-            </li>
-            <li class="list-group-item"><b>Email:</b>
-                <div id="userId1" th:text="${currentUser.id} "></div>
-            </li>
-        </ul>
-
-    </div>
-</div>
 <div class="container overflow-hidden text-center mt-4">
     <div class="row gy-5">
         <div class="col-12">
@@ -119,12 +99,21 @@
                 <thead>
                 <th id="Friendnickname">Friend's nickname</th>
                 <th id="Friendemail">Friend's email</th>
+                <th id="Friendfriend">Edit friend</th>
                 <th id="Friendfriend">Remove friend</th>
                 </thead>
                 <tbody>
                 <tr th:each="friend: ${friends}">
                     <td id ="nickname" th:text="${friend.nickname}">username</td>
                     <td id ="femail" th:text="${friend.email}">receiverEmail</td>
+                    <td>
+                        <div>
+                            <form action="#" method="get" th:action="@{/get-one-friend/{id}(id = ${friend.id})}" th:object="${friend}">
+                                <div><button class="btn btn-info btn-sm" type="submit">Edit</button></div>
+                            </form>
+                        </div>
+
+                    </td>
                     <td>
                         <form method="post" action="#" th:id="'form' + ${friend.email}" th:action = "@{/delete-friend/{id}/{email}(id = ${currentUser.id}, email = ${friend.email})}">
                             <button class="btn btn-outline-danger" th:id="'remove' + ${friend.email}" type="submit"> remove</button>

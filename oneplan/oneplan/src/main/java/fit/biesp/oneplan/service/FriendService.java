@@ -29,9 +29,19 @@ public class FriendService {
         FriendEntity friend = friendRepository.findByNickname(nickname);
         return FriendModel.toModel(friend);
     }
-
+    public FriendModel getFriendById(long id){
+        FriendEntity friend = friendRepository.findById(id);
+        return FriendModel.toModel(friend);
+    }
     public FriendModel updateFriend(FriendModel friendModel, String nickname){
         FriendEntity friend = friendRepository.findByNickname(nickname);
+        friend.setNickname(friendModel.getNickname());
+        friend.setEmail(friendModel.getEmail());
+
+        return FriendModel.toModel(friendRepository.save(friend));
+    }
+    public FriendModel updateFriendById(FriendModel friendModel, long id){
+        FriendEntity friend = friendRepository.findById(id);
         friend.setNickname(friendModel.getNickname());
         friend.setEmail(friendModel.getEmail());
 

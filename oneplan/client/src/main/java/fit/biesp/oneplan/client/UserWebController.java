@@ -332,7 +332,28 @@ public class UserWebController {
         model.addAttribute("friendModelDelete", userClient.deleteFriend(userId, email));
         return "redirect:/get-my-friends";
     }
+    @GetMapping("/get-one-friend/{id}") /// mapping to open patient details
+    public String getOneFriend(Model model, @ModelAttribute FriendModel friendModel, @PathVariable("id") int friendId) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("friendCurrent", userClient.getOneFriendById(friendId));
+        model.addAttribute("friendModel", new FriendModel());
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
 
+        return "editFriend";
+    }
+    @PostMapping("/get-one-friend/{id}") /// mapping to open patient details
+    public String putOneFriend(Model model, @ModelAttribute FriendModel friendModel, @PathVariable("id") int friendId) {
+        if (currentUser == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("friendCurrent", userClient.getOneFriendById(friendId));
+        model.addAttribute("friendModel", userClient.updateFriend(friendId, friendModel));
+        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
+
+        return "friendUpdated";
+    }
     @PostMapping("/add-friend") /// post mapping to pass the event model to the server
     public String addFriendSubmit(Model model, @ModelAttribute FriendCreateModel friendCreateModel) {
         if (currentUser == null){

@@ -174,3 +174,24 @@ DELETE  http://localhost:8085/events/4
 
 
 GET http://localhost:8085/event-invites/sender/nickname/nick
+
+###
+
+
+POST http://localhost:8085/friends/update/37
+Content-Type: application/json
+
+{
+  "id": 37,
+  "email": "my@friend.com",
+  "nickname": "my friend 1"
+}
+###
+
+
+GET http://localhost:8085/friends/get/37
+
+###
+
+
+GET http://localhost:8085/friends/user/nick

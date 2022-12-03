@@ -58,11 +58,27 @@ public class FriendController{
             return  ResponseEntity.badRequest().body("Error");
         }
     }
+    @GetMapping("/get/{id}")
+    public ResponseEntity getFriend(@PathVariable("id") long friendId){
+        try{
+            return ResponseEntity.ok(friendService.getFriendById(friendId));
+        }catch (Exception e){
+            return  ResponseEntity.badRequest().body("Error");
+        }
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity updateFriend(@RequestBody FriendModel friendModel, @PathVariable("id") String nickname) {
         try {
             return ResponseEntity.ok(friendService.updateFriend(friendModel, nickname));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+    @PostMapping("/update/{id}")
+    public ResponseEntity updateFriendById(@RequestBody FriendModel friendModel, @PathVariable("id") long friendId) {
+        try {
+            return ResponseEntity.ok(friendService.updateFriendById(friendModel, friendId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
@@ -81,16 +97,16 @@ public class FriendController{
     }
 
     @GetMapping("/user/{nickname}")
-    public ResponseEntity<List<FriendFullModel>> getFriendsByNickname(@PathVariable("nickname") String nickname){
+    public ResponseEntity<List<FriendModel>> getFriendsByNickname(@PathVariable("nickname") String nickname){
         UserEntity user = userService.findByNickname(nickname);
-        List<FriendFullModel> result = new ArrayList<>();
+        List<FriendModel> result = new ArrayList<>();
         List<FriendEntity> friendEntityList = friendService.findAllByUserId(Math.toIntExact(user.getId()));
         for( FriendEntity element : friendEntityList){
-            result.add( new FriendFullModel(
-                    (int) element.getId(),
-                    element.getUserId(),
+            result.add( new FriendModel(
+                    element.getId(),
+                    element.getNickname(),
                     element.getEmail(),
-                    element.getNickname()
+                    element.getUserId()
                     ));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);

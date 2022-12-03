@@ -67,6 +67,7 @@
                 <td id="receiverEmaile">nickname of sender</td>
                 <td id="2">email of sender</td>
                 <td id="3">name of the event</td>
+                <td id="3">datetime of the event</td>
                 <td id="3"> location</td>
                 <td>details</td>
                 <td id="6">accept</td>
@@ -77,6 +78,7 @@
                     <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
                     <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
                     <td><div>
                         <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${invite.eventModel.id})}" th:object="${invite.eventModel}">
@@ -105,7 +107,7 @@
                 <td id="2">email of sender</td>
                 <td id="3">name of the event</td>
                 <td id="3"> location</td>
-                <td id="5">status</td>
+                <td id="3">datetime of the event</td>
                 </thead>
                 <tbody>
                 <tr th:each="invite: ${invitesAccepted}">
@@ -113,7 +115,7 @@
                     <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
-                    <td id ="invitationId" th:text="${invite.status}">status</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
                 </tr>
                 </tbody>
             </table>
@@ -126,7 +128,7 @@
                 <td id="2">email of sender</td>
                 <td id="3">name of the event</td>
                 <td id="3"> location</td>
-                <td id="5">status</td>
+                <td id="3">datetime of the event</td>
                 </thead>
                 <tbody>
                 <tr th:each="invite: ${invitesRejected}">
@@ -134,7 +136,7 @@
                     <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
-                    <td id ="invitationId" th:text="${invite.status}">status</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
                 </tr>
                 </tbody>
             </table>
@@ -146,14 +148,14 @@
             <table class="table">
                 <thead>
                 <td id="3">name of the event</td>
-                <td id="5">status</td>
                 <td id="3"> location</td>
+                <td id="3"> date and time</td>
                 </thead>
                 <tbody>
                 <tr th:each="invite: ${myInvites}">
                     <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
-                    <td id ="invitationId" th:text="${invite.status}">status</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
 
                 </tr>
                 </tbody>
