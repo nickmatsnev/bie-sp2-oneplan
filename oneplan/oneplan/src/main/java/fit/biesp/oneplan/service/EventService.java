@@ -57,6 +57,13 @@ public class EventService {
         return EventModel.toModel(eventRepository.findById(id).get());
     }
 
+    public EventEntity getEventEntity(Long id) throws EventIsMissingException {
+        if (eventRepository.findById(id).isEmpty()) {
+            throw new EventIsMissingException("Event with id " + id + " does not exist");
+        }
+        return eventRepository.findById(id).get();
+    }
+
     private String getExistingEvents(EventModel event) throws LocationIsMissingException {
         StringBuilder message = new StringBuilder();
         for (var locationEvent : locationService.getEvents(event.getLocation().getName())) {

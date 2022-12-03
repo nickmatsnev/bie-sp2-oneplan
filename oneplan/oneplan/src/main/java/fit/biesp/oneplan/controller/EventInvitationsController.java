@@ -176,8 +176,25 @@ public class EventInvitationsController {
             return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
         }
     }
-    // TODO getOne
-    // TODO getAllBySender
-    // TODO getAllByEvent
-    // TODO update
+    @GetMapping("/delete/{email}/{senderid}")
+    public ResponseEntity delete(@PathVariable("email") String email, @PathVariable("senderid") int senderId){
+        try{
+            UserEntity user = userService.findbyId((long) senderId);
+            return ResponseEntity.ok(eventInvitationService.deleteByRecipientEmailAndSenderId(email, user));
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
+        }
+    }
+    @GetMapping("/delete-event-invites/{eventid}")
+    public ResponseEntity deleteAllByEventId(@PathVariable("eventid") long eventId){
+        try{
+            List<EventInvitationsEntity> entities = eventInvitationService.getAllByEvent(eventService.getEventEntity(eventId));
+            for(var i : entities){
+                eventInvitationService.delete(i);
+            }
+            return ResponseEntity.ok("all purged.");
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
+        }
+    }
 }

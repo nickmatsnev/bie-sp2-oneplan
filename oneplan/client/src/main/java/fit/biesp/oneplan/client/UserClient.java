@@ -271,6 +271,12 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+    public Mono<String> deleteInvToEvent(String recipientEmail, int senderId){
+        return userWebClient.get()
+                .uri("/event-invites/delete/{email}/{senderid}", recipientEmail, senderId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
 
     public Mono<String> deleteEvent(Long eventId){
         return userWebClient.get()

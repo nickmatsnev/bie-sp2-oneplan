@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface EventRepository extends CrudRepository<EventEntity, Long> {
     //EventEntity findByOrganiserId(Long organiserId);
+
+    EventEntity getById(long id);
 }

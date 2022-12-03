@@ -195,3 +195,9 @@ GET http://localhost:8085/friends/get/37
 
 
 GET http://localhost:8085/friends/user/nick
+
+
+###
+
+
+GET http://localhost:8085/event-invites/delete/

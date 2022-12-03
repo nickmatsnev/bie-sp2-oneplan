@@ -150,13 +150,18 @@
                 <td id="3">name of the event</td>
                 <td id="3"> location</td>
                 <td id="3"> date and time</td>
+                <td id="3"> delete</td>
                 </thead>
                 <tbody>
                 <tr th:each="invite: ${myInvites}">
                     <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
-
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/delete-inv-event/{email}/{senderid}(email = ${invite.recipientEmail}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-danger" th:id="'remove' + ${invite.sender.email}" type="submit"> delete</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>

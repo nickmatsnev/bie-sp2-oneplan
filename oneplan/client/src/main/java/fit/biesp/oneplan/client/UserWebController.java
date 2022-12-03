@@ -386,6 +386,11 @@ public class UserWebController {
         model.addAttribute("invitationtEventReject", userClient.rejectInvToEvent(recipientEmail, senderId));
         return "redirect:/get-my-invites";
     }
+    @GetMapping("/delete-inv-event/{email}/{senderid}")
+    public String deleteInvEvent(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
+        model.addAttribute("invitationtEventDelete", userClient.deleteInvToEvent(recipientEmail, senderId));
+        return "redirect:/get-my-invites";
+    }
 
     @GetMapping("/delete-event/{id}")
     public String deleteEvent(Model model, @PathVariable("id") Long eventId){

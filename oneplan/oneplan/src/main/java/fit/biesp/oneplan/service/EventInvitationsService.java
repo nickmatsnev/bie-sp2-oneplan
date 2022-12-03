@@ -45,4 +45,18 @@ public class EventInvitationsService {
         EventInvitationsEntity entity = eventInvitationsRepository.getByRecipientEmailAndSender(email, user);
         return entity;
     }
+
+    public List<EventInvitationsEntity> getAllByEvent(EventEntity event){
+        return   eventInvitationsRepository.getAllByEvent(event);
+    }
+
+    public String delete(EventInvitationsEntity entity){
+        eventInvitationsRepository.delete(entity);
+        return "successfully deleted " + entity.getEventId();
+    }
+    public String deleteByRecipientEmailAndSenderId(String recipientEmail, UserEntity sender){
+        EventInvitationsEntity entity = eventInvitationsRepository.getByRecipientEmailAndSender(recipientEmail, sender);
+        eventInvitationsRepository.delete(entity);
+        return "successfully deleted " + entity.getEventId();
+    }
 }
