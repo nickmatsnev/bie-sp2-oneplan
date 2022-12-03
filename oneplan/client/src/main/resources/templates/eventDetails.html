@@ -84,14 +84,31 @@
                 <th id ="capacity1">Capacity</th>
                 <td id ="capacity" th:text="${details.capacity}"></td>
             </tr>
-            <tr>
-                <th id ="parts">Participants</th>
-                <td id ="parts1" th:text="${details.attendees}"></td>
-            </tr>
             </tbody>
         </table>
     </div>
     <div class="container">
+        <div class="col-12">
+            <h4>Attendees</h4>
+        </div>
+        <div class="col-12">
+            <table  class="table">
+                <thead>
+                <th id="Friendnickname">Friend's nickname</th>
+                <th id="Friendemail">Friend's email</th>
+                </thead>
+                <tbody>
+                <tr th:each="afriend: ${acceptedToEvent.friends}">
+                    <td id ="nickname" th:text="${afriend.nickname}">username</td>
+                    <td id ="femail" th:text="${afriend.email}">receiverEmail</td>
+                </tr>
+                <tr th:each="auser: ${acceptedToEvent.users}">
+                    <td id ="nickname" th:text="${auser.nickname}">username</td>
+                    <td id ="femail" th:text="${auser.email}">receiverEmail</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="col-12">
             <h4>Invited people</h4>
         </div>

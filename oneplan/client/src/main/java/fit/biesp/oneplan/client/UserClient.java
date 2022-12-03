@@ -265,6 +265,12 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(InvitedToEventModel.class);
     }
+    public Mono<InvitedToEventModel> getAcceptedEvent(long eventId){
+        return userWebClient.get()
+                .uri("/event-invites/get-accepted-to-event/{eventid}", eventId)
+                .retrieve()
+                .bodyToMono(InvitedToEventModel.class);
+    }
     public Mono<String> acceptInvToEvent(String recipientEmail, int senderId){
         return userWebClient.get()
                 .uri("/event-invites/accept/{email}/{senderid}", recipientEmail, senderId)

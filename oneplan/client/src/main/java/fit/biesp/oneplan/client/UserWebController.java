@@ -250,6 +250,7 @@ public class UserWebController {
         model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
         model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
         model.addAttribute("invitedToEvent", userClient.getInvitedToEvent(id));
+        model.addAttribute("acceptedToEvent", userClient.getAcceptedEvent(id));
         model.addAttribute("eventInviteModel", new EventInviteRealModel());
         model.addAttribute("details", userClient.getOneEvent(id));
 

@@ -147,6 +147,7 @@
         <div class="col-12">
             <table class="table">
                 <thead>
+                <td id="3">email of the recipient</td>>
                 <td id="3">name of the event</td>
                 <td id="3"> location</td>
                 <td id="3"> date and time</td>
@@ -154,6 +155,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="invite: ${myInvites}">
+                    <td id ="invitationId3" th:text="${invite.recipientEmail}">email of the recipient</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
                     <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>

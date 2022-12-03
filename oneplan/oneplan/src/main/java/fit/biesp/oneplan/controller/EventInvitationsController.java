@@ -199,11 +199,37 @@ public class EventInvitationsController {
             List<FriendModel> friendsInvited = new ArrayList<>();
             List<UserModel> usersInvited = new ArrayList<>();
             for(EventInvitationsEntity i : invitesToEvent){
-                if(userService.findByEmail(i.getRecipientEmail()).getId() == -2){
-                    friendsInvited.add(friendService.findFriendByEmailAndUserId(i.getRecipientEmail(), i.getSenderId().getId()));
-                }else{
-                    usersInvited.add(UserModel.toModel(userService.findByEmail(i.getRecipientEmail())));
+                if(i.getStatus() == 0){
+                    System.out.println(i.getStatus());
+                    if(userService.findByEmail(i.getRecipientEmail()).getId() == -2){
+                        friendsInvited.add(friendService.findFriendByEmailAndUserId(i.getRecipientEmail(), i.getSenderId().getId()));
+                    }else{
+                        usersInvited.add(UserModel.toModel(userService.findByEmail(i.getRecipientEmail())));
+                    }
                 }
+            }
+            InvitedToEventModel invited = new InvitedToEventModel(usersInvited, friendsInvited);
+            return ResponseEntity.ok(invited);
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
+        }
+    }
+    @GetMapping("/get-accepted-to-event/{eventid}")
+    public ResponseEntity getAcceptedToEvent(@PathVariable("eventid") long eventId){
+        try{
+            List<EventInvitationsEntity> invitesToEvent = eventInvitationService.getAllByEvent(eventService.getEventEntity(eventId));
+            List<FriendModel> friendsInvited = new ArrayList<>();
+            List<UserModel> usersInvited = new ArrayList<>();
+            for(EventInvitationsEntity i : invitesToEvent){
+                if(i.getStatus() == 1){
+                    System.out.println(i.getStatus());
+                    if(userService.findByEmail(i.getRecipientEmail()).getId() == -2){
+                    friendsInvited.add(friendService.findFriendByEmailAndUserId(i.getRecipientEmail(), i.getSenderId().getId()));
+                    }else{
+                        usersInvited.add(UserModel.toModel(userService.findByEmail(i.getRecipientEmail())));
+                    }
+                }
+
             }
             InvitedToEventModel invited = new InvitedToEventModel(usersInvited, friendsInvited);
             return ResponseEntity.ok(invited);
