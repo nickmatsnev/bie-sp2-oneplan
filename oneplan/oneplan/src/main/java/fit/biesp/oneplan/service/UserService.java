@@ -10,6 +10,7 @@ import fit.biesp.oneplan.model.UserModel;
 import fit.biesp.oneplan.model.UserRegistrationModel;
 import fit.biesp.oneplan.repository.PersonRepository;
 import fit.biesp.oneplan.repository.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -118,6 +119,16 @@ public class UserService {
         UserEntity optionalUser = userRepository.findByNickname(nickname);
         if (optionalUser == null) {
             throw new IllegalArgumentException();
+        }
+        return optionalUser;
+    }
+
+    public UserEntity findByEmail(String email){
+        UserEntity optionalUser = userRepository.findByEmail(email);
+        if (optionalUser == null) {
+            UserEntity newUser = new UserEntity();
+            newUser.setId((long) -2);
+            return newUser;
         }
         return optionalUser;
     }

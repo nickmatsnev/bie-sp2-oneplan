@@ -92,6 +92,29 @@
         </table>
     </div>
     <div class="container">
+        <div class="col-12">
+            <h4>Invited people</h4>
+        </div>
+        <div class="col-12">
+            <table  class="table">
+                <thead>
+                <th id="Friendnickname">Friend's nickname</th>
+                <th id="Friendemail">Friend's email</th>
+                </thead>
+                <tbody>
+                <tr th:each="friend: ${invitedToEvent.friends}">
+                    <td id ="nickname" th:text="${friend.nickname}">username</td>
+                    <td id ="femail" th:text="${friend.email}">receiverEmail</td>
+                </tr>
+                <tr th:each="user: ${invitedToEvent.users}">
+                    <td id ="nickname" th:text="${user.nickname}">username</td>
+                    <td id ="femail" th:text="${user.email}">receiverEmail</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container">
         <div class="mb-3">
             <label for="dropOperator" class="form-label ">Choose friend to add</label>
             <div class="input-group">

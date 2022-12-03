@@ -1,13 +1,7 @@
 package fit.biesp.oneplan.controller;
 
-import fit.biesp.oneplan.entity.EventEntity;
-import fit.biesp.oneplan.entity.EventInvitationsEntity;
-import fit.biesp.oneplan.entity.PersonEntity;
-import fit.biesp.oneplan.entity.UserEntity;
-import fit.biesp.oneplan.model.EventInviteModel;
-import fit.biesp.oneplan.model.EventInviteRealModel;
-import fit.biesp.oneplan.model.EventModel;
-import fit.biesp.oneplan.model.UserModel;
+import fit.biesp.oneplan.entity.*;
+import fit.biesp.oneplan.model.*;
 import fit.biesp.oneplan.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -193,6 +187,26 @@ public class EventInvitationsController {
                 eventInvitationService.delete(i);
             }
             return ResponseEntity.ok("all purged.");
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/get-invited-to-event/{eventid}")
+    public ResponseEntity getInvitedToEvent(@PathVariable("eventid") long eventId){
+        try{
+            List<EventInvitationsEntity> invitesToEvent = eventInvitationService.getAllByEvent(eventService.getEventEntity(eventId));
+            List<FriendModel> friendsInvited = new ArrayList<>();
+            List<UserModel> usersInvited = new ArrayList<>();
+            for(EventInvitationsEntity i : invitesToEvent){
+                if(userService.findByEmail(i.getRecipientEmail()).getId() == -2){
+                    friendsInvited.add(friendService.findFriendByEmailAndUserId(i.getRecipientEmail(), i.getSenderId().getId()));
+                }else{
+                    usersInvited.add(UserModel.toModel(userService.findByEmail(i.getRecipientEmail())));
+                }
+            }
+            InvitedToEventModel invited = new InvitedToEventModel(usersInvited, friendsInvited);
+            return ResponseEntity.ok(invited);
         } catch(Exception e){
             return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
         }

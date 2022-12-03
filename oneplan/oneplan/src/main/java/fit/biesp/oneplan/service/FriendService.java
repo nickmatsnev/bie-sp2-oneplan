@@ -33,6 +33,10 @@ public class FriendService {
         FriendEntity friend = friendRepository.findById(id);
         return FriendModel.toModel(friend);
     }
+    public FriendModel findFriendByEmailAndUserId(String email, long userId){
+        FriendEntity friend = friendRepository.findByUserIdAndEmail((int) userId, email);
+        return FriendModel.toModel(friend);
+    }
     public FriendModel updateFriend(FriendModel friendModel, String nickname){
         FriendEntity friend = friendRepository.findByNickname(nickname);
         friend.setNickname(friendModel.getNickname());
