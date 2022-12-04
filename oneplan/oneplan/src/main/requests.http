@@ -215,3 +215,12 @@ GET http://localhost:8085/event-invites/accept/matsnev2001@yandex.ru/8
 
 
 GET http://localhost:8085/users/verify/matsnnik@fit.cvut.cz
+###
+
+
+POST http://localhost:8085/users/send-password-email
+Content-Type: application/json
+
+{
+  "email": "matsnev2001@yandex.ru"
+}

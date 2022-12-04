@@ -3,10 +3,8 @@ package fit.biesp.oneplan.controller;
 import fit.biesp.oneplan.entity.UserEntity;
 import fit.biesp.oneplan.exception.UserAlreadyExistsException;
 import fit.biesp.oneplan.exception.UserNotFoundException;
-import fit.biesp.oneplan.model.EventModel;
-import fit.biesp.oneplan.model.LoginModel;
-import fit.biesp.oneplan.model.UserModel;
-import fit.biesp.oneplan.model.UserRegistrationModel;
+import fit.biesp.oneplan.model.*;
+import fit.biesp.oneplan.service.MailService;
 import fit.biesp.oneplan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -140,6 +138,20 @@ public class UserController {
         user.setStatus(1);
         userService.updateUserEntity(user, user.getNickname());
         return ResponseEntity.ok("Successfully verified!");
+    }
+
+    @PostMapping("/send-password-email/")
+    public ResponseEntity sendEmailForPassword(@RequestBody PasswordRecoveryRequestModel model) throws IOException {
+        String linkToInvite = "http://localhost:8090/newPassword/" + model.getEmail();
+        MailService.verifyPasswordChange(model.getEmail(), linkToInvite);
+        return ResponseEntity.ok("email for password change is sent!");
+    }
+
+    @PostMapping("/update-password/{email}")
+    public ResponseEntity updatePasswordByEmail(@PathVariable("email") String email, @RequestBody UpdatePasswordModel model) throws IOException {
+        UserEntity user = userService.findByEmail(email);
+        user.setPassword(model.getPassword());
+        return ResponseEntity.ok("email for password change is sent!");
     }
 
 }

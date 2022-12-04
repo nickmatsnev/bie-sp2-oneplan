@@ -392,4 +392,26 @@ public class UserWebController {
         model.addAttribute("verifyEmail", userClient.verifyEmail(email));
         return "redirect:/login";
     }
+    @GetMapping("/forgotPasswordForm")
+    public String sendEmailRender(Model model){
+        model.addAttribute("recoveryModel", new PasswordRecoveryRequestModel());
+        return "forgotPasswordForm";
+    }
+    @PostMapping("/forgotPasswordForm")
+    public String sendEmail(Model model, @ModelAttribute PasswordRecoveryRequestModel pModel){
+        model.addAttribute("recoveryModel", userClient.sendEmailForPassword(pModel));
+        return "redirect:/login";
+    }
+    @GetMapping("/newPassword/{email}")
+    public String sendEmailRender(Model model, @PathVariable("email") String email){
+        model.addAttribute("recoveryModel", new UpdatePasswordModel());
+        model.addAttribute("usersEmail", email);
+        return "newPassword";
+    }
+    @PostMapping("/newPassword/{email}")
+    public String sendEmail(Model model, @PathVariable("email") String email, @ModelAttribute UpdatePasswordModel pModel){
+        model.addAttribute("recoveryModel", userClient.sendNewPassword(pModel, email));
+        model.addAttribute("usersEmail", email);
+        return "redirect:/login";
+    }
 }

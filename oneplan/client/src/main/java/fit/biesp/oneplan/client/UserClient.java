@@ -309,4 +309,30 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+    public Mono<String> sendEmailForPassword(PasswordRecoveryRequestModel model){
+        return userWebClient.post()
+                .uri("/users/send-password-email/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(model)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
+    public Mono<String> sendNewPassword(UpdatePasswordModel model, String email){
+        return userWebClient.post()
+                .uri("users/update-password/{email}", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(model)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
 }

@@ -21,7 +21,7 @@
                             <p class=" mb-5">Please enter your username and password!</p>
                             <div class = "alert alert-warning" th:if="${OnSubmitError}" th:text="${OnSubmitError}"></div>
                             <div class="mb-3">
-                                <label for="text" class="form-label ">Username</label>
+                                <label for="nickname" class="form-label ">Username</label>
                                 <input  id="nickname" class="form-control" name="username" type="text" placeholder="Enter a username" required="required" autofocus th:field = "*{nickname}">
                             </div>
                             <div class="mb-3">
@@ -34,7 +34,7 @@
                         </form>
                         <div> <form action="/registration"><p class="mb-0  text-center">Don't have an account? <button type="submit" class="btn btn-info btn-sm">Sign
                             Up</button></p></form>
-
+                        <a href="/forgotPasswordForm">Forgot your password?</a>
 
                         </div>
 
