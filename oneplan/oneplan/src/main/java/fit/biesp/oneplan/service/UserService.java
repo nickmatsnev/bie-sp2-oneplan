@@ -143,4 +143,8 @@ public class UserService {
         return optionalUser;
     }
 
+    public UserEntity getById(long id){
+        return userRepository.getById(id);
+    }
+
 }

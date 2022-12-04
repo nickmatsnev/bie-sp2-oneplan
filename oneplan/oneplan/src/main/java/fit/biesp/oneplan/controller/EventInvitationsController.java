@@ -4,6 +4,7 @@ import fit.biesp.oneplan.entity.*;
 import fit.biesp.oneplan.model.*;
 import fit.biesp.oneplan.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,8 @@ public class EventInvitationsController {
             entity.setEventId(EventModel.fromModel(eventService.getEvent((long) inviteModel.getEventModelId())));
             entity.setSenderId(userService.findbyId((long) inviteModel.getSenderId()));
             entity.setStatus(0);
+            String link = clientUrl + "sendemail/" + inviteModel.getSenderId() + "/" + inviteModel.getRecipientEmail();
+            MailService.sendEmail(inviteModel.getRecipientEmail(), link);
             var message = eventInvitationService.create(entity);
             return ResponseEntity.ok("" + message);
         } catch (Exception e) {
@@ -132,29 +135,23 @@ public class EventInvitationsController {
         }
     }
     @GetMapping("/accept/{email}/{senderid}")
-    public ResponseEntity accept(@PathVariable("email") String email, @PathVariable("senderid") int senderId){
+    public ResponseEntity accept(@PathVariable("email") String email, @PathVariable("senderid") long senderId){
         try{
-            UserEntity user = userService.findbyId((long) senderId);
-            PersonEntity person = personService.getByEmail(email);
+            UserEntity user = userService.findbyId(senderId);
+
             EventInvitationsEntity entity = eventInvitationService.getByEmailAndSenderId(email, user);
             EventEntity event = entity.getEventId();
             event.addAttendee(user);
-            event.addAttendee(person);
+
 
             UserEntity optRecipient = entity.getSenderId();
 
-
-            System.out.println(optRecipient.getNickname());
-            //eventService.updateEvent(EventModel.toModel(event), event.getId());
-            System.out.println(optRecipient.getNickname() + " +0");
-
             List<EventEntity> optRecipientList = optRecipient.getEvents();
-            System.out.println(optRecipient.getNickname() + " +1");
+
             optRecipientList.add(event);
             optRecipient.setEvents(optRecipientList);
-            System.out.println(optRecipient.getNickname() + " +2");
+
             userService.updateUserEntity(optRecipient, optRecipient.getNickname());
-            System.out.println(optRecipient.getNickname() + " +3");
             entity.setStatus(1);
             return ResponseEntity.ok(eventInvitationService.acceptByRecipientEmailAndSenderId(email, user));
         } catch(Exception e){
@@ -162,9 +159,9 @@ public class EventInvitationsController {
         }
     }
     @GetMapping("/reject/{email}/{senderid}")
-    public ResponseEntity reject(@PathVariable("email") String email, @PathVariable("senderid") int senderId){
+    public ResponseEntity reject(@PathVariable("email") String email, @PathVariable("senderid") long senderId){
         try{
-            UserEntity user = userService.findbyId((long) senderId);
+            UserEntity user = userService.findbyId(senderId);
             return ResponseEntity.ok(eventInvitationService.rejectByRecipientEmailAndSenderId(email, user));
         } catch(Exception e){
             return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
@@ -237,4 +234,5 @@ public class EventInvitationsController {
             return ResponseEntity.badRequest().body("Event invite acceptance error. " + e.getMessage());
         }
     }
+
 }

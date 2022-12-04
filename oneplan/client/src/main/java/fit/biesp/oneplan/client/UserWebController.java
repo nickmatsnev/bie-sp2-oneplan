@@ -281,13 +281,14 @@ public class UserWebController {
     }
 
 
-    @GetMapping("/sendemail/{id}")
+    @GetMapping("/sendemail/{id}/{email}")
     // блять я не знаю в @ModelAttribute какая модель, можешь туда встать friend, user, person модели
-    public String sendInvitationPageMapping(Model model, @ModelAttribute InvitationWelcomeModel invitationModel, @PathVariable("id") int id) {
-        Mono<InvitationWelcomeModel> ourInvite = userClient.getInvite(id);
+    public String sendInvitationPageMapping(Model model, @PathVariable("id") int senderId, @PathVariable("email") String recipientEmail) {
         // как я это вижу: мы посылаем хэш и потом проверяем на клиенте если совпадает
         // то принтим аксепт и режект кнопки а если нет то редирект нах
-        model.addAttribute("invitation", ourInvite);
+        model.addAttribute("senderId", senderId);
+        model.addAttribute("sender", userClient.getOneUserById(senderId));
+        model.addAttribute("recipientEmail", recipientEmail);
         return "invitePage";
         // здесь надо вызвать функцию по сбору АПИ в UserClien. а что туда передавать я хз, для примера сделал invitationModel а так можно что угодно
     }
@@ -302,19 +303,6 @@ public class UserWebController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/sendemail/{id}/accept")
-    public String sendInvitationToTheBackEndPositive(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Integer id){
-        model.addAttribute("invite", userClient.accept(id));
-        model.addAttribute("invitation", invitationModel);
-        return "redirect:/welcome";
-    }
-
-    @PostMapping("/sendemail/{id}/reject")
-    public String sendInvitationToTheBackEndNegative(Model model, @ModelAttribute InvitationModel invitationModel, @PathVariable("id") Integer id){
-        model.addAttribute("invite", userClient.reject(id));
-        model.addAttribute("invitation", invitationModel);
-        return "redirect:/welcome";
-    }
     @PostMapping("/get-invites") /// mapping to open event details
     public String getInvites(Model model, @ModelAttribute InvitationWelcomeModel invitationModel) {
         if (currentUser == null){
@@ -378,13 +366,13 @@ public class UserWebController {
     }
 
     @GetMapping("/accept-inv-event/{email}/{senderid}")
-    public String addEventToMine(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
+    public String addEventToMine(Model model, @PathVariable("senderid") long senderId, @PathVariable("email") String recipientEmail){
         model.addAttribute("invitationtEventAccept", userClient.acceptInvToEvent(recipientEmail, senderId));
         return "redirect:/get-my-invites";
 
     }
     @GetMapping("/reject-inv-event/{email}/{senderid}")
-    public String rejectInvEvent(Model model, @PathVariable("senderid") int senderId, @PathVariable("email") String recipientEmail){
+    public String rejectInvEvent(Model model, @PathVariable("senderid") long senderId, @PathVariable("email") String recipientEmail){
         model.addAttribute("invitationtEventReject", userClient.rejectInvToEvent(recipientEmail, senderId));
         return "redirect:/get-my-invites";
     }

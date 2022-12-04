@@ -61,6 +61,14 @@ public class UserController {
             return  ResponseEntity.badRequest().body("Error");
         }
     }
+    @GetMapping("/get/{id}")
+    public ResponseEntity getUserById(@PathVariable("id") long id){
+        try{
+            return ResponseEntity.ok(UserModel.toModel(userService.getById(id)));
+        } catch (Exception e){
+            return  ResponseEntity.badRequest().body("Error");
+        }
+    }
 
 //    @GetMapping("/{id}/password")
 //    public String getUserPassword(@PathVariable("id") String nickname){

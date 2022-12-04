@@ -95,6 +95,12 @@ public class UserClient {
                 .retrieve() // request specification finished
                 .bodyToMono(UserModel.class);
     }
+    public Mono<UserModel> getOneUserById(int newid) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/users/get/{id}", newid)
+                .retrieve() // request specification finished
+                .bodyToMono(UserModel.class);
+    }
 
     public Mono<String> createEvent(EventModel newEvent) { /// api request builder for event creation
         return userWebClient.post()
@@ -271,13 +277,14 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(InvitedToEventModel.class);
     }
-    public Mono<String> acceptInvToEvent(String recipientEmail, int senderId){
+    public Mono<String> acceptInvToEvent(String recipientEmail, long senderId){
+        System.out.println("got " + recipientEmail);
         return userWebClient.get()
                 .uri("/event-invites/accept/{email}/{senderid}", recipientEmail, senderId)
                 .retrieve()
                 .bodyToMono(String.class);
     }
-    public Mono<String> rejectInvToEvent(String recipientEmail, int senderId){
+    public Mono<String> rejectInvToEvent(String recipientEmail, long senderId){
         return userWebClient.get()
                 .uri("/event-invites/reject/{email}/{senderid}", recipientEmail, senderId)
                 .retrieve()
