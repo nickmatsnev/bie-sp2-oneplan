@@ -1,5 +1,6 @@
 package fit.biesp.oneplan.service;
 
+import com.sendgrid.helpers.mail.Mail;
 import fit.biesp.oneplan.entity.EventEntity;
 import fit.biesp.oneplan.entity.PersonEntity;
 import fit.biesp.oneplan.entity.UserEntity;
@@ -14,6 +15,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -23,12 +25,14 @@ public class UserService {
     @Autowired
     private PersonRepository personRepository;
 
-    public UserModel registration(UserRegistrationModel userModel) throws UserAlreadyExistsException {
+    public UserModel registration(UserRegistrationModel userModel) throws UserAlreadyExistsException, IOException {
         if(userRepository.findByNickname(userModel.getNickname()) != null)
             throw new UserAlreadyExistsException("User with this nickname already exists!");
 
         if(userRepository.findByEmail(userModel.getEmail()) != null)
             throw new UserAlreadyExistsException("User with this email already exists!");
+        String verifyLink = "http://localhost:8090/verify/" + userModel.getEmail();
+        MailService.verifyEmail(userModel.getEmail(), verifyLink);
 
         return UserModel.toModel(userRepository.save(UserRegistrationModel.fromModel(userModel)));
     }
@@ -106,7 +110,7 @@ public class UserService {
 
     public boolean loginUser(String nickname, String password) {
         UserEntity user = findOrThrow(nickname);
-        return password.equals(user.getPassword());
+        return password.equals(user.getPassword()) && user.getStatus() == 1;
     }
 
     public UserEntity findByNickname(String nickname) {

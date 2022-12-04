@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,8 @@ public class UserController {
             return ResponseEntity.ok("User created!");
         } catch (UserAlreadyExistsException e){
             return ResponseEntity.ok(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -129,6 +132,14 @@ public class UserController {
             ));
         }
         return new ResponseEntity<>(models, HttpStatus.OK);
+    }
+
+    @GetMapping("/verify/{email}")
+    public ResponseEntity verifyEmail(@PathVariable("email") String email) throws UserNotFoundException {
+        UserEntity user = userService.findByEmail(email);
+        user.setStatus(1);
+        userService.updateUserEntity(user, user.getNickname());
+        return ResponseEntity.ok("Successfully verified!");
     }
 
 }

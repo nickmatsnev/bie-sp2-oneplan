@@ -36,5 +36,27 @@ public class MailService {
             throw ex;
         }
     }
+    public static void verifyEmail(String toEmail, String linkToInvite) throws IOException {
+        Email from = new Email("matsnnik@fit.cvut.cz");
+        String subject = "Verify your email";
+        Email to = new Email(toEmail);
+        Content content = new Content("text/plain", "Thank you for registering in our app.\n" +
+                linkToInvite + "\n please verify your email and activate account.");
+        Mail mail = new Mail(from, subject, to, content);
+        // our api key
+        SendGrid sg = new SendGrid("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");
+        Request request = new Request();
+        try {
+            request.setMethod(Method.GET);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+        } catch (IOException ex) {
+            throw ex;
+        }
+    }
 }
 

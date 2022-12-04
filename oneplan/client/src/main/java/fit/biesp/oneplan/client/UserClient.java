@@ -303,4 +303,10 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+    public Mono<String> verifyEmail(String email){
+        return userWebClient.get()
+                .uri("/users/verify/{email}", email)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
 }

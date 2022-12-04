@@ -211,3 +211,7 @@ GET http://localhost:8085/event-invites/get-invited-to-event/8
 
 
 GET http://localhost:8085/event-invites/accept/matsnev2001@yandex.ru/8
+###
+
+
+GET http://localhost:8085/users/verify/matsnnik@fit.cvut.cz

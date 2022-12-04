@@ -387,4 +387,9 @@ public class UserWebController {
         model.addAttribute("deleteEvent", userClient.deleteEvent(eventId));
         return "redirect:/get-events";
     }
+    @GetMapping("/verify/{email}")
+    public String verifyEmail(Model model, @PathVariable("email") String email){
+        model.addAttribute("verifyEmail", userClient.verifyEmail(email));
+        return "redirect:/login";
+    }
 }
