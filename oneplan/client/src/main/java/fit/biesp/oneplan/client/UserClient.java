@@ -1,4 +1,5 @@
 package fit.biesp.oneplan.client;
+import fit.biesp.oneplan.client.exception.PersonNotFoundException;
 import fit.biesp.oneplan.client.exception.UserNotFoundException;
 import fit.biesp.oneplan.client.models.*;
 import jdk.jfr.Event;
@@ -60,6 +61,10 @@ public class UserClient {
                 .retrieve()
                 .onStatus(
                         HttpStatus.NOT_FOUND::equals,
+                        response -> response.bodyToMono(String.class).map(UserNotFoundException::new)
+                )
+                .onStatus(
+                        HttpStatus.UNAUTHORIZED::equals,
                         response -> response.bodyToMono(String.class).map(UserNotFoundException::new)
                 )
                 .bodyToMono(String.class);

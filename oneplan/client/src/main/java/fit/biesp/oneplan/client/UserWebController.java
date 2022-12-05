@@ -49,14 +49,14 @@ public class UserWebController {
             model.addAttribute("loginModel", userClient.login(loginModel));
             errormsg = "";
             return "redirect:/home";
-        } catch (Exception e) {
+        } catch (Exception e ) {
             throw new UserNotFoundException("not found");
         }
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public String handleAllException(UserNotFoundException ex) {
-        errormsg = "Invalid Username or Password";
+        errormsg = "Invalid Username or Password or Verify Your Email";
         return "redirect:/login";
     }
 
