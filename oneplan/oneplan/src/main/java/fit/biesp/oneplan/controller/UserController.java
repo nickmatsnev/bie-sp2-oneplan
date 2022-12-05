@@ -43,7 +43,7 @@ public class UserController {
             if (!hasLoggedIn) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         UserEntity ent = userService.findByNickname(loginModel.getNickname());
