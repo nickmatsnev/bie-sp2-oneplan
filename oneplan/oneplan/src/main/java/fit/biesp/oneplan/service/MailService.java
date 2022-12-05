@@ -47,7 +47,7 @@ public class MailService {
         SendGrid sg = new SendGrid("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");
         Request request = new Request();
         try {
-            request.setMethod(Method.GET);
+            request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);

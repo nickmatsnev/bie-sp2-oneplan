@@ -25,7 +25,7 @@ public class UserClient {
 
     public Mono<String> create(UserRegistrationModel newUser) { /// api request builder for creation of a new user
             return userWebClient.post()
-                    .uri("/users")
+                    .uri("/users/")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .bodyValue(newUser)

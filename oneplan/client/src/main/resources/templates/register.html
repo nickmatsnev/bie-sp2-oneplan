@@ -21,11 +21,11 @@
                             <p class=" mb-5">Please enter your username, email and password!</p>
                             <div class = "alert alert-warning" th:if="${userRegistrationSubmit}" th:text="${userRegistrationSubmit}"></div>
                             <div class="mb-3">
-                                <label for="text" class="form-label ">Username</label>
+                                <label for="uname" class="form-label ">Username</label>
                                 <input type="text" class="form-control" id="uname" name="username" placeholder="john123" required="required" autofocus th:field = "*{nickname}">
                             </div>
                             <div class="mb-3">
-                                <label for="text" class="form-label ">Email</label>
+                                <label for="email" class="form-label ">Email</label>
                                 <input  id="email"  class="form-control" name="email" type="text" placeholder="Email" required="required" autofocus th:field = "*{email}">
                             </div>
                             <div class="mb-3">
@@ -33,19 +33,16 @@
                                 <input id="password"  class="form-control" name="password" type="password" placeholder="Enter the password" required="required" autofocus th:field = "*{password}">
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label ">Repeat password</label>
+                                <label for="password1" class="form-label ">Repeat password</label>
                                 <input id="password1"  class="form-control" name="password1" type="password" placeholder="Re-enter the password" required="required" autofocus th:field = "*{passwordConfirm}">
                             </div>
                             <div class="d-grid">
-                                <button class="btn btn-outline-dark" type="submit">Login</button>
+                                <button class="btn btn-outline-dark" type="submit">Register</button>
                             </div>
                         </form>
                         <div> <form action="/login"><p class="mb-0  text-center">Already have an account? <button type="submit" class="btn btn-info btn-sm">Sign
                             In</button></p></form>
-
-
                         </div>
-
                     </div>
                 </div>
             </div>
