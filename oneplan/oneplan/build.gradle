@@ -53,3 +53,5 @@ azurewebapp {
 		type = 'azure_cli'
 	}
 }
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
