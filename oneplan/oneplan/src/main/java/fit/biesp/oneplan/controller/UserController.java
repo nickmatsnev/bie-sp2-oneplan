@@ -142,7 +142,7 @@ public class UserController {
 
     @PostMapping("/send-password-email/")
     public ResponseEntity sendEmailForPassword(@RequestBody PasswordRecoveryRequestModel model) throws IOException {
-        String linkToInvite = "http://localhost:8090/newPassword/" + model.getEmail();
+        String linkToInvite = "http://safe-forest-87004.herokuapp.com/newPassword/" + model.getEmail();
         MailService.verifyPasswordChange(model.getEmail(), linkToInvite);
         return ResponseEntity.ok("email for password change is sent!");
     }

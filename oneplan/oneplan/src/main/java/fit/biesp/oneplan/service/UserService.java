@@ -31,7 +31,7 @@ public class UserService {
 
         if(userRepository.findByEmail(userModel.getEmail()) != null)
             throw new UserAlreadyExistsException("User with this email already exists!");
-        String verifyLink = "http://localhost:8090/verify/" + userModel.getEmail();
+        String verifyLink = "http://safe-forest-87004.herokuapp.com/verify/" + userModel.getEmail();
         MailService.verifyEmail(userModel.getEmail(), verifyLink);
 
         return UserModel.toModel(userRepository.save(UserRegistrationModel.fromModel(userModel)));

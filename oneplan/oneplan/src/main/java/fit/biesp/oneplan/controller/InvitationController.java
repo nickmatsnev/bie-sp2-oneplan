@@ -30,7 +30,7 @@ public class InvitationController {
     private final PersonService personService;
 
 
-    private final String clientUrl = "http://localhost:8090/";
+    private final String clientUrl = "http://safe-forest-87004.herokuapp.com/";
 
     public InvitationController(InvitationService invitationService,
                                 UserService userService,

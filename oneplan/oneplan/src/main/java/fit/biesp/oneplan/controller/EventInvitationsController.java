@@ -26,7 +26,7 @@ public class EventInvitationsController {
     private EventService eventService;
 
 
-    private final String clientUrl = "http://localhost:8090/";
+    private final String clientUrl = "http://safe-forest-87004.herokuapp.com/";
 
     @PostMapping("/create")
     public ResponseEntity createInviteToEvent(@RequestBody EventInviteRealModel inviteModel){
