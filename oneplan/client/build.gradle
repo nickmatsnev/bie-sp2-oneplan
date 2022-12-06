@@ -18,3 +18,4 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
+task stage(dependsOn: 'build')

@@ -33,22 +33,5 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'com.sendgrid:sendgrid-java:4.4.1'
-}
-
-azurewebapp {
-	subscription = 'b78ab478-6aaa-4fbb-aceb-1d1e324c8fab'
-	resourceGroup = 'SP2oneplan'
-	appName = 'oneplanBack'
-	pricingTier = 'P1v2'
-	region = 'westus'
-	runtime {
-		os = 'Linux'
-		webContainer = 'Tomcat 9.0'
-		javaVersion = 'Java 8'
 	}
-	auth {
-		type = 'azure_cli'
-	}
-}
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
+	task stage(dependsOn: 'build')
