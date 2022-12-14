@@ -21,9 +21,19 @@ before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-build:
+build_front:
   stage: build
-  script: cd oneplan/oneplan/ ; gradle --build-cache assemble ; cd ../../ ; cd oneplan/client/ ; gradle --build-cache assemble
+  script: cd oneplan/client/ ; gradle --build-cache assemble
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - oneplan/oneplan/build
+      - oneplan/oneplan/.gradle
+
+build_back:
+  stage: build
+  script: cd oneplan/oneplan/ ; gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -40,6 +50,8 @@ test:
     paths:
       - oneplan/oneplan/build
       - oneplan/oneplan/.gradle
+
+
 
 deploy:
   stage: deploy
