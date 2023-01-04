@@ -19,7 +19,7 @@ public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
     //@Value("http://app-oneplan-221011202557.azurewebsites.net/"
-    public UserClient(@Value("http://intense-waters-09434.herokuapp.com/") String baseUrl) {
+    public UserClient(@Value("${backend.url}") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 

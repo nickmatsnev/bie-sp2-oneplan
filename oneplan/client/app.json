@@ -1,0 +1,6 @@
+{
+  "name": "OnePlan",
+  "description": "Oneplan deployed to Heroku.",
+  "image": "heroku/gradle",
+  "addons": [ "heroku-postgresql" ]
+}
