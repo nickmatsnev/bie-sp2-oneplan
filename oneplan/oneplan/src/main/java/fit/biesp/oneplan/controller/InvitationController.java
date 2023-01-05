@@ -30,12 +30,14 @@ public class InvitationController {
     private final PersonService personService;
 
 
-    private final String clientUrl = "http://safe-forest-87004.herokuapp.com/";
+    private final String clientUrl;
 
-    public InvitationController(InvitationService invitationService,
+    public InvitationController(@Value("${client.url}") String clientUrl,
+                                InvitationService invitationService,
                                 UserService userService,
                                 FriendService friendService,
                                 PersonService  personService) {
+        this.clientUrl = clientUrl;
         this.invitationService = invitationService;
         this.userService = userService;
         this.friendService = friendService;
