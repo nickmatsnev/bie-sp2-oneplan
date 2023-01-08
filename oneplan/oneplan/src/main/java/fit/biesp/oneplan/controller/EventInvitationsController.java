@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/event-invites")
@@ -32,7 +33,22 @@ public class EventInvitationsController {
     public EventInvitationsController(@Value("${client.url}") String clientUrl) {
         this.clientUrl = clientUrl;
     }
+    public static long generateRandomNumber(int size) {
+        // Create a new Random object
+        Random rand = new Random();
 
+
+        // Generate a random number of length n
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            int randomDigit = rand.nextInt(10);
+            sb.append(randomDigit);
+        }
+        String randomNumber = sb.toString();
+
+        // Convert the random number to a long value and return it
+        return Long.parseLong(randomNumber);
+    }
     @PostMapping("/create")
     public ResponseEntity createInviteToEvent(@RequestBody EventInviteRealModel inviteModel){
         try {
@@ -42,7 +58,8 @@ public class EventInvitationsController {
             entity.setEventId(EventModel.fromModel(eventService.getEvent((long) inviteModel.getEventModelId())));
             entity.setSenderId(userService.findbyId((long) inviteModel.getSenderId()));
             entity.setStatus(0);
-            String link = clientUrl + "sendemail/" + inviteModel.getSenderId() + "/" + inviteModel.getRecipientEmail();
+            Long id = generateRandomNumber(16);
+            entity.setEiid(id);
             MailService.sendAcceptReject(inviteModel.getRecipientEmail(), entity, clientUrl);
             var message = eventInvitationService.create(entity);
             return ResponseEntity.ok("" + message);

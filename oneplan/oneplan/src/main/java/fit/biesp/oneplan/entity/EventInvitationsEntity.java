@@ -6,7 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "event_invitations", schema = "public", catalog = "postgres")
 public class EventInvitationsEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "eiid")
     private long eiid;

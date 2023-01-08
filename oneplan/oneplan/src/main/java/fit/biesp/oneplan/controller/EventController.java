@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static fit.biesp.oneplan.controller.EventInvitationsController.generateRandomNumber;
+
 @RestController
 @RequestMapping("/events")
 public class EventController {
@@ -21,6 +23,9 @@ public class EventController {
     public ResponseEntity createEvent(@RequestBody EventModel event) {
         try {
             System.out.println(event.getName());
+
+            Long id = generateRandomNumber(16);
+            event.setId(id);
             var message = eventService.createEvent(event);
             return ResponseEntity.ok("" + message);
         } catch (Exception e) {

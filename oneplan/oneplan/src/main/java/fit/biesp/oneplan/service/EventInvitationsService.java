@@ -10,15 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class EventInvitationsService {
     @Autowired
     private EventInvitationsRepository eventInvitationsRepository;
 
-
     public String create(EventInvitationsEntity eventInvitationsEntity){
         var message = "Invitation to event successfully created";
+        System.out.println("created ID of the event invite is following: " + eventInvitationsEntity.getEiid());
         eventInvitationsRepository.save(eventInvitationsEntity);
         return message;
     }
