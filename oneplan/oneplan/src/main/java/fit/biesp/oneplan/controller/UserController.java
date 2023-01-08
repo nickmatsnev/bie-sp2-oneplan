@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginModel loginModel) {
+    public ResponseEntity<String> login(@RequestBody LoginModel loginModel, HttpSession session) {
         try {
             boolean hasLoggedIn = userService.loginUser(loginModel.getNickname(), loginModel.getPassword());
             if (!hasLoggedIn) {
@@ -80,7 +81,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         UserEntity ent = userService.findByNickname(loginModel.getNickname());
-
+        session.setAttribute("user", ent.getId());
         return new ResponseEntity<>(
                 ent.getId().toString(),
                 HttpStatus.OK);

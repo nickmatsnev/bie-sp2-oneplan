@@ -47,6 +47,7 @@ public class UserWebController {
         /// attribute sending the loginModel to the server
         try {
             model.addAttribute("loginModel", userClient.login(loginModel));
+
             errormsg = "";
             return "redirect:/home";
         } catch (Exception e ) {
