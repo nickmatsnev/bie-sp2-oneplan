@@ -4,6 +4,7 @@ import fit.biesp.oneplan.entity.*;
 import fit.biesp.oneplan.model.*;
 import fit.biesp.oneplan.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class EventInvitationsController {
             entity.setSenderId(userService.findbyId((long) inviteModel.getSenderId()));
             entity.setStatus(0);
             String link = clientUrl + "sendemail/" + inviteModel.getSenderId() + "/" + inviteModel.getRecipientEmail();
-            MailService.sendEmail(inviteModel.getRecipientEmail(), link);
+            MailService.sendAcceptReject(inviteModel.getRecipientEmail(), entity, clientUrl);
             var message = eventInvitationService.create(entity);
             return ResponseEntity.ok("" + message);
         } catch (Exception e) {

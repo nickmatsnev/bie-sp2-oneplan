@@ -9,6 +9,7 @@ import fit.biesp.oneplan.model.InvitationCreateDTO;
 import fit.biesp.oneplan.model.InvitationDTO;
 import fit.biesp.oneplan.model.InvitationWithNameDTO;
 import fit.biesp.oneplan.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
