@@ -13,6 +13,7 @@ import fit.biesp.oneplan.repository.PersonRepository;
 import fit.biesp.oneplan.repository.UserRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,6 +25,36 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PersonRepository personRepository;
+    private final String clientUrl;
+
+    public UserService(@Value("${client.url}") String clientUrl) {
+        this.clientUrl = clientUrl;
+    }
+
+    private String getRandomStringOfSize(int size){
+        // choose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(size);
+
+        for (int i = 0; i < size; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
 
     public UserModel registration(UserRegistrationModel userModel) throws UserAlreadyExistsException, IOException {
         if(userRepository.findByNickname(userModel.getNickname()) != null)
@@ -31,10 +62,13 @@ public class UserService {
 
         if(userRepository.findByEmail(userModel.getEmail()) != null)
             throw new UserAlreadyExistsException("User with this email already exists!");
-        String verifyLink = "http://safe-forest-87004.herokuapp.com/verify/" + userModel.getEmail();
-        MailService.verifyEmail(userModel.getEmail(), verifyLink);
+        String verifyLink = clientUrl + "/verify/" + userModel.getEmail();
+        UserEntity user = UserRegistrationModel.fromModel(userModel);
+        user.setSecret(getRandomStringOfSize(64));
+        userRepository.save(user);
+        MailService.verifyEmail(userModel.getEmail(), verifyLink, user.getSecret());
 
-        return UserModel.toModel(userRepository.save(UserRegistrationModel.fromModel(userModel)));
+        return UserModel.toModel(user);
     }
 
     public UserModel getUser(String nickname) throws UserNotFoundException {
@@ -126,7 +160,9 @@ public class UserService {
         }
         return optionalUser;
     }
-
+    public UserEntity findBySecret(String secret){
+        return userRepository.findUserEntityBySecret(secret);
+    }
     public UserEntity findByEmail(String email){
         UserEntity optionalUser = userRepository.findByEmail(email);
         if (optionalUser == null) {

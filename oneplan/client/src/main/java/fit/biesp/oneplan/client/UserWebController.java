@@ -387,9 +387,16 @@ public class UserWebController {
         model.addAttribute("deleteEvent", userClient.deleteEvent(eventId));
         return "redirect:/get-events";
     }
-    @GetMapping("/verify/{email}")
-    public String verifyEmail(Model model, @PathVariable("email") String email){
-        model.addAttribute("verifyEmail", userClient.verifyEmail(email));
+    @GetMapping("/verifyEmail/{email}")
+    public String verify(Model model, @PathVariable("email") String email){
+        model.addAttribute("verifyModel", new PasswordRecoveryRequestModel());
+        model.addAttribute("usersEmail", email);
+        return "verifyEmail";
+    }
+    @PostMapping("/verifyEmail/{email}")
+    public String verifyPost(Model model, @PathVariable("email") String email, @ModelAttribute PasswordRecoveryRequestModel pModel){
+        model.addAttribute("verifyModel", userClient.verifyEmail(email, pModel));
+        model.addAttribute("usersEmail", email);
         return "redirect:/login";
     }
     @GetMapping("/forgotPasswordForm")
@@ -400,18 +407,32 @@ public class UserWebController {
     @PostMapping("/forgotPasswordForm")
     public String sendEmail(Model model, @ModelAttribute PasswordRecoveryRequestModel pModel){
         model.addAttribute("recoveryModel", userClient.sendEmailForPassword(pModel));
-        return "redirect:/login";
+        return "redirect:/verifySecret/" + pModel.getEmail();
     }
-    @GetMapping("/newPassword/{email}")
-    public String sendEmailRender(Model model, @PathVariable("email") String email){
-        model.addAttribute("recoveryModel", new UpdatePasswordModel());
+    @GetMapping("/verifySecret/{email}")
+    public String sendEmailVerifyRender(Model model, @PathVariable("email") String email){
+        model.addAttribute("verifyModel", new UserModelWithSecret());
         model.addAttribute("usersEmail", email);
+        return "verifySecret";
+    }
+    @PostMapping("/verifySecret/{email}")
+    public String sendVerifyEmail(Model model, @PathVariable("email") String email, @ModelAttribute UserModelWithSecret userModelWithSecret){
+        model.addAttribute("verifyModel", userClient.getSecretVerified(userModelWithSecret));
+        model.addAttribute("usersEmail", email);
+        return "redirect:/newPassword/" + userModelWithSecret.getSecret();
+    }
+    @GetMapping("/newPassword/{secret}")
+    public String sendEmailRender(Model model, @PathVariable("secret") String secret){
+        model.addAttribute("recoveryModel", new UpdatePasswordModel());
+        model.addAttribute("usersEmail", secret);
         return "newPassword";
     }
-    @PostMapping("/newPassword/{email}")
-    public String sendEmail(Model model, @PathVariable("email") String email, @ModelAttribute UpdatePasswordModel pModel){
-        model.addAttribute("recoveryModel", userClient.sendNewPassword(pModel, email));
-        model.addAttribute("usersEmail", email);
+    @PostMapping("/newPassword/{secret}")
+    public String sendEmail(Model model, @PathVariable("secret") String secret, @ModelAttribute UpdatePasswordModel pModel){
+        model.addAttribute("recoveryModel", userClient.sendNewPassword(pModel, secret));
+        model.addAttribute("usersEmail", secret);
         return "redirect:/login";
     }
+
+
 }

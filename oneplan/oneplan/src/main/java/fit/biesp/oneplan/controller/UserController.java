@@ -7,21 +7,54 @@ import fit.biesp.oneplan.model.*;
 import fit.biesp.oneplan.service.MailService;
 import fit.biesp.oneplan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
+    private final String clientUrl;
+
+    public UserController(@Value("${client.url}") String clientUrl) {
+        this.clientUrl = clientUrl;
+    }
+
+    private String getRandomStringOfSize(int size){
+        // choose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(size);
+
+        for (int i = 0; i < size; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
 
     @PostMapping()
     public ResponseEntity registration(@RequestBody UserRegistrationModel userModel){
@@ -132,26 +165,39 @@ public class UserController {
         return new ResponseEntity<>(models, HttpStatus.OK);
     }
 
-    @GetMapping("/verify/{email}")
-    public ResponseEntity verifyEmail(@PathVariable("email") String email) throws UserNotFoundException {
+    @PostMapping("/verify/{email}")
+    public ResponseEntity verifyEmail(@PathVariable("email") String email, @RequestBody PasswordRecoveryRequestModel model) throws UserNotFoundException {
         UserEntity user = userService.findByEmail(email);
+        if (!Objects.equals(user.getSecret(), model.getEmail())) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         user.setStatus(1);
         userService.updateUserEntity(user, user.getNickname());
         return ResponseEntity.ok("Successfully verified!");
     }
 
-    @PostMapping("/send-password-email/")
-    public ResponseEntity sendEmailForPassword(@RequestBody PasswordRecoveryRequestModel model) throws IOException {
-        String linkToInvite = "http://safe-forest-87004.herokuapp.com/newPassword/" + model.getEmail();
-        MailService.verifyPasswordChange(model.getEmail(), linkToInvite);
+    @GetMapping("/send-password-email/{email}")
+    public ResponseEntity sendEmailForPassword(@PathVariable("email") String email) throws IOException {
+        String linkToInvite = clientUrl + "/verifySecret/" + email;
+        UserEntity user = userService.findByEmail(email);
+        user.setSecret(getRandomStringOfSize(64));
+        System.out.println("New secret is " + user.getSecret());
+        MailService.verifyPasswordChange(email, linkToInvite, user.getSecret());
         return ResponseEntity.ok("email for password change is sent!");
     }
 
-    @PostMapping("/update-password/{email}")
-    public ResponseEntity updatePasswordByEmail(@PathVariable("email") String email, @RequestBody UpdatePasswordModel model) throws IOException {
-        UserEntity user = userService.findByEmail(email);
+    @PostMapping("/update-password/{secret}")
+    public ResponseEntity updatePasswordByEmail(@PathVariable("secret") String secret, @RequestBody UpdatePasswordModel model) throws UserNotFoundException {
+        UserEntity user = userService.findBySecret(secret);
+        if (!Objects.equals(model.getPassword(), model.getrPassword())) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         user.setPassword(model.getPassword());
-        return ResponseEntity.ok("email for password change is sent!");
+        userService.updateUserEntity(user, user.getNickname());
+        return ResponseEntity.ok("Password is updated!");
+    }
+
+    @PostMapping("/verify-secret")
+    public ResponseEntity verifySecret(@RequestBody UserModelWithSecret userModelWithSecret){
+        UserEntity user = userService.findByEmail(userModelWithSecret.getEmail());
+        if (!Objects.equals(user.getSecret(), userModelWithSecret.getSecret())) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        else return ResponseEntity.ok("Success");
     }
 
 }

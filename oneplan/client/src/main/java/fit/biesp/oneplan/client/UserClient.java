@@ -308,15 +308,24 @@ public class UserClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
-    public Mono<String> verifyEmail(String email){
-        return userWebClient.get()
+    public Mono<String> verifyEmail(String email, PasswordRecoveryRequestModel model){
+        return userWebClient.post()
                 .uri("/users/verify/{email}", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(model)
                 .retrieve()
                 .bodyToMono(String.class);
     }
     public Mono<String> sendEmailForPassword(PasswordRecoveryRequestModel model){
+        return userWebClient.get()
+                .uri("/users/send-password-email/{email}", model.getEmail())
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> sendNewPassword(UpdatePasswordModel model, String secret){
         return userWebClient.post()
-                .uri("/users/send-password-email/")
+                .uri("users/update-password/{secret}", secret)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(model)
@@ -327,17 +336,19 @@ public class UserClient {
                 )
                 .bodyToMono(String.class);
     }
-    public Mono<String> sendNewPassword(UpdatePasswordModel model, String email){
-        return userWebClient.post()
-                .uri("users/update-password/{email}", email)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(model)
-                .retrieve()
-                .onStatus(
-                        HttpStatus.BAD_REQUEST::equals,
-                        response -> response.bodyToMono(String.class).map(Exception::new)
-                )
-                .bodyToMono(String.class);
+
+    public Mono<String> getSecretVerified(UserModelWithSecret userModel){//verify-secret
+         return userWebClient.post()
+                 .uri("users/verify-secret")
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .accept(MediaType.APPLICATION_JSON)
+                 .bodyValue(userModel)
+                 .retrieve()
+                 .onStatus(
+                         HttpStatus.BAD_REQUEST::equals,
+                         response -> response.bodyToMono(String.class).map(Exception::new)
+                 )
+                 .bodyToMono(String.class);
+
     }
 }

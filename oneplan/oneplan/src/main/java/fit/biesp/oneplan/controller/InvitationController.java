@@ -30,7 +30,6 @@ public class InvitationController {
 
     private final PersonService personService;
 
-
     private final String clientUrl;
 
     public InvitationController(@Value("${client.url}") String clientUrl,

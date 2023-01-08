@@ -33,7 +33,8 @@ public class UserEntity extends PersonEntity{
     @Column(name = "status")
     private Integer status;
 
-
+    @Column(name = "secret")
+    private String secret;
     //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     //@JoinColumn(name = "person_id")
     //@PrimaryKeyJoinColumn
@@ -52,4 +53,5 @@ public class UserEntity extends PersonEntity{
         this.status = 0;
         //person.setEmail(email);
     }
+
 }
