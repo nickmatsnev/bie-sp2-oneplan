@@ -5,27 +5,24 @@ import fit.biesp.oneplan.client.models.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.server.WebSession;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 @Controller /// Controller class for the client, to get access from requests from browser
 public class UserWebController {
     private final UserClient userClient;
     String errormsg;
-    LoginModel currentUser; /// model for the user login, saves the currently working user.
+
     public UserWebController(UserClient userClient) {
         this.userClient = userClient;
     }
 
     @GetMapping("")     /// a mapping when the user just types in the address
-    public String emptyUrl(Model model ) {
+    public String emptyUrl(Model model, WebSession session) {
         /// if user is not logged in, redirects to the login page
-        if (currentUser == null) {
+        if ((LoginModel) session.getAttribute("user") == null) {
             return "redirect:/login";
         } else {
             return "redirect:/home";
@@ -34,21 +31,26 @@ public class UserWebController {
 
 
     @GetMapping("/login") /// get mapping for the login page display
-    public String enterRender(Model model) {
-        /// attribute for the login model, model is username and login
+    public String enterRender(Model model, WebSession session) {
+        if (session.getAttribute("user") != null) {
+            return "redirect:/home";
+        }
         model.addAttribute("loginModel", new LoginModel());
-        model.addAttribute("OnSubmitError",errormsg);
+        model.addAttribute("OnSubmitError", errormsg);
         return "welcome";
     }
 
     @PostMapping("/login") /// post mapping for sending to the server
-    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel) throws UserNotFoundException {
-        currentUser = loginModel; /// assignment of the credentials to the current user
+    public String enterLogin(Model model, @ModelAttribute LoginModel loginModel, WebSession session) throws UserNotFoundException {
+
+
         /// attribute sending the loginModel to the server
         try {
             model.addAttribute("loginModel", userClient.login(loginModel));
 
             errormsg = "";
+            session.getAttributes().put("user", loginModel);
+            session.save();
             return "redirect:/home";
         } catch (Exception e ) {
             throw new UserNotFoundException("not found");
@@ -62,12 +64,12 @@ public class UserWebController {
     }
 
     @GetMapping("/home")    /// mapping for the home page
-    public String addHomeRender(Model model ) {
-        if (currentUser == null){
+    public String addHomeRender(Model model, WebSession session ) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// model attribute for the display of the username of current user
-        model.addAttribute("username", currentUser);
+        model.addAttribute("username", (LoginModel) session.getAttribute("user"));
         return "home";
     }
 
@@ -117,8 +119,8 @@ public class UserWebController {
     }
 
     @GetMapping("/create-location") /// get mapping to get html for location creation page
-    public String addLocationRender(Model model ) {
-        if (currentUser == null){
+    public String addLocationRender(Model model, WebSession session ) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// create a new Location Model to fill it in
@@ -128,8 +130,8 @@ public class UserWebController {
 
 
     @PostMapping("/create-location") /// post mapping to pass the location model to the server
-    public String addLocationSubmit(Model model, @ModelAttribute LocationModel locationModel) {
-        if (currentUser == null){
+    public String addLocationSubmit(Model model, @ModelAttribute LocationModel locationModel, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// passing the model to the createLocation in UserClient
@@ -138,12 +140,12 @@ public class UserWebController {
     }
 
     @GetMapping("/create-event") /// get mapping to get html for event creation page
-    public String addEventRender(Model eventModel, Model locationModels, Model userid) {
-        if (currentUser == null){
+    public String addEventRender(Model eventModel, Model locationModels, Model userid, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// attribute to get the user ID
-        userid.addAttribute("userId", userClient.login(currentUser));
+        userid.addAttribute("userId", userClient.login((LoginModel) session.getAttribute("user")));
         /// attribute to display all available location
         locationModels.addAttribute("locations", userClient.getLocations());
         /// attribute new event model to pass it to server
@@ -152,8 +154,8 @@ public class UserWebController {
     }
 
     @PostMapping("/create-event") /// post mapping to pass the event model to the server
-    public String addEventSubmit(Model model, @ModelAttribute EventModel eventModel) {
-        if (currentUser == null){
+    public String addEventSubmit(Model model, @ModelAttribute EventModel eventModel, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// passing the event model to the User Client, Create Event
@@ -162,28 +164,30 @@ public class UserWebController {
     }
 
     @GetMapping("/get-events") /// mapping to get the events for each user
-    public String getUserEvents(Model model) {
-        if (currentUser == null){
+    public String getUserEvents(Model model, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         /// attribute to get user events by user nickname
-        model.addAttribute("events", userClient.getUserEvents(currentUser.getNickname()));
+        model.addAttribute("events", userClient.getUserEvents(loginModel.getNickname()));
         return "eventsList";
     }
     @GetMapping("/profile") /// ьфззштп ещ пуе зкщашду зфпу
-    public String getProfileRender(Model model, Model model1) {
-        if (currentUser == null){
+    public String getProfileRender(Model model, Model model1, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
-        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(currentUser.getNickname()));
-        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
+        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(loginModel.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(loginModel.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("friendModelDelete", new FriendCreateModel());
         model.addAttribute("allUsers", userClient.getAllUsers());
@@ -191,19 +195,20 @@ public class UserWebController {
         return "profile";
     }
     @GetMapping("/get-my-invites") /// ьфззштп ещ пуе зкщашду зфпу
-    public String getMyInvitesRender(Model model, Model model1) {
-        if (currentUser == null){
+    public String getMyInvitesRender(Model model, Model model1, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
-        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(currentUser.getNickname()));
-        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
+        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(loginModel.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(loginModel.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("friendModelDelete", new FriendCreateModel());
         model.addAttribute("allUsers", userClient.getAllUsers());
@@ -211,19 +216,20 @@ public class UserWebController {
         return "myInvites";
     }
     @GetMapping("/get-my-friends") /// ьфззштп ещ пуе зкщашду зфпу
-    public String getMyFriendsRender(Model model, Model model1) {
-        if (currentUser == null){
+    public String getMyFriendsRender(Model model, Model model1, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         /// attribute to get the user nickname into profile page
         model1.addAttribute("invitationDTO", new InvitationDTO());
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
-        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(currentUser.getNickname()));
-        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(currentUser.getNickname()));
-        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
+        model.addAttribute("invites", userClient.getEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesAccepted", userClient.getAcceptedEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesRejected", userClient.getRejectedEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("invitesPending", userClient.getPendingEventInvitesByRecipientNickname(loginModel.getNickname()));
+        model.addAttribute("myInvites", userClient.getInvitesToEventBySender(loginModel.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(loginModel.getNickname()));
         model.addAttribute("friendModel", new FriendCreateModel());
         model.addAttribute("friendModelDelete", new FriendCreateModel());
         model.addAttribute("allUsers", userClient.getAllUsers());
@@ -232,8 +238,8 @@ public class UserWebController {
     }
 
     @PostMapping("/get-events") /// mapping to open event details
-    public String getEventDetails(Model model, @ModelAttribute EventModel eventModel) {
-        if (currentUser == null){
+    public String getEventDetails(Model model, @ModelAttribute EventModel eventModel, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         System.out.println(eventModel.getId() + "This is a Id of the printed value in event list");
@@ -242,14 +248,15 @@ public class UserWebController {
     }
 
     @GetMapping("/get-one-event/{id}") /// mapping to open event details
-    public String getOneEvent(Model model, @ModelAttribute EventModel eventModel, @PathVariable("id") Long id) {
-        if (currentUser == null){
+    public String getOneEvent(Model model, @ModelAttribute EventModel eventModel, @PathVariable("id") Long id, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         /// getting the event model from the server
-        model.addAttribute("username", currentUser);
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
-        model.addAttribute("friends", userClient.getFriendsById(currentUser.getNickname()));
+        model.addAttribute("username", loginModel);
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
+        model.addAttribute("friends", userClient.getFriendsById(loginModel.getNickname()));
         model.addAttribute("invitedToEvent", userClient.getInvitedToEvent(id));
         model.addAttribute("acceptedToEvent", userClient.getAcceptedEvent(id));
         model.addAttribute("eventInviteModel", new EventInviteRealModel());
@@ -259,8 +266,8 @@ public class UserWebController {
     }
 
     @GetMapping("/logout") /// mapping to log out from the system
-    public String profileLogout() {
-        currentUser = null;
+    public String profileLogout( WebSession session) {
+        session.invalidate();
         return "redirect:/login";
     }
 
@@ -295,28 +302,30 @@ public class UserWebController {
     }
 
     @PostMapping("/profile")
-    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationDTO){
+    public String sendInvitationToTheBackEnd(Model model, @ModelAttribute InvitationDTO invitationDTO, WebSession session){
         System.out.println("Reached postMapping on Profile");
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         model.addAttribute("invitationDTO", userClient.createInvite(invitationDTO));
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
-        model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
+        model.addAttribute("invites", userClient.getUserInvites(loginModel.getNickname()));
         model.addAttribute("allUsers", userClient.getAllUsers());
         return "redirect:/profile";
     }
 
     @PostMapping("/get-invites") /// mapping to open event details
-    public String getInvites(Model model, @ModelAttribute InvitationWelcomeModel invitationModel) {
-        if (currentUser == null){
+    public String getInvites(Model model, @ModelAttribute InvitationWelcomeModel invitationModel, WebSession session) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
 
-        model.addAttribute("invites", userClient.getUserInvites(currentUser.getNickname()));
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
+        model.addAttribute("invites", userClient.getUserInvites(loginModel.getNickname()));
         /// getting the event model from the server
         return "redirect:/get-my-invites";
     }
     @PostMapping("/delete-friend/{id}/{email}")
-    public String deleteFriendSubmit(Model model, @PathVariable("id") int userId, @PathVariable("email") String email){
-        if (currentUser == null){
+    public String deleteFriendSubmit(Model model, WebSession session, @PathVariable("id") int userId, @PathVariable("email") String email){
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// passing the event model to the User Client, Create Event
@@ -324,30 +333,32 @@ public class UserWebController {
         return "redirect:/get-my-friends";
     }
     @GetMapping("/get-one-friend/{id}") /// mapping to open patient details
-    public String getOneFriend(Model model, @ModelAttribute FriendModel friendModel, @PathVariable("id") int friendId) {
-        if (currentUser == null){
+    public String getOneFriend(Model model, WebSession session, @ModelAttribute FriendModel friendModel, @PathVariable("id") int friendId) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         model.addAttribute("friendCurrent", userClient.getOneFriendById(friendId));
         model.addAttribute("friendModel", new FriendModel());
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
 
         return "editFriend";
     }
     @PostMapping("/get-one-friend/{id}") /// mapping to open patient details
-    public String putOneFriend(Model model, @ModelAttribute FriendModel friendModel, @PathVariable("id") int friendId) {
-        if (currentUser == null){
+    public String putOneFriend(Model model, WebSession session, @ModelAttribute FriendModel friendModel, @PathVariable("id") int friendId) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
+        LoginModel loginModel = (LoginModel) session.getAttribute("user");
         model.addAttribute("friendCurrent", userClient.getOneFriendById(friendId));
         model.addAttribute("friendModel", userClient.updateFriend(friendId, friendModel));
-        model.addAttribute("currentUser", userClient.getOneUser(currentUser.getNickname()));
+        model.addAttribute("currentUser", userClient.getOneUser(loginModel.getNickname()));
 
         return "friendUpdated";
     }
     @PostMapping("/add-friend") /// post mapping to pass the event model to the server
-    public String addFriendSubmit(Model model, @ModelAttribute FriendCreateModel friendCreateModel) {
-        if (currentUser == null){
+    public String addFriendSubmit(Model model, WebSession session, @ModelAttribute FriendCreateModel friendCreateModel) {
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// passing the event model to the User Client, Create Event
@@ -355,10 +366,10 @@ public class UserWebController {
         return "redirect:/get-my-friends";
     }
     @PostMapping("/add-friend-to-event") /// post mapping to pass the eventInvite model to the server
-    public String addFriendToEventSubmit(Model model, @ModelAttribute EventInviteRealModel eventInviteModel) {
+    public String addFriendToEventSubmit(Model model, WebSession session, @ModelAttribute EventInviteRealModel eventInviteModel) {
         System.out.println("add friend to event welcomes you");
         System.out.println(eventInviteModel.getRecipientEmail());
-        if (currentUser == null){
+        if ((LoginModel) session.getAttribute("user") == null){
             return "redirect:/login";
         }
         /// passing the event model to the User Client, Create Event

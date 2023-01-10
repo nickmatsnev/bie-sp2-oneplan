@@ -81,7 +81,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         UserEntity ent = userService.findByNickname(loginModel.getNickname());
-        session.setAttribute("user", ent.getId());
+        session.setAttribute("user", loginModel.getNickname());
         return new ResponseEntity<>(
                 ent.getId().toString(),
                 HttpStatus.OK);

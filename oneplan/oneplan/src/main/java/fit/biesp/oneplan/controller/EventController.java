@@ -24,7 +24,7 @@ public class EventController {
         try {
             System.out.println(event.getName());
 
-            Long id = generateRandomNumber(16);
+            Long id = generateRandomNumber(8);
             event.setId(id);
             var message = eventService.createEvent(event);
             return ResponseEntity.ok("" + message);

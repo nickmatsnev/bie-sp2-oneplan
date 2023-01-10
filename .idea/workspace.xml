@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a46158f3-27cf-4c7f-b575-ddd7b92e3f5d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/oneplan/client/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/client/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="a46158f3-27cf-4c7f-b575-ddd7b92e3f5d" name="Changes" comment="added base of OpenAPI documentation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,7 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/matsn/Desktop/Study/SI2SP2/planner/oneplan/client"
+    "last_opened_file_path": "C:/Users/matsn/Desktop/Study/SI2SP2/good/event-planner/oneplan/client"
   }
 }]]></component>
   <component name="RunManager">
