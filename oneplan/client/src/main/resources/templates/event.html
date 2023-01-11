@@ -48,7 +48,7 @@
                 </li>
             </ul>
             <span class="navbar-text">
-                    <div th:text="'Welcome to OnePlan, '"></div>
+                    <div th:text="'Welcome to OnePlan, ' + ${username.getNickname()}"></div>
                 </span>
             <form class="d-flex" role="search">
                 <a class="btn btn-outline-success" href="/logout">Log out</a>
@@ -64,7 +64,7 @@
                     <form class="mb-3 mt-md-4"  method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
                         <div class="form-group blu-margin">
                             <select class="form-control" type hidden th:field="*{organiser.id}" id="drop">
-                                <option th:value ="${userId}">
+                                <option th:value ="${username.getNickname()}">
                                 </option>
                             </select>
                         </div>

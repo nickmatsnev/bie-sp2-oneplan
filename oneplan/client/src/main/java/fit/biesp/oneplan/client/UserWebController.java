@@ -130,10 +130,8 @@ public class UserWebController {
 
 
     @PostMapping("/create-location") /// post mapping to pass the location model to the server
-    public String addLocationSubmit(Model model, @ModelAttribute LocationModel locationModel, WebSession session) {
-        if ((LoginModel) session.getAttribute("user") == null){
-            return "redirect:/login";
-        }
+    public String addLocationSubmit(Model model, @ModelAttribute LocationModel locationModel) {
+
         /// passing the model to the createLocation in UserClient
         model.addAttribute("locationModel", userClient.createLocation(locationModel));
         return "locationCreated";
@@ -141,11 +139,11 @@ public class UserWebController {
 
     @GetMapping("/create-event") /// get mapping to get html for event creation page
     public String addEventRender(Model eventModel, Model locationModels, Model userid, WebSession session) {
-        if ((LoginModel) session.getAttribute("user") == null){
-            return "redirect:/login";
-        }
+
         /// attribute to get the user ID
-        userid.addAttribute("userId", userClient.login((LoginModel) session.getAttribute("user")));
+        LoginModel loginModel = session.getAttribute("user");
+        userid.addAttribute("userId", loginModel.getNickname() );
+        eventModel.addAttribute("username", (LoginModel) session.getAttribute("user"));
         /// attribute to display all available location
         locationModels.addAttribute("locations", userClient.getLocations());
         /// attribute new event model to pass it to server
@@ -154,10 +152,8 @@ public class UserWebController {
     }
 
     @PostMapping("/create-event") /// post mapping to pass the event model to the server
-    public String addEventSubmit(Model model, @ModelAttribute EventModel eventModel, WebSession session) {
-        if ((LoginModel) session.getAttribute("user") == null){
-            return "redirect:/login";
-        }
+    public String addEventSubmit(Model model, @ModelAttribute EventModel eventModel) {
+
         /// passing the event model to the User Client, Create Event
         model.addAttribute("eventModel", userClient.createEvent(eventModel));
         return "eventCreated";
