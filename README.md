@@ -3,8 +3,8 @@
 [PostgreSQL_EA_SI1] The goal of this project is to create a system for planning events, management invitations and participation.
 ## Deployed at:
 
-[Client is here](https://app-client-221011202557.azurewebsites.net)
+[Client is here](https://oneplanfront.azurewebsites.net)
 
 ## API Library:
 
-Available at [our azure web app](https://app-oneplan-221011202557.azurewebsites.net)
+Available at [our azure web app](https://oneplanback.azurewebsites.net)
