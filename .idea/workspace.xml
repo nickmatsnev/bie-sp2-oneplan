@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a46158f3-27cf-4c7f-b575-ddd7b92e3f5d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oneplan/client/src/main/resources/templates/eventsList.html" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/client/src/main/resources/templates/eventsList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oneplan/client/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/client/src/main/resources/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oneplan/client/src/main/resources/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/client/src/main/resources/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oneplan/oneplan/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/oneplan/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oneplan/oneplan/src/main/java/fit/biesp/oneplan/controller/InvitationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/oneplan/oneplan/src/main/java/fit/biesp/oneplan/controller/InvitationController.java" afterDir="false" />
-    </list>
+    <list default="true" id="a46158f3-27cf-4c7f-b575-ddd7b92e3f5d" name="Changes" comment="added base of OpenAPI documentation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/matsn/Desktop/Study/SI2SP2/planner/oneplan/oneplan"
+    "last_opened_file_path": "C:/Users/matsn/Desktop/Study/SI2SP2/good/event-planner/oneplan/client"
   }
 }]]></component>
   <component name="RunManager">
@@ -90,6 +83,7 @@
       <workItem from="1666121385972" duration="243000" />
       <workItem from="1666122114149" duration="6000" />
       <workItem from="1666636210312" duration="2509000" />
+      <workItem from="1667333955977" duration="110000" />
     </task>
     <servers />
   </component>

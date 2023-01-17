@@ -2,6 +2,7 @@ package fit.biesp.oneplan.model;
 
 import fit.biesp.oneplan.entity.EventEntity;
 import fit.biesp.oneplan.entity.LocationEntity;
+import fit.biesp.oneplan.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -35,10 +37,8 @@ public class EventModel {
         model.setDate(eventEntity.getDate());
         model.setTime(eventEntity.getTime());
         model.setCapacity(eventEntity.getCapacity());
-        if (eventEntity.getAttendees() != null)
-            for (var attendeeEntity : eventEntity.getAttendees())
-                model.attendees.add(PersonModel.toModel(attendeeEntity));
-
+        System.out.println(" error in toModel event");
+        System.out.println("no error in toModel event");
         return model;
     }
 
@@ -52,9 +52,6 @@ public class EventModel {
         entity.setDate(eventModel.getDate());
         entity.setTime(eventModel.getTime());
         entity.setCapacity(eventModel.getCapacity());
-        if (eventModel.getAttendees() != null)
-            for (var attendeeModel : eventModel.getAttendees())
-                entity.addAttendee(PersonModel.fromModel(attendeeModel));
         return entity;
     }
 

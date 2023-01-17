@@ -28,7 +28,7 @@ public class PersonEntity {
     //private UserEntity user;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees", cascade = CascadeType.REFRESH)
-    private List<EventEntity> eventsToAttend = new ArrayList<>();
+    private List<EventEntity> eventsToAttend;
 
     public PersonEntity(String email) {
         this.email = email;

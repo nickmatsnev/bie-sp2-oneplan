@@ -32,8 +32,11 @@ public class UserEntity extends PersonEntity{
     @NotNull
     @Column(name = "password")
     private String password;
+    @Column(name = "status")
+    private Integer status;
 
-
+    @Column(name = "secret")
+    private String secret;
     //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     //@JoinColumn(name = "person_id")
     //@PrimaryKeyJoinColumn
@@ -49,6 +52,8 @@ public class UserEntity extends PersonEntity{
         this.nickname = nickname;
         //this.email = email;
         this.password = password;
+        this.status = 0;
         //person.setEmail(email);
     }
+
 }

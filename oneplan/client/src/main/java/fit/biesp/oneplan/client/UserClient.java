@@ -1,4 +1,5 @@
 package fit.biesp.oneplan.client;
+import fit.biesp.oneplan.client.exception.PersonNotFoundException;
 import fit.biesp.oneplan.client.exception.UserNotFoundException;
 import fit.biesp.oneplan.client.models.*;
 import jdk.jfr.Event;
@@ -18,14 +19,14 @@ public class UserClient {
     private final WebClient userWebClient;
     /// base url of server;
     //@Value("http://app-oneplan-221011202557.azurewebsites.net/"
-    public UserClient(@Value("http://app-oneplan-221011202557.azurewebsites.net/") String baseUrl) {
+    public UserClient(@Value("${backend.url}") String baseUrl) {
         userWebClient = WebClient.create(baseUrl);
     }
 
 
     public Mono<String> create(UserRegistrationModel newUser) { /// api request builder for creation of a new user
             return userWebClient.post()
-                    .uri("/users")
+                    .uri("/users/")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .bodyValue(newUser)
@@ -62,6 +63,10 @@ public class UserClient {
                         HttpStatus.NOT_FOUND::equals,
                         response -> response.bodyToMono(String.class).map(UserNotFoundException::new)
                 )
+                .onStatus(
+                        HttpStatus.UNAUTHORIZED::equals,
+                        response -> response.bodyToMono(String.class).map(UserNotFoundException::new)
+                )
                 .bodyToMono(String.class);
     }
 
@@ -92,6 +97,12 @@ public class UserClient {
     public Mono<UserModel> getOneUser(String newid) { /// api request builder for getting the event details
         return userWebClient.get()
                 .uri("/users/{id}", newid)
+                .retrieve() // request specification finished
+                .bodyToMono(UserModel.class);
+    }
+    public Mono<UserModel> getOneUserById(int newid) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/users/get/{id}", newid)
                 .retrieve() // request specification finished
                 .bodyToMono(UserModel.class);
     }
@@ -136,6 +147,18 @@ public class UserClient {
                 .bodyToFlux(FriendModel.class);
     }
 
+    public Mono<FriendModel> getOneFriend(String friendId) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/friends/{id}", friendId)
+                .retrieve() // request specification finished
+                .bodyToMono(FriendModel.class);
+    }
+    public Mono<FriendModel> getOneFriendById(long friendId) { /// api request builder for getting the event details
+        return userWebClient.get()
+                .uri("/friends/get/{id}", friendId)
+                .retrieve() // request specification finished
+                .bodyToMono(FriendModel.class);
+    }
     public Flux<UserModel> getAllUsers(){
         return userWebClient.get()
                 .uri("/users/all")
@@ -159,5 +182,173 @@ public class UserClient {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class);
+    }
+    public Mono<String> deleteFriend(int userId, String email){
+        return userWebClient.post()
+                .uri("/friends/{userid}/{email}", userId, email)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(email)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+
+    }
+    public Mono<String> updateFriend(int friendId, FriendModel friendModel){
+        return userWebClient.post()
+                .uri("/friends/update/{id}", friendId)
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(friendModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+
+    }
+    public Mono<String> createFriend(FriendCreateModel friendCreateModel) { /// api request builder for event creation
+        return userWebClient.post()
+                .uri("/friends/create")
+                .contentType(MediaType.APPLICATION_JSON) // TEXT_HTML
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(friendCreateModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> createEventInvite(EventInviteRealModel inviteModel){
+        System.out.println("Welcome to createEventInvite!");
+        System.out.println(inviteModel.getRecipientEmail());
+        return userWebClient.post()
+                .uri("/event-invites/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(inviteModel)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
+    public Flux<EventInviteModel> getEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/nickname/{nickname}", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Flux<EventInviteModel> getPendingEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/invites/{nickname}/pending", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Flux<EventInviteModel> getAcceptedEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/invites/{nickname}/accepted", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Flux<EventInviteModel> getRejectedEventInvitesByRecipientNickname(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/invites/{nickname}/rejected", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Flux<EventInviteModel> getInvitesToEventBySender(String nickname){
+        return userWebClient.get()
+                .uri("/event-invites/sender/nickname/{nickname}", nickname)
+                .retrieve()
+                .bodyToFlux(EventInviteModel.class);
+    }
+    public Mono<InvitedToEventModel> getInvitedToEvent(long eventId){
+        return userWebClient.get()
+                .uri("/event-invites/get-invited-to-event/{eventid}", eventId)
+                .retrieve()
+                .bodyToMono(InvitedToEventModel.class);
+    }
+    public Mono<InvitedToEventModel> getAcceptedEvent(long eventId){
+        return userWebClient.get()
+                .uri("/event-invites/get-accepted-to-event/{eventid}", eventId)
+                .retrieve()
+                .bodyToMono(InvitedToEventModel.class);
+    }
+    public Mono<String> acceptInvToEvent(String recipientEmail, long senderId){
+        System.out.println("got " + recipientEmail);
+        return userWebClient.get()
+                .uri("/event-invites/accept/{email}/{senderid}", recipientEmail, senderId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> rejectInvToEvent(String recipientEmail, long senderId){
+        return userWebClient.get()
+                .uri("/event-invites/reject/{email}/{senderid}", recipientEmail, senderId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> deleteInvToEvent(String recipientEmail, int senderId){
+        return userWebClient.get()
+                .uri("/event-invites/delete/{email}/{senderid}", recipientEmail, senderId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> deleteEvent(Long eventId){
+        return userWebClient.get()
+                .uri("/events/delete/{id}", eventId)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> verifyEmail(String email, PasswordRecoveryRequestModel model){
+        return userWebClient.post()
+                .uri("/users/verify/{email}", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(model)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> sendEmailForPassword(PasswordRecoveryRequestModel model){
+        return userWebClient.get()
+                .uri("/users/send-password-email/{email}", model.getEmail())
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+    public Mono<String> sendNewPassword(UpdatePasswordModel model, String secret){
+        return userWebClient.post()
+                .uri("users/update-password/{secret}", secret)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(model)
+                .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new)
+                )
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getSecretVerified(UserModelWithSecret userModel){//verify-secret
+         return userWebClient.post()
+                 .uri("users/verify-secret")
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .accept(MediaType.APPLICATION_JSON)
+                 .bodyValue(userModel)
+                 .retrieve()
+                 .onStatus(
+                         HttpStatus.BAD_REQUEST::equals,
+                         response -> response.bodyToMono(String.class).map(Exception::new)
+                 )
+                 .bodyToMono(String.class);
+
     }
 }

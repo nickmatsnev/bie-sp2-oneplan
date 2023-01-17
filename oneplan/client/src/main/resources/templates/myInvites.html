@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>OnePlan Startup</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="p-3 m-0 border-0 bd-example">
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home"><span style="color: blue;">O</span>nePlan</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/get-events">My events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-event">Create event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/get-my-invites">My invites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/get-my-friends">My friends</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                    <div th:text="'Welcome to OnePlan'"></div>
+                </span>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-success" href="/logout">Log out</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container overflow-hidden text-center mt-4">
+    <div class="row gy-5">
+        <div class="col-12">
+            <h3>My Pending Invitations</h3>
+        </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <td id="receiverEmaile">nickname of sender</td>
+                <td id="2">email of sender</td>
+                <td id="3">name of the event</td>
+                <td id="3">datetime of the event</td>
+                <td id="3"> location</td>
+                <td>details</td>
+                <td id="6">accept</td>
+                <td id="7">reject</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invitesPending}">
+                    <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
+                    <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
+                    <td><div>
+                        <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${invite.eventModel.id})}" th:object="${invite.eventModel}">
+                            <div><button class="btn btn-primary btn-sm" type="submit">Details</button></div>
+                        </form>
+                    </div></td>
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/accept-inv-event/{email}/{senderid}(email = ${currentUser.email}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-info" th:id="'add' + ${invite.sender.email}" type="submit"> accept</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/reject-inv-event/{email}/{senderid}(email = ${currentUser.email}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-danger" th:id="'remove' + ${invite.sender.email}" type="submit"> reject</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h3>My Accepted Invitations</h3>
+            <table class="table">
+                <thead>
+                <td id="receiverEmaile">nickname of sender</td>
+                <td id="2">email of sender</td>
+                <td id="3">name of the event</td>
+                <td id="3"> location</td>
+                <td id="3">datetime of the event</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invitesAccepted}">
+                    <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
+                    <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h3>My Rejected Invitations</h3>
+            <table class="table">
+                <thead>
+                <td id="receiverEmaile">nickname of sender</td>
+                <td id="2">email of sender</td>
+                <td id="3">name of the event</td>
+                <td id="3"> location</td>
+                <td id="3">datetime of the event</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${invitesRejected}">
+                    <td id ="receiverEmail" th:text="${invite.sender.nickname}">nickname of sender</td>
+                    <td id ="receiverEmail2" th:text="${invite.sender.email}">email of sender</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <h3>Invites which were sent by me</h3>
+        </div>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <td id="3">email of the recipient</td>>
+                <td id="3">name of the event</td>
+                <td id="3"> location</td>
+                <td id="3"> date and time</td>
+                <td id="3"> delete</td>
+                </thead>
+                <tbody>
+                <tr th:each="invite: ${myInvites}">
+                    <td id ="invitationId3" th:text="${invite.recipientEmail}">email of the recipient</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.name}">name of the event</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.location.name} + ' at ' + ${invite.eventModel.location.address}" >location</td>
+                    <td id ="invitationId3" th:text="${invite.eventModel.date} + ' at ' + ${invite.eventModel.time}" >datetime</td>
+                    <td>
+                        <form method="get" action="#" th:id="'form' + ${invite.sender.email}" th:action = "@{/delete-inv-event/{email}/{senderid}(email = ${invite.recipientEmail}, senderid = ${invite.sender.id})}">
+                            <button class="btn btn-outline-danger" th:id="'remove' + ${invite.sender.email}" type="submit"> delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<!-- Bootstrap scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+
+            td = tr[i].getElementsByTagName("td");
+            for(j = 0; j < td.length - 1; j++){
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+        }
+    }
+</script>
+<script>
+    function myFunction1() {
+        // Declare variables
+
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput1");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable1");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+<!-- End of Bootstrap script -->
+</body>

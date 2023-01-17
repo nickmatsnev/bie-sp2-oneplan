@@ -17,21 +17,24 @@
                     <form>
                         <div class="mb-3 d-flex justify-content-center">
                             <legend>
-                                <h3>Your invite from <div th:text = "${invitation.userName}"></div></h3>
+                                <h3>Your invite from <div th:text = "${sender.nickname}"></div></h3>
                             </legend>
                         </div>
 
 
                         <div class="mb-3 d-flex justify-content-center">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <!--здесь откомменть строку ниже чтоб апи работало, я его отключил чтоб не было 500 постоянно-->
-                                <form  method="post" th:action="@{/sendemail/{id}(id = ${invitation.invitationId})/accept}">
-                                <button type="submit" class="btn btn-primary">Accept</button>
-                                <!--</form>-->
-                                <!--здесь откомменть строку ниже чтоб апи работало, я его отключил чтоб не было 500 постоянно-->
-                                <form method="post" th:action="@{/sendemail/{id}(id = ${invitation.invitationId})/reject}">
-                                <button type="submit" class="btn btn-danger">Reject</button>
-                                <!--</form>-->
+                                <td>
+                                    <form method="get" action="#" th:id="'form' + ${sender.email}" th:action = "@{/accept-inv-event/{email}/{senderid}(email = ${recipientEmail}, senderid = ${sender.id})}">
+                                        <button class="btn btn-outline-info" th:id="'add' + ${sender.email}" type="submit"> accept</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="get" action="#" th:id="'form' + ${sender.email}" th:action = "@{/reject-inv-event/{email}/{senderid}(email = ${recipientEmail}, senderid = ${sender.id})}">
+                                        <button class="btn btn-outline-danger" th:id="'remove' + ${sender.email}" type="submit"> reject</button>
+                                    </form>
+                                </td>
+
                             </div>
                         </div>
                     </form>

@@ -20,7 +20,6 @@ import java.util.List;
 @Table(name = "events")
 public class EventEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
 

@@ -51,13 +51,19 @@
                     <a class="nav-link" aria-current="page" href="/create-event">Create event</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                    <a class="nav-link " aria-current="page" href="/create-location">New location</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/about">About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="/get-my-invites">My invites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/get-my-friends">My friends</a>
                 </li>
             </ul>
             <span class="navbar-text">
@@ -70,9 +76,13 @@
     </div>
 </nav>
 <div class="container">
-    <input type="text"  class="form-control"  placeholder="Search.." id="myInput" onkeyup="myFunction()">
+    <div class="container mt-4 mb-4">
+        <label for="myInputSearch"  class="form-label">Search for event</label>
+        <input type="text"  class="form-control  ui-input-text"  placeholder="Search..." id="myInputSearch" onkeyup="myFunction()">
+    </div>
     <table class="table" id="eventTable">
         <thead>
+        <td id="eid">Event ID</td>
         <td id="ename">Event Name</td>
         <td id="edate">Event Date</td>
         <td id="etime">Event Time</td>
@@ -81,13 +91,19 @@
         </thead>
         <tbody>
         <tr th:each="event: ${events}">
+            <td id ="name" th:text="${event.id}">id</td>
             <td id ="name" th:text="${event.name}">ename</td>
             <td id ="date" th:text="${event.date}">date</td>
             <td id ="time" th:text="${event.time}">time</td>
             <td id ="address" th:text="${event.location.address}">address</td>
             <td><div>
                 <form action="#" method="get" th:action="@{/get-one-event/{id}(id = ${event.id})}" th:object="${event}">
-                    <div><button class="btn btn-primary btn-sm" type="submit">DETAILS</button></div>
+                    <div><button class="btn btn-primary btn-sm" type="submit">Details</button></div>
+                </form>
+            </div></td>
+            <td><div>
+                <form action="#" method="get" th:action="@{/delete-event/{id}(id = ${event.id})}">
+                    <div><button class="btn btn-danger btn-sm" type="submit">Delete</button></div>
                 </form>
             </div></td>
         </tr>

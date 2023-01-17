@@ -131,3 +131,112 @@ Content-Type: application/json
 
 GET https://app-oneplan-221011202557.azurewebsites.net/users/all
 Content-Type: application/json
+###
+
+POST http://localhost:8085/friends/create
+Content-Type: application/json
+
+{
+  "email": "2@22.2",
+  "userId": 3
+}
+###
+POST http://localhost:8085/event-invites/create
+Content-Type: application/json
+
+{
+  "recipientEmail": "test@test.com",
+  "sender": 1,
+  "eventModel": 4,
+  "status": 0
+}
+###
+
+
+GET http://localhost:8085/event-invites/matsnev2001@yandex.ru
+###
+
+
+GET http://localhost:8085/event-invites/nickname/nick
+###
+
+
+GET http://localhost:8085/event-invites/accept/test@test.com/3
+###
+
+
+GET http://localhost:8085/event-invites/invites/nick/pending
+
+
+###
+DELETE  http://localhost:8085/events/4
+###
+
+
+GET http://localhost:8085/event-invites/sender/nickname/nick
+
+###
+
+
+POST http://localhost:8085/friends/update/37
+Content-Type: application/json
+
+{
+  "id": 37,
+  "email": "my@friend.com",
+  "nickname": "my friend 1"
+}
+###
+
+
+GET http://localhost:8085/friends/get/37
+
+###
+
+
+GET http://localhost:8085/friends/user/nick
+
+
+###
+
+
+GET http://localhost:8085/event-invites/delete/
+
+
+###
+
+
+GET http://localhost:8085/event-invites/get-invited-to-event/8
+###
+
+
+GET http://localhost:8085/event-invites/accept/matsnev2001@yandex.ru/8
+###
+
+
+GET http://localhost:8085/users/verify/matsnnik@fit.cvut.cz
+###
+
+
+GET http://localhost:8085/users/send-password-email/matsnev2001@yandex.ru
+
+###
+
+
+POST http://localhost:8085/users/update-password/matsnev2001@yandex.ru
+Content-Type: application/json
+
+{
+  "password": "11111111",
+  "rPassword": "11111111"
+}
+###
+
+
+POST http://localhost:8085/users/verify-secret
+Content-Type: application/json
+
+{
+"email": "matsnev2001@yandex.ru",
+"secret": "sltLi1CxWkQmsVWUAQRShSk6NDjyL27pPlPH36hiSndySIM7q5ntKPMgpVOkNPZC"
+}

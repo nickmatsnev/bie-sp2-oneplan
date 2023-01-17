@@ -23,16 +23,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link  " aria-current="page" href="/home">Home</a>
+                    <a class="nav-link" aria-current="page" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " aria-current="page" href="/get-events">My events</a>
+                    <a class="nav-link active" aria-current="page" href="/get-events">My events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  active" aria-current="page" href="/create-event">Create event</a>
+                    <a class="nav-link" aria-current="page" href="/create-event">Create event</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                    <a class="nav-link " aria-current="page" href="/create-location">New location</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/profile">Profile</a>
@@ -40,9 +40,15 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/about">About us</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="/get-my-invites">My invites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/get-my-friends">My friends</a>
+                </li>
             </ul>
             <span class="navbar-text">
-                    <div th:text="'Welcome to OnePlan, '"></div>
+                    <div th:text="'Welcome to OnePlan, ' + ${username.getNickname()}"></div>
                 </span>
             <form class="d-flex" role="search">
                 <a class="btn btn-outline-success" href="/logout">Log out</a>
@@ -58,7 +64,7 @@
                     <form class="mb-3 mt-md-4"  method="post" action = "#" th:action = "@{/create-event}" th:object = "${eventModel}">
                         <div class="form-group blu-margin">
                             <select class="form-control" type hidden th:field="*{organiser.id}" id="drop">
-                                <option th:value ="${userId}">
+                                <option th:value ="${username.getNickname()}">
                                 </option>
                             </select>
                         </div>
@@ -76,24 +82,24 @@
                         </div>
                         <div class="mb-3">
                             <label for="name1" class="form-label ">name</label>
-                            <input id="name1" class="form-control" name="name1" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}">
+                            <input id="name1" class="form-control" name="name1" type="text" placeholder="Event name" required="required" autofocus th:field = "*{name}" />
                         </div>
                         <div class="mb-3">
                             <label for="eventDescription" class="form-label ">description</label>
                             <textarea  class="form-control" id="eventDescription" name="description" type="text" required="required" placeholder="Short description" autofocus th:field = "*{description}"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="startDate" class="form-label ">choose date</label>
+                            <label for="sDate" class="form-label ">choose date</label>
 
-                            <input class="form-control"  id="startDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}">
+                            <input class="form-control"  id="sDate" name="date" type="date" placeholder="Start date" required="required" autofocus th:field = "*{date}" />
                         </div>
                         <div class="mb-3">
-                            <label for="startTime" class="form-label ">choose time</label>
-                            <input class="form-control"  id="startTime" name="time" type="time"  step="3600000"  placeholder="Start time" required="required" autofocus th:field = "*{time}">
+                            <label for="sTime" class="form-label ">choose time</label>
+                            <input class="form-control"  id="sTime" name="time" type="time" step="1" placeholder="Start time" required="required" autofocus th:field = "*{time}" />
                         </div>
                         <div class="mb-3">
                             <label for="capacity" class="form-label ">Choose amount of participants</label>
-                            <input class="form-control" id="capacity" name="capacity" type="number" min="1" placeholder="capacity" required="required" autofocus th:field = "*{capacity}">
+                            <input class="form-control" id="capacity" name="capacity" type="number" min="1" placeholder="capacity" required="required" autofocus th:field = "*{capacity}" />
                         </div>
                         <div class="d-grid">
                             <button class="btn  btn-primary mt-2" type="submit">Create</button>

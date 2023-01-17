@@ -22,23 +22,29 @@
                     <a class="nav-link" aria-current="page" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/get-events">My events</a>
+                    <a class="nav-link active" aria-current="page" href="/get-events">My events</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/create-event">Create event</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/create-location">New location</a>
+                    <a class="nav-link " aria-current="page" href="/create-location">New location</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                    <a class="nav-link" aria-current="page" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/about">About us</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="/get-my-invites">My invites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/get-my-friends">My friends</a>
+                </li>
             </ul>
             <span class="navbar-text">
-            <div th:text = "'Welcome to OnePlan'"></div>
+            <div th:text = "'Welcome to OnePlan, ' + ${username.nickname} + ' '" ></div>
           </span>
             <form class="d-flex" role="search">
                 <a class="btn btn-outline-success" href="/logout">Log out</a>
@@ -82,9 +88,76 @@
         </table>
     </div>
     <div class="container">
-        invite by email
-        <input type="text" placeholder="Email of a friend..">
-        <a class="btn btn-secondary" href="/sendemail">Invite</a>
+        <div class="col-12">
+            <h4>Attendees</h4>
+        </div>
+        <div class="col-12">
+            <table  class="table">
+                <thead>
+                <th id="Friendnickname">Friend's nickname</th>
+                <th id="Friendemail">Friend's email</th>
+                </thead>
+                <tbody>
+                <tr th:each="afriend: ${acceptedToEvent.friends}">
+                    <td id ="nickname" th:text="${afriend.nickname}">username</td>
+                    <td id ="femail" th:text="${afriend.email}">receiverEmail</td>
+                </tr>
+                <tr th:each="auser: ${acceptedToEvent.users}">
+                    <td id ="nickname" th:text="${auser.nickname}">username</td>
+                    <td id ="femail" th:text="${auser.email}">receiverEmail</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <h4>Invited people</h4>
+        </div>
+        <div class="col-12">
+            <table  class="table">
+                <thead>
+                <th id="Friendnickname">Friend's nickname</th>
+                <th id="Friendemail">Friend's email</th>
+                </thead>
+                <tbody>
+                <tr th:each="friend: ${invitedToEvent.friends}">
+                    <td id ="nickname" th:text="${friend.nickname}">username</td>
+                    <td id ="femail" th:text="${friend.email}">receiverEmail</td>
+                </tr>
+                <tr th:each="user: ${invitedToEvent.users}">
+                    <td id ="nickname" th:text="${user.nickname}">username</td>
+                    <td id ="femail" th:text="${user.email}">receiverEmail</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="mb-3">
+            <label for="dropOperator" class="form-label ">Choose friend to add</label>
+            <div class="input-group">
+
+                <form method="post" action="#" th:action = "@{/add-friend-to-event}" th:object = "${eventInviteModel}">
+                    <label for="dropOperator" class="form-label ">Friend's email enter you should!</label>
+                    <select class="form-select" data-live-search="true" id="dropOperator"  th:field="*{recipientEmail}" >
+                    <option value="0">Choose...</option>
+                        <th:block th:each="friend : ${friends}">
+                            <option th:value ="${friend.email}" th:text="${friend.email}"></option>
+                        </th:block>
+
+                </select>
+
+                    <select class="form-control" type hidden th:field="*{senderId}" id="drop1">
+                        <option th:value ="${currentUser.id}">
+                        </option>
+                    </select>
+                    <select class="form-control" type hidden th:field="*{eventModelId}" id="drop2">
+                        <option th:value="${details.id}">
+                        </option>
+                    </select>
+                        <button class="btn btn-outline-primary"  type="submit">Invite friend</button>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="container">
         <a class="btn btn-secondary" href="/get-events">Return</a>
