@@ -79,7 +79,7 @@ public class MailService {
                 secret);
         Mail mail = new Mail(from, subject, to, content);
         // our api key
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid("YourKey");
         Request request = new Request();
         try {
             request.setMethod(Method.POST);
